@@ -1,0 +1,4519 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>中級・応用コース｜コースA HTML閲覧版</title>
+<style>:root {
+  --course: #2e6ca4;
+  --course-soft: #eaf2fb;
+  --bg: #f5f7fa;
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --text: #1b2533;
+  --muted: #667386;
+  --line: #dce3eb;
+  --shadow: 0 12px 32px rgba(30, 48, 72, .09);
+  --radius: 18px;
+  --sidebar: 320px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP",
+    "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.75;
+}
+button, input, select { font: inherit; }
+a { color: var(--course); }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  height: 64px;
+  display: flex; align-items: center; gap: 14px;
+  padding: 0 22px;
+  background: rgba(255,255,255,.94);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+}
+.brand {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 800; text-decoration: none; color: var(--text);
+  white-space: nowrap;
+}
+.brand-mark {
+  display: grid; place-items: center;
+  width: 34px; height: 34px; border-radius: 11px;
+  color: #fff; background: var(--course);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--course), transparent 70%);
+}
+.topbar-spacer { flex: 1; }
+.topbar-link {
+  color: var(--muted); text-decoration: none; font-size: 14px;
+  padding: 7px 10px; border-radius: 9px;
+}
+.topbar-link:hover { background: var(--surface-2); color: var(--text); }
+.mobile-menu {
+  display: none;
+  border: 1px solid var(--line); background: #fff; border-radius: 10px;
+  padding: 7px 10px; cursor: pointer;
+}
+.app-shell {
+  display: grid;
+  grid-template-columns: var(--sidebar) minmax(0, 1fr);
+  min-height: calc(100vh - 64px);
+}
+.sidebar {
+  position: sticky; top: 64px;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+  padding: 22px 18px 36px;
+  background: #fff;
+  border-right: 1px solid var(--line);
+}
+.course-mini {
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--course-soft);
+  border: 1px solid color-mix(in srgb, var(--course), white 75%);
+  margin-bottom: 16px;
+}
+.course-mini strong { display: block; font-size: 17px; margin-bottom: 3px; }
+.course-mini span { color: var(--muted); font-size: 13px; }
+.progress-box {
+  margin: 16px 0 20px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface-2);
+}
+.progress-row {
+  display: flex; justify-content: space-between; gap: 12px;
+  font-size: 13px; color: var(--muted); margin-bottom: 8px;
+}
+.progress-track {
+  height: 8px; border-radius: 999px; background: #e6ebf1; overflow: hidden;
+}
+.progress-bar {
+  width: 0%; height: 100%; border-radius: inherit; background: var(--course);
+  transition: width .2s ease;
+}
+.nav-title {
+  margin: 18px 8px 8px;
+  color: var(--muted); font-size: 12px; font-weight: 800;
+  letter-spacing: .08em; text-transform: uppercase;
+}
+.unit-nav {
+  margin-bottom: 5px;
+}
+.unit-nav > a {
+  display: flex; gap: 9px; align-items: flex-start;
+  padding: 9px 10px;
+  color: var(--text); text-decoration: none;
+  border-radius: 10px; font-weight: 700; font-size: 14px;
+}
+.unit-nav > a:hover, .unit-nav > a.active { background: var(--course-soft); color: var(--course); }
+.unit-num {
+  flex: 0 0 auto; min-width: 29px; height: 22px;
+  display: inline-grid; place-items: center;
+  border-radius: 7px; background: var(--surface-2);
+  color: var(--muted); font-size: 11px; font-weight: 800;
+}
+.lesson-nav {
+  margin: 0 0 8px 44px; display: grid; gap: 2px;
+}
+.lesson-nav a {
+  display: block; padding: 5px 7px;
+  color: var(--muted); text-decoration: none; font-size: 12px;
+  border-radius: 7px; line-height: 1.4;
+}
+.lesson-nav a:hover { color: var(--course); background: var(--course-soft); }
+.lesson-nav a.answer-link { color: #8a5a2b; }
+.main {
+  min-width: 0;
+  padding: 30px clamp(18px, 4vw, 64px) 80px;
+}
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(28px, 5vw, 52px);
+  border-radius: 26px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(255,255,255,.24), transparent 26%),
+    linear-gradient(135deg, var(--course), color-mix(in srgb, var(--course), #18263d 35%));
+  box-shadow: var(--shadow);
+}
+.hero::after {
+  content: "";
+  position: absolute; right: -65px; bottom: -80px;
+  width: 230px; height: 230px; border-radius: 50%;
+  border: 36px solid rgba(255,255,255,.08);
+}
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 5px 10px; border-radius: 999px;
+  background: rgba(255,255,255,.16);
+  font-size: 12px; font-weight: 800; letter-spacing: .08em;
+}
+.hero h1 {
+  margin: 14px 0 8px;
+  font-size: clamp(28px, 4.3vw, 48px);
+  line-height: 1.25;
+}
+.hero p {
+  max-width: 780px; margin: 0;
+  color: rgba(255,255,255,.9); font-size: clamp(15px, 2vw, 18px);
+}
+.hero-stats {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  margin-top: 22px;
+}
+.stat-pill {
+  padding: 8px 12px; border-radius: 11px;
+  background: rgba(255,255,255,.13);
+  border: 1px solid rgba(255,255,255,.18);
+  font-size: 13px;
+}
+.toolbar {
+  position: sticky; top: 76px; z-index: 30;
+  display: flex; flex-wrap: wrap; gap: 10px;
+  align-items: center;
+  margin: 22px 0;
+  padding: 12px;
+  background: rgba(245,247,250,.93);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+}
+.search-wrap { flex: 1 1 300px; position: relative; }
+.search-wrap input {
+  width: 100%; min-height: 42px;
+  padding: 9px 40px 9px 13px;
+  border: 1px solid var(--line); border-radius: 11px;
+  background: #fff; color: var(--text); outline: none;
+}
+.search-wrap input:focus { border-color: var(--course); box-shadow: 0 0 0 3px var(--course-soft); }
+.search-icon {
+  position: absolute; right: 13px; top: 50%; transform: translateY(-50%);
+  color: var(--muted); pointer-events: none;
+}
+.control {
+  min-height: 42px; padding: 8px 12px;
+  border: 1px solid var(--line); border-radius: 11px;
+  background: #fff; color: var(--text); cursor: pointer;
+}
+.control:hover { border-color: var(--course); }
+.search-result {
+  width: 100%;
+  color: var(--muted); font-size: 12px; padding: 0 4px;
+}
+.unit-section {
+  margin: 22px 0;
+  scroll-margin-top: 150px;
+}
+.unit-section > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 13px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 4px 16px rgba(30,48,72,.05);
+}
+.unit-section > summary::-webkit-details-marker { display: none; }
+.unit-section[open] > summary {
+  border-color: color-mix(in srgb, var(--course), white 65%);
+  background: var(--course-soft);
+}
+.unit-heading {
+  min-width: 0; flex: 1;
+}
+.unit-heading h2 {
+  margin: 0; font-size: clamp(18px, 2.2vw, 24px); line-height: 1.35;
+}
+.unit-heading small { color: var(--muted); }
+.chevron {
+  width: 32px; height: 32px; display: grid; place-items: center;
+  border-radius: 9px; background: #fff; color: var(--muted);
+  transition: transform .18s ease;
+}
+.unit-section[open] .chevron { transform: rotate(180deg); }
+.lesson-list { display: grid; gap: 14px; margin-top: 14px; }
+.lesson-card {
+  scroll-margin-top: 150px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(30,48,72,.05);
+  overflow: hidden;
+}
+.lesson-card[hidden] { display: none !important; }
+.lesson-card > summary {
+  list-style: none; cursor: pointer;
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 18px;
+}
+.lesson-card > summary::-webkit-details-marker { display: none; }
+.lesson-card[open] > summary { border-bottom: 1px solid var(--line); }
+.lesson-meta {
+  display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+}
+.badge {
+  display: inline-flex; align-items: center;
+  min-height: 24px; padding: 3px 8px;
+  border-radius: 999px; font-size: 11px; font-weight: 800;
+}
+.badge.INFO { color: #4c5a68; background: #edf1f5; }
+.badge.WIKI { color: #245d8c; background: #e6f1fa; }
+.badge.PRACTICE { color: #2d6a4f; background: #e6f5ed; }
+.badge.CHECK { color: #8b5317; background: #fff0dc; }
+.badge.answer { color: #754b21; background: #fff3df; }
+.badge.submit { color: #9a2c36; background: #fdecef; }
+.lesson-heading {
+  min-width: 0; flex: 1;
+}
+.lesson-heading h3 {
+  margin: 4px 0 0; font-size: 17px; line-height: 1.45;
+}
+.lesson-check {
+  display: flex; align-items: center; gap: 5px;
+  white-space: nowrap; color: var(--muted); font-size: 12px;
+}
+.lesson-check input { width: 17px; height: 17px; accent-color: var(--course); }
+.lesson-body {
+  padding: 22px clamp(16px, 3vw, 32px) 32px;
+  overflow-wrap: anywhere;
+}
+.lesson-body > :first-child { margin-top: 0; }
+.lesson-body h1, .lesson-body h2, .lesson-body h3, .lesson-body h4 {
+  line-height: 1.45;
+  scroll-margin-top: 150px;
+}
+.lesson-body h1 { font-size: 1.65rem; margin: 1.6em 0 .65em; }
+.lesson-body h2 {
+  font-size: 1.35rem; margin: 1.8em 0 .65em;
+  padding-bottom: .35em; border-bottom: 2px solid var(--course-soft);
+}
+.lesson-body h3 { font-size: 1.13rem; margin: 1.45em 0 .5em; }
+.lesson-body h4 { font-size: 1rem; margin: 1.3em 0 .45em; }
+.lesson-body p, .lesson-body li { color: #2d3948; }
+.lesson-body strong { color: #172334; }
+.lesson-body blockquote {
+  margin: 18px 0; padding: 12px 16px;
+  border-left: 4px solid var(--course);
+  background: var(--course-soft); border-radius: 0 10px 10px 0;
+}
+.lesson-body blockquote p { margin: 0; }
+.lesson-body table {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  margin: 18px 0; font-size: 14px;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+}
+.lesson-body th, .lesson-body td {
+  padding: 9px 11px; border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line); vertical-align: top;
+}
+.lesson-body th { background: var(--course-soft); text-align: left; }
+.lesson-body tr:last-child td { border-bottom: 0; }
+.lesson-body th:last-child, .lesson-body td:last-child { border-right: 0; }
+.lesson-body pre {
+  margin: 16px 0; padding: 16px;
+  overflow-x: auto; border-radius: 12px;
+  color: #eaf1f8; background: #1e2b3a;
+  line-height: 1.55;
+}
+.lesson-body code {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: .91em;
+}
+.lesson-body :not(pre) > code {
+  padding: 2px 6px; border-radius: 6px;
+  color: #7b3350; background: #f7edf2;
+}
+.lesson-body hr { border: 0; border-top: 1px solid var(--line); margin: 28px 0; }
+.lesson-body img { max-width: 100%; height: auto; border-radius: 10px; }
+.lesson-body input[type="checkbox"] { accent-color: var(--course); }
+.answer-card { border-color: #e8d4b7; background: #fffdf9; }
+.answer-card > summary { background: #fff8ed; }
+.empty-state {
+  display: none;
+  padding: 50px 20px; text-align: center; color: var(--muted);
+  background: #fff; border: 1px dashed var(--line); border-radius: 16px;
+}
+.footer {
+  margin-top: 48px; padding-top: 24px;
+  border-top: 1px solid var(--line); color: var(--muted); font-size: 13px;
+}
+.index-body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 10% 0%, #e9f5ef 0, transparent 30%),
+    radial-gradient(circle at 90% 0%, #eee9f8 0, transparent 32%),
+    #f6f8fb;
+}
+.index-wrap { width: min(1120px, calc(100% - 36px)); margin: auto; padding: 42px 0 70px; }
+.index-hero {
+  padding: clamp(34px, 7vw, 76px) 0 46px;
+  text-align: center;
+}
+.index-kicker {
+  display: inline-block; padding: 6px 12px; border-radius: 999px;
+  background: #fff; border: 1px solid var(--line);
+  color: var(--muted); font-size: 13px; font-weight: 800;
+}
+.index-hero h1 { font-size: clamp(34px, 7vw, 64px); line-height: 1.15; margin: 18px 0 15px; }
+.index-hero p { max-width: 760px; margin: auto; color: var(--muted); font-size: 18px; }
+.course-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+}
+.course-card {
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+  min-height: 370px; padding: 28px;
+  text-decoration: none; color: var(--text);
+  background: #fff; border: 1px solid var(--line);
+  border-radius: 24px; box-shadow: var(--shadow);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.course-card:hover { transform: translateY(-5px); box-shadow: 0 18px 42px rgba(30,48,72,.14); }
+.course-card::before {
+  content: ""; position: absolute; inset: 0 0 auto; height: 8px; background: var(--card-color);
+}
+.course-level {
+  display: inline-flex; align-items: center; align-self: flex-start;
+  padding: 5px 10px; border-radius: 999px;
+  color: var(--card-color); background: var(--card-soft);
+  font-size: 12px; font-weight: 900; letter-spacing: .08em;
+}
+.course-card h2 { margin: 18px 0 8px; font-size: 27px; line-height: 1.3; }
+.course-card .subtitle { color: var(--muted); min-height: 50px; }
+.course-theme {
+  margin: 18px 0; padding: 13px 15px;
+  border-radius: 13px; background: var(--card-soft);
+  color: color-mix(in srgb, var(--card-color), #1c2532 45%); font-weight: 700;
+}
+.card-stats {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto;
+}
+.card-stat {
+  padding: 7px 9px; border-radius: 9px;
+  background: var(--surface-2); color: var(--muted); font-size: 12px;
+}
+.open-course {
+  margin-top: 18px; display: flex; justify-content: space-between;
+  color: var(--card-color); font-weight: 800;
+}
+.index-note {
+  margin-top: 25px; padding: 18px 20px;
+  border-radius: 17px; background: #fff; border: 1px solid var(--line);
+  color: var(--muted);
+}
+@media (max-width: 1050px) {
+  :root { --sidebar: 280px; }
+  .course-grid { grid-template-columns: 1fr; }
+  .course-card { min-height: 270px; }
+}
+@media (max-width: 820px) {
+  .mobile-menu { display: inline-block; }
+  .topbar-link.hide-mobile { display: none; }
+  .app-shell { display: block; }
+  .sidebar {
+    position: fixed; z-index: 60; inset: 64px auto 0 0;
+    width: min(88vw, 340px); height: calc(100vh - 64px);
+    transform: translateX(-105%); transition: transform .2s ease;
+    box-shadow: 16px 0 35px rgba(30,48,72,.18);
+  }
+  body.sidebar-open .sidebar { transform: translateX(0); }
+  body.sidebar-open::after {
+    content: ""; position: fixed; z-index: 55; inset: 64px 0 0;
+    background: rgba(15,24,36,.4);
+  }
+  .main { padding: 20px 14px 60px; }
+  .toolbar { top: 70px; }
+  .lesson-card > summary { align-items: flex-start; }
+  .lesson-check span { display: none; }
+  .lesson-body table { display: block; overflow-x: auto; white-space: nowrap; }
+}
+@media (max-width: 560px) {
+  .topbar { padding: 0 12px; }
+  .brand-text { display: none; }
+  .hero { border-radius: 20px; padding: 26px 20px; }
+  .toolbar { padding: 9px; }
+  .control { flex: 1 1 auto; }
+  .lesson-card > summary { padding: 14px; }
+  .lesson-meta { gap: 4px; }
+  .lesson-heading h3 { font-size: 15px; }
+  .lesson-body { padding: 18px 14px 26px; }
+  .index-wrap { width: min(100% - 24px, 1120px); }
+  .course-card { padding: 22px; }
+}
+@media print {
+  body { background: #fff; }
+  .topbar, .sidebar, .toolbar, .lesson-check, .footer { display: none !important; }
+  .app-shell { display: block; }
+  .main { padding: 0; }
+  .hero { color: #000; background: #fff; box-shadow: none; border: 1px solid #bbb; }
+  .hero p { color: #333; }
+  .unit-section, .lesson-card { break-inside: avoid; box-shadow: none; }
+  details { display: block; }
+  details > summary { display: none !important; }
+  details > * { display: block !important; }
+  .lesson-body { padding: 10px 0 20px; }
+}
+
+:root{--course:#2e6ca4;--course-soft:#eaf2fb;}
+</style>
+</head>
+<body data-course="intermediate">
+<header class="topbar">
+  <button id="mobile-menu" class="mobile-menu" type="button" aria-label="メニューを開く">☰</button>
+  <a class="brand" href="index.html">
+    <span class="brand-mark">IS</span>
+    <span class="brand-text">コースA HTML閲覧版</span>
+  </a>
+  <div class="topbar-spacer"></div>
+  <a class="topbar-link hide-mobile" href="course-basic.html">初級</a>
+  <a class="topbar-link hide-mobile" href="course-intermediate.html">中級</a>
+  <a class="topbar-link hide-mobile" href="course-advanced.html">上級</a>
+  <a class="topbar-link" href="index.html">コース一覧</a>
+</header>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="course-mini">
+      <strong>中級・応用コース</strong>
+      <span>データ集計とレポート更新の効率化</span>
+    </div>
+    <div class="progress-box">
+      <div class="progress-row"><span>閲覧進捗</span><strong id="progress-text">0 / 0</strong></div>
+      <div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div>
+    </div>
+    <div class="nav-title">単元・教材</div>
+    
+<div class="unit-nav">
+  <a href="#unit-u00">
+    <span class="unit-num">概要</span>
+    <span>このコースの概要</span>
+  </a>
+  <div class="lesson-nav"><a class="" href="#lesson-u00-00">このコースについて</a><a class="" href="#lesson-u00-01">共通サンプルと改善の流れ</a><a class="" href="#lesson-u00-02">使用環境とデータの受け渡し</a><a class="" href="#lesson-u00-03">研修時間と学習の進め方</a><a class="" href="#lesson-u00-04">使用ファイルと提出時の注意事項</a></div>
+</div>
+
+<div class="unit-nav">
+  <a href="#unit-u01">
+    <span class="unit-num">01</span>
+    <span>データ管理の現状整理</span>
+  </a>
+  <div class="lesson-nav"><a class="" href="#lesson-u01-00">この単元について</a><a class="" href="#lesson-u01-01">ファイル分散で起こる問題</a><a class="" href="#lesson-u01-02">ファイル名・保存場所・版管理</a><a class="" href="#lesson-u01-03">現在の集計手順を整理する</a><a class="" href="#lesson-u01-04">演習：ファイル構成と集計手順を整理する</a><a class="answer-link" href="#lesson-u01-05">解答例と確認ポイント</a><a class="" href="#lesson-u01-06">確認問題：データ管理の現状整理</a></div>
+</div>
+
+<div class="unit-nav">
+  <a href="#unit-u02">
+    <span class="unit-num">02</span>
+    <span>共通フォーマットと入力ルール</span>
+  </a>
+  <div class="lesson-nav"><a class="" href="#lesson-u02-00">この単元について</a><a class="" href="#lesson-u02-01">共通フォーマットの基本</a><a class="" href="#lesson-u02-02">入力形式・コード・入力規則</a><a class="" href="#lesson-u02-03">データ項目定義書とサンプル統一</a><a class="" href="#lesson-u02-04">演習：共通フォーマットへ統一する</a><a class="answer-link" href="#lesson-u02-05">解答例と確認ポイント</a><a class="" href="#lesson-u02-06">確認問題：共通フォーマット</a></div>
+</div>
+
+<div class="unit-nav">
+  <a href="#unit-u03">
+    <span class="unit-num">03</span>
+    <span>ピボットテーブルによる基本集計</span>
+  </a>
+  <div class="lesson-nav"><a class="" href="#lesson-u03-00">この単元について</a><a class="" href="#lesson-u03-01">ピボットテーブルの基本</a><a class="" href="#lesson-u03-02">ピボットテーブルを作成する手順</a><a class="" href="#lesson-u03-03">フィルター・更新・数値確認</a><a class="" href="#lesson-u03-04">演習：指定ピボットテーブルを作成する</a><a class="answer-link" href="#lesson-u03-05">解答例と確認ポイント</a><a class="" href="#lesson-u03-06">確認問題：ピボットテーブル</a></div>
+</div>
+
+<div class="unit-nav">
+  <a href="#unit-u04">
+    <span class="unit-num">04</span>
+    <span>集計結果の見える化と報告資料作成</span>
+  </a>
+  <div class="lesson-nav"><a class="" href="#lesson-u04-00">この単元について</a><a class="" href="#lesson-u04-01">報告資料に必要な情報を選ぶ</a><a class="" href="#lesson-u04-02">ピボットグラフとスライサー</a><a class="" href="#lesson-u04-03">月次報告シートの作り方</a><a class="" href="#lesson-u04-04">演習：月次報告シートを作成する</a><a class="answer-link" href="#lesson-u04-05">解答例と確認ポイント</a><a class="" href="#lesson-u04-06">確認問題：見える化と報告資料</a></div>
+</div>
+
+<div class="unit-nav">
+  <a href="#unit-u05">
+    <span class="unit-num">05</span>
+    <span>Power BI Desktopによるデータ可視化</span>
+  </a>
+  <div class="lesson-nav"><a class="" href="#lesson-u05-00">この単元について</a><a class="" href="#lesson-u05-01">Power BI Desktopの役割と基本画面</a><a class="" href="#lesson-u05-02">Excelデータの読み込みとデータ型</a><a class="" href="#lesson-u05-03">基本ビジュアルとスライサー</a><a class="" href="#lesson-u05-04">レポートの配置・確認・保存</a><a class="" href="#lesson-u05-05">演習：Power BI基本レポートを作成する</a><a class="answer-link" href="#lesson-u05-06">解答例と確認ポイント</a><a class="" href="#lesson-u05-07">確認問題：Power BI Desktop</a></div>
+</div>
+
+<div class="unit-nav">
+  <a href="#unit-u06">
+    <span class="unit-num">06</span>
+    <span>月次更新と運用の標準化</span>
+  </a>
+  <div class="lesson-nav"><a class="" href="#lesson-u06-00">この単元について</a><a class="" href="#lesson-u06-01">月次更新の基本フロー</a><a class="" href="#lesson-u06-02">ExcelとPower BIの更新手順</a><a class="" href="#lesson-u06-03">更新エラーと手順書の作り方</a><a class="" href="#lesson-u06-04">演習：追加データで更新し手順書を作成する</a><a class="answer-link" href="#lesson-u06-05">解答例と確認ポイント</a><a class="" href="#lesson-u06-06">確認問題：月次更新と標準化</a></div>
+</div>
+
+<div class="unit-nav">
+  <a href="#unit-u07">
+    <span class="unit-num">07</span>
+    <span>総合演習：月次実績の集計・可視化環境の完成</span>
+  </a>
+  <div class="lesson-nav"><a class="" href="#lesson-u07-00">総合演習について</a><a class="" href="#lesson-u07-01">完成要件を確認する</a><a class="" href="#lesson-u07-02">演習の進め方と時間配分</a><a class="" href="#lesson-u07-03">最終確認とトラブル対応</a><a class="" href="#lesson-u07-04">総合演習：集計・可視化環境を完成させる</a><a class="" href="#lesson-u07-05">評価基準と振り返り</a><a class="" href="#lesson-u07-06">確認問題：総合演習の成果物提出</a></div>
+</div>
+
+  </aside>
+  <main class="main">
+    <section class="hero">
+      <span class="eyebrow">中級 COURSE</span>
+      <h1>中級・応用コース</h1>
+      <p>データ集計とレポート更新の効率化。テーマは「毎月の集計と報告作業を減らす」です。</p>
+      <div class="hero-stats">
+        <span class="stat-pill">7単元</span>
+        <span class="stat-pill">49教材</span>
+        <span class="stat-pill">解答例 6件</span>
+        <span class="stat-pill">講座内容 19時間</span>
+        <span class="stat-pill">全体21時間</span>
+      </div>
+    </section>
+
+    <div class="toolbar">
+      <div class="search-wrap">
+        <input id="course-search" type="search" placeholder="教材内を検索（例：ピボット、権限、マスタ）">
+        <span class="search-icon">⌕</span>
+      </div>
+      <select id="type-filter" class="control" aria-label="教材種別">
+        <option value="ALL">すべての教材</option>
+        <option value="INFO">案内</option>
+        <option value="WIKI">解説</option>
+        <option value="PRACTICE">練習・提出</option>
+        <option value="CHECK">確認・提出</option>
+        <option value="ANSWER">解答例</option>
+      </select>
+      <button id="answer-toggle" class="control" type="button">解答例を隠す</button>
+      <button id="open-all" class="control" type="button">すべて開く</button>
+      <button id="close-all" class="control" type="button">閉じる</button>
+      <button id="print-page" class="control" type="button">印刷</button>
+      <div id="search-result" class="search-result"></div>
+    </div>
+
+    <div id="course-content">
+<details class="unit-section" id="unit-u00" open>
+  <summary>
+    <span class="unit-num">概要</span>
+    <div class="unit-heading">
+      <h2>このコースの概要</h2>
+      <small>5教材</small>
+    </div>
+    <span class="chevron">⌄</span>
+  </summary>
+  <div class="lesson-list">
+<details class="lesson-card" id="lesson-u00-00"
+  data-type="INFO" data-answer="false"
+  data-track="true" data-search="このコースについて 案内 テーマ 「毎月の集計と報告作業を減らす」 このコースでは、部門・担当者・月ごとに分散しているExcelデータを、継続的に追加できる共通データへ整え、ピボットテーブルとPower BI Desktopで集計・可視化する方法を学びます。 単にグラフを作るのではなく、次の順番で月次集計・報告業務を改善します。 1. 現在のファイル構成と集計手順を整理する 2. 一元管理する対象と共通フォーマットを決める 3. ピボットテーブルで繰り返し使える集計表を作る 4. ピボットグラフとスライサーで月次報告シートを作る 5. Power BI Desktopで基本レポートを作る 6. 新しい月のデータを追加し、ExcelとPower BIを更新する 7. 総合演習で一連の集計・可視化環境を完成させる このコースで身につくこと データが複数ファイルへ分散する原因と問題点を説明できる 一元管理する対象データを決められる 列名・形式・入力ルールを統一した共通フォーマットを作成できる Excelテーブルへ月次データを継続的に追加できる ピボットテーブルで月別・担当者別・部門別などの集計ができる ピボットグラフとスライサーを使った報告シートを作成できる Power BI Desktopでカード・グラフ・表・スライサーを配置できる 元データ追加後にExcelとPower BIのレポートを更新できる 更新手順と確認項目を簡易手順書へまとめられる 最終的な完成物 一元管理用のExcelテーブル 月別・担当者別・部門別・ステータス別のピボット集計 ピボットグラフとスライサーを備えた月次報告シート Power BI Desktopの基本レポート 更新確認済みのExcelファイルとPBIXファイル 月次更新手順 更新確認チェックリスト 前提 Excelでセル入力、シート操作、ファイル保存ができる Excelテーブルの基本を理解している 1行1データ・1列1項目の考え方を理解している Power BI DesktopをインストールできるWindows環境がある Power BI Serviceへの発行や組織内共有は本コースの実習対象外">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge INFO">案内</span></div>
+      <h3>このコースについて</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>テーマ</h2>
+<p><strong>「毎月の集計と報告作業を減らす」</strong></p>
+<p>このコースでは、部門・担当者・月ごとに分散しているExcelデータを、継続的に追加できる共通データへ整え、ピボットテーブルとPower BI Desktopで集計・可視化する方法を学びます。</p>
+<p>単にグラフを作るのではなく、次の順番で月次集計・報告業務を改善します。</p>
+<ol>
+<li>現在のファイル構成と集計手順を整理する</li>
+<li>一元管理する対象と共通フォーマットを決める</li>
+<li>ピボットテーブルで繰り返し使える集計表を作る</li>
+<li>ピボットグラフとスライサーで月次報告シートを作る</li>
+<li>Power BI Desktopで基本レポートを作る</li>
+<li>新しい月のデータを追加し、ExcelとPower BIを更新する</li>
+<li>総合演習で一連の集計・可視化環境を完成させる</li>
+</ol>
+<h2>このコースで身につくこと</h2>
+<ul>
+<li>データが複数ファイルへ分散する原因と問題点を説明できる</li>
+<li>一元管理する対象データを決められる</li>
+<li>列名・形式・入力ルールを統一した共通フォーマットを作成できる</li>
+<li>Excelテーブルへ月次データを継続的に追加できる</li>
+<li>ピボットテーブルで月別・担当者別・部門別などの集計ができる</li>
+<li>ピボットグラフとスライサーを使った報告シートを作成できる</li>
+<li>Power BI Desktopでカード・グラフ・表・スライサーを配置できる</li>
+<li>元データ追加後にExcelとPower BIのレポートを更新できる</li>
+<li>更新手順と確認項目を簡易手順書へまとめられる</li>
+</ul>
+<h2>最終的な完成物</h2>
+<ul>
+<li>一元管理用のExcelテーブル</li>
+<li>月別・担当者別・部門別・ステータス別のピボット集計</li>
+<li>ピボットグラフとスライサーを備えた月次報告シート</li>
+<li>Power BI Desktopの基本レポート</li>
+<li>更新確認済みのExcelファイルとPBIXファイル</li>
+<li>月次更新手順</li>
+<li>更新確認チェックリスト</li>
+</ul>
+<h2>前提</h2>
+<ul>
+<li>Excelでセル入力、シート操作、ファイル保存ができる</li>
+<li>Excelテーブルの基本を理解している</li>
+<li>1行1データ・1列1項目の考え方を理解している</li>
+<li>Power BI DesktopをインストールできるWindows環境がある</li>
+<li>Power BI Serviceへの発行や組織内共有は本コースの実習対象外</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u00-01"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="共通サンプルと改善の流れ 解説 共通サンプル 全単元を通して、 月次実績の集計・報告業務 を題材にします。 各部門・担当者が作成した実績ファイルを管理者が回収し、月次集計表と報告資料を作成している業務です。 改善前の状態 担当者や部門ごとにExcelファイルが分かれている 毎月新しいファイルやシートを作成している ファイル名や保存場所が統一されていない 列名・入力形式・項目の並びがファイルごとに異なる 管理者が複数ファイルからデータをコピーしている 月別・担当者別・部門別の集計表を毎月作り直している グラフや報告資料の更新に時間がかかる 更新手順を特定の担当者しか把握していない 講座内で目指す状態 月次実績を1つの共通データで管理する 列名・入力形式・コードを統一する Excelテーブルへ新しい月のデータを追加する ピボットテーブルで必要な切り口を繰り返し集計する ピボットグラフとスライサーで条件を切り替える Power BI Desktopで基本レポートを作成する 追加データをExcelとPower BIへ反映する 件数・売上合計を確認して更新ミスを防ぐ 担当者以外でも更新できる手順を用意する 単元のつながり 単元 主な学習内容 次の単元へつながる成果物 01 ファイル構成・集計手順の整理 現状集計フロー・一元管理対象 02 共通フォーマット・入力ルール 一元管理用Excelテーブル 03 ピボットテーブル 各種集計表 04 ピボットグラフ・スライサー 月次報告シート 05 Power BI Desktop 基本レポート・PBIX 06 月次更新・標準化 更新手順・確認チェックリスト 07 総合演習 集計・可視化環境一式">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>共通サンプルと改善の流れ</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>共通サンプル</h2>
+<p>全単元を通して、<strong>月次実績の集計・報告業務</strong>を題材にします。</p>
+<p>各部門・担当者が作成した実績ファイルを管理者が回収し、月次集計表と報告資料を作成している業務です。</p>
+<h2>改善前の状態</h2>
+<ul>
+<li>担当者や部門ごとにExcelファイルが分かれている</li>
+<li>毎月新しいファイルやシートを作成している</li>
+<li>ファイル名や保存場所が統一されていない</li>
+<li>列名・入力形式・項目の並びがファイルごとに異なる</li>
+<li>管理者が複数ファイルからデータをコピーしている</li>
+<li>月別・担当者別・部門別の集計表を毎月作り直している</li>
+<li>グラフや報告資料の更新に時間がかかる</li>
+<li>更新手順を特定の担当者しか把握していない</li>
+</ul>
+<h2>講座内で目指す状態</h2>
+<ul>
+<li>月次実績を1つの共通データで管理する</li>
+<li>列名・入力形式・コードを統一する</li>
+<li>Excelテーブルへ新しい月のデータを追加する</li>
+<li>ピボットテーブルで必要な切り口を繰り返し集計する</li>
+<li>ピボットグラフとスライサーで条件を切り替える</li>
+<li>Power BI Desktopで基本レポートを作成する</li>
+<li>追加データをExcelとPower BIへ反映する</li>
+<li>件数・売上合計を確認して更新ミスを防ぐ</li>
+<li>担当者以外でも更新できる手順を用意する</li>
+</ul>
+<h2>単元のつながり</h2>
+<table>
+<thead>
+<tr>
+  <th>単元</th>
+  <th>主な学習内容</th>
+  <th>次の単元へつながる成果物</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>01</td>
+  <td>ファイル構成・集計手順の整理</td>
+  <td>現状集計フロー・一元管理対象</td>
+</tr>
+<tr>
+  <td>02</td>
+  <td>共通フォーマット・入力ルール</td>
+  <td>一元管理用Excelテーブル</td>
+</tr>
+<tr>
+  <td>03</td>
+  <td>ピボットテーブル</td>
+  <td>各種集計表</td>
+</tr>
+<tr>
+  <td>04</td>
+  <td>ピボットグラフ・スライサー</td>
+  <td>月次報告シート</td>
+</tr>
+<tr>
+  <td>05</td>
+  <td>Power BI Desktop</td>
+  <td>基本レポート・PBIX</td>
+</tr>
+<tr>
+  <td>06</td>
+  <td>月次更新・標準化</td>
+  <td>更新手順・確認チェックリスト</td>
+</tr>
+<tr>
+  <td>07</td>
+  <td>総合演習</td>
+  <td>集計・可視化環境一式</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u00-02"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="使用環境とデータの受け渡し 解説 Excelの使用環境 研修では、講師が指定したExcel環境を使用します。Excel for the webとデスクトップ版Excelでは、ボタン位置や表示が一部異なる場合があります。 教材と画面が異なる場合は、次の機能名を手がかりに確認します。 テーブル ピボットテーブル ピボットグラフ スライサー 更新 フィルター Power BI Desktop 本コースで扱う範囲は次のとおりです。 Excelテーブルの読み込み データ型の確認 カード・棒グラフ・表・マトリックスの作成 フィルター・スライサーの設定 ビジュアル同士の連動 元Excel更新後の更新 PBIXファイルのローカル保存 次の内容は必須演習に含めません。 複雑なPower Query DAXの詳細 Power BI Serviceへの発行 組織内共有 SharePointへの掲載 ExcelからPower BIへの受け渡し 1. Excelファイルを指定されたPCフォルダへ保存する 2. Power BI Desktopを起動する 3. Excelブックをデータソースとして選択する 4. 指定されたテーブルを読み込む 5. PBIXファイルを研修用フォルダへ保存する Excelファイルの保存場所やファイル名を変更すると、更新時に参照先の確認が必要になる場合があります。研修中は講師指定の保存場所とファイル名を維持します。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>使用環境とデータの受け渡し</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>Excelの使用環境</h2>
+<p>研修では、講師が指定したExcel環境を使用します。Excel for the webとデスクトップ版Excelでは、ボタン位置や表示が一部異なる場合があります。</p>
+<p>教材と画面が異なる場合は、次の機能名を手がかりに確認します。</p>
+<ul>
+<li>テーブル</li>
+<li>ピボットテーブル</li>
+<li>ピボットグラフ</li>
+<li>スライサー</li>
+<li>更新</li>
+<li>フィルター</li>
+</ul>
+<h2>Power BI Desktop</h2>
+<p>本コースで扱う範囲は次のとおりです。</p>
+<ul>
+<li>Excelテーブルの読み込み</li>
+<li>データ型の確認</li>
+<li>カード・棒グラフ・表・マトリックスの作成</li>
+<li>フィルター・スライサーの設定</li>
+<li>ビジュアル同士の連動</li>
+<li>元Excel更新後の更新</li>
+<li>PBIXファイルのローカル保存</li>
+</ul>
+<p>次の内容は必須演習に含めません。</p>
+<ul>
+<li>複雑なPower Query</li>
+<li>DAXの詳細</li>
+<li>Power BI Serviceへの発行</li>
+<li>組織内共有</li>
+<li>SharePointへの掲載</li>
+</ul>
+<h2>ExcelからPower BIへの受け渡し</h2>
+<ol>
+<li>Excelファイルを指定されたPCフォルダへ保存する</li>
+<li>Power BI Desktopを起動する</li>
+<li>Excelブックをデータソースとして選択する</li>
+<li>指定されたテーブルを読み込む</li>
+<li>PBIXファイルを研修用フォルダへ保存する</li>
+</ol>
+<p>Excelファイルの保存場所やファイル名を変更すると、更新時に参照先の確認が必要になる場合があります。研修中は講師指定の保存場所とファイル名を維持します。</p>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u00-03"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="研修時間と学習の進め方 解説 研修時間 区分 時間 : カリキュラム本編・6単元 17時間 総合演習 2時間 講座内容 19時間 運営上のバッファ 2時間 全体スケジュール 21時間 3週間の実施イメージ 週 実施内容 講座時間 : 1週目 単元01・単元02 6時間 2週目 単元03・単元04 6時間 3週目 単元05・単元06・総合演習 7時間 基本的な進め方 1. INFOで目的・完成物・前提を確認する 2. WIKIで考え方と操作方法を学ぶ 3. 講師の完成見本と操作デモを確認する 4. PRACTICEで成果物を作成する 5. 解答例・確認ポイントと比較する 6. CHECKへ回答し、指定された成果物を提出する 数値確認の基本 元データの件数と一致しているか 売上合計が元データと一致しているか 集計方法が合計・件数・平均のどれか フィルターやスライサーの条件が残っていないか 新しいデータを追加したあとに更新したか">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>研修時間と学習の進め方</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>研修時間</h2>
+<table>
+<thead>
+<tr>
+  <th>区分</th>
+  <th style="text-align:right">時間</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>カリキュラム本編・6単元</td>
+  <td style="text-align:right">17時間</td>
+</tr>
+<tr>
+  <td>総合演習</td>
+  <td style="text-align:right">2時間</td>
+</tr>
+<tr>
+  <td><strong>講座内容</strong></td>
+  <td style="text-align:right"><strong>19時間</strong></td>
+</tr>
+<tr>
+  <td>運営上のバッファ</td>
+  <td style="text-align:right">2時間</td>
+</tr>
+<tr>
+  <td><strong>全体スケジュール</strong></td>
+  <td style="text-align:right"><strong>21時間</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>3週間の実施イメージ</h2>
+<table>
+<thead>
+<tr>
+  <th>週</th>
+  <th>実施内容</th>
+  <th style="text-align:right">講座時間</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1週目</td>
+  <td>単元01・単元02</td>
+  <td style="text-align:right">6時間</td>
+</tr>
+<tr>
+  <td>2週目</td>
+  <td>単元03・単元04</td>
+  <td style="text-align:right">6時間</td>
+</tr>
+<tr>
+  <td>3週目</td>
+  <td>単元05・単元06・総合演習</td>
+  <td style="text-align:right">7時間</td>
+</tr>
+</tbody>
+</table>
+<h2>基本的な進め方</h2>
+<ol>
+<li>INFOで目的・完成物・前提を確認する</li>
+<li>WIKIで考え方と操作方法を学ぶ</li>
+<li>講師の完成見本と操作デモを確認する</li>
+<li>PRACTICEで成果物を作成する</li>
+<li>解答例・確認ポイントと比較する</li>
+<li>CHECKへ回答し、指定された成果物を提出する</li>
+</ol>
+<h2>数値確認の基本</h2>
+<ul>
+<li>元データの件数と一致しているか</li>
+<li>売上合計が元データと一致しているか</li>
+<li>集計方法が合計・件数・平均のどれか</li>
+<li>フィルターやスライサーの条件が残っていないか</li>
+<li>新しいデータを追加したあとに更新したか</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u00-04"
+  data-type="INFO" data-answer="false"
+  data-track="true" data-search="使用ファイルと提出時の注意事項 案内 使用する主なファイル 改善前の月次実績ファイル群 ファイル・フォルダ構成整理表 現状集計フロー作成用シート 共通フォーマット作成用Excel データ項目定義書のひな型 一元管理用サンプルデータ ピボット集計作成用Excel 月次報告シートの完成見本 Power BIレポート作成用Excel 追加月データ 月次更新手順のひな型 完成確認用チェックリスト 作業を始める前の確認 1. 指定されたExcelファイルを開ける 2. Power BI Desktopを起動できる 3. 自分の作業用コピーを作成した 4. 講師指定のフォルダへ保存した 5. 元のサンプルファイルを直接上書きしていない 6. Excelファイルのテーブル名を確認した 推奨するファイル名 text 受講者名 単元番号 成果物名 例： text 山田太郎 05 PowerBI基本レポート.pbix 提出前の共通確認 指定された成果物がすべて含まれている ExcelファイルとPBIXファイルを開ける ピボットテーブルを更新できる Power BI Desktopで更新できる 件数・合計を確認した 不要なフィルター条件が残っていない 指定されたファイル名で保存した">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge INFO">案内</span></div>
+      <h3>使用ファイルと提出時の注意事項</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>使用する主なファイル</h2>
+<ul>
+<li>改善前の月次実績ファイル群</li>
+<li>ファイル・フォルダ構成整理表</li>
+<li>現状集計フロー作成用シート</li>
+<li>共通フォーマット作成用Excel</li>
+<li>データ項目定義書のひな型</li>
+<li>一元管理用サンプルデータ</li>
+<li>ピボット集計作成用Excel</li>
+<li>月次報告シートの完成見本</li>
+<li>Power BIレポート作成用Excel</li>
+<li>追加月データ</li>
+<li>月次更新手順のひな型</li>
+<li>完成確認用チェックリスト</li>
+</ul>
+<h2>作業を始める前の確認</h2>
+<ol>
+<li>指定されたExcelファイルを開ける</li>
+<li>Power BI Desktopを起動できる</li>
+<li>自分の作業用コピーを作成した</li>
+<li>講師指定のフォルダへ保存した</li>
+<li>元のサンプルファイルを直接上書きしていない</li>
+<li>Excelファイルのテーブル名を確認した</li>
+</ol>
+<h2>推奨するファイル名</h2>
+<pre><code class="language-text">受講者名_単元番号_成果物名
+</code></pre>
+<p>例：</p>
+<pre><code class="language-text">山田太郎_05_PowerBI基本レポート.pbix
+</code></pre>
+<h2>提出前の共通確認</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>指定された成果物がすべて含まれている</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>ExcelファイルとPBIXファイルを開ける</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>ピボットテーブルを更新できる</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>Power BI Desktopで更新できる</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>件数・合計を確認した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>不要なフィルター条件が残っていない</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>指定されたファイル名で保存した</li>
+</ul>
+</div>
+</details>
+</div>
+</details>
+
+<details class="unit-section" id="unit-u01">
+  <summary>
+    <span class="unit-num">01</span>
+    <div class="unit-heading">
+      <h2>データ管理の現状整理</h2>
+      <small>7教材</small>
+    </div>
+    <span class="chevron">⌄</span>
+  </summary>
+  <div class="lesson-list">
+<details class="lesson-card" id="lesson-u01-00"
+  data-type="INFO" data-answer="false"
+  data-track="true" data-search="この単元について 案内 所要時間の目安 約3時間 この単元で学ぶこと 複数ファイル管理で起こる問題を説明できる 担当者別・部門別・月別に分かれたファイルを分類できる ファイル名・保存場所・版管理の問題を見つけられる 現在のデータ回収から報告までの集計手順を整理できる 同じ情報を持つ重複ファイルを確認できる 一元管理する対象データと、残すべき資料を区別できる ファイル名と保存場所の基本ルールを作成できる 使用する共通サンプル 月次実績の集計・報告業務 この単元の完成物 ファイル・フォルダ構成整理表 現状の月次集計フロー ファイル管理上の課題一覧 一元管理対象データの整理表 学習の流れ 1. 分散管理で起こる問題を理解する 2. ファイル名・保存場所・版を確認する 3. 現在の集計手順を書き出す 4. 重複している情報と一元管理対象を整理する 5. 基本ルールを作成する 6. 確認問題に取り組む">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge INFO">案内</span></div>
+      <h3>この単元について</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>所要時間の目安</h2>
+<p><strong>約3時間</strong></p>
+<h2>この単元で学ぶこと</h2>
+<ul>
+<li>複数ファイル管理で起こる問題を説明できる</li>
+<li>担当者別・部門別・月別に分かれたファイルを分類できる</li>
+<li>ファイル名・保存場所・版管理の問題を見つけられる</li>
+<li>現在のデータ回収から報告までの集計手順を整理できる</li>
+<li>同じ情報を持つ重複ファイルを確認できる</li>
+<li>一元管理する対象データと、残すべき資料を区別できる</li>
+<li>ファイル名と保存場所の基本ルールを作成できる</li>
+</ul>
+<h2>使用する共通サンプル</h2>
+<p><strong>月次実績の集計・報告業務</strong></p>
+<h2>この単元の完成物</h2>
+<ul>
+<li>ファイル・フォルダ構成整理表</li>
+<li>現状の月次集計フロー</li>
+<li>ファイル管理上の課題一覧</li>
+<li>一元管理対象データの整理表</li>
+</ul>
+<h2>学習の流れ</h2>
+<ol>
+<li>分散管理で起こる問題を理解する</li>
+<li>ファイル名・保存場所・版を確認する</li>
+<li>現在の集計手順を書き出す</li>
+<li>重複している情報と一元管理対象を整理する</li>
+<li>基本ルールを作成する</li>
+<li>確認問題に取り組む</li>
+</ol>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u01-01"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="ファイル分散で起こる問題 解説 データが分散している状態 同じ月次実績に関する情報が、担当者別ファイル、部門別ファイル、月別シート、管理者用集計表、報告用ファイルなどへ分かれている状態を考えます。 ファイルを分けること自体が常に問題なのではありません。集計に必要な同じ種類のデータが、異なる形式で分散していることが問題になります。 分散管理の主な問題 回収に時間がかかる どの担当者・部門から提出済みか確認する必要があります。 最新版が分からない 最新 、 最終 、 修正版 などの名前だけでは、どれを使うか判断できません。 列構成がそろわない ファイルごとに列名、列順、入力形式が異なると、そのまま結合できません。 コピー・転記が増える 管理者が複数ファイルを開き、集計用ファイルへコピーします。 更新漏れが起こる 一部のファイルだけ新しいデータへ差し替え、ほかのファイルが古い状態になる場合があります。 集計結果を再現できない どのファイルを使用し、どの条件で集計したか記録されていないと、同じ結果を作り直せません。 個人管理と共同管理 管理方法 特徴 注意点 個人PC 本人がすぐ編集できる 他者が確認できず、異動時に失われる メール添付 受け渡しが簡単 同じファイルが複数保存される 共有フォルダ 複数人で確認できる 命名・保存ルールが必要 OneDrive・SharePoint 共同管理や履歴を利用できる 組織ルールと権限確認が必要 この単元では、保存サービスの詳しい設定ではなく、共同管理に必要な基本ルールを整理します。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>ファイル分散で起こる問題</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>データが分散している状態</h2>
+<p>同じ月次実績に関する情報が、担当者別ファイル、部門別ファイル、月別シート、管理者用集計表、報告用ファイルなどへ分かれている状態を考えます。</p>
+<p>ファイルを分けること自体が常に問題なのではありません。集計に必要な同じ種類のデータが、異なる形式で分散していることが問題になります。</p>
+<h2>分散管理の主な問題</h2>
+<h3>回収に時間がかかる</h3>
+<p>どの担当者・部門から提出済みか確認する必要があります。</p>
+<h3>最新版が分からない</h3>
+<p><code>最新</code>、<code>最終</code>、<code>修正版</code>などの名前だけでは、どれを使うか判断できません。</p>
+<h3>列構成がそろわない</h3>
+<p>ファイルごとに列名、列順、入力形式が異なると、そのまま結合できません。</p>
+<h3>コピー・転記が増える</h3>
+<p>管理者が複数ファイルを開き、集計用ファイルへコピーします。</p>
+<h3>更新漏れが起こる</h3>
+<p>一部のファイルだけ新しいデータへ差し替え、ほかのファイルが古い状態になる場合があります。</p>
+<h3>集計結果を再現できない</h3>
+<p>どのファイルを使用し、どの条件で集計したか記録されていないと、同じ結果を作り直せません。</p>
+<h2>個人管理と共同管理</h2>
+<table>
+<thead>
+<tr>
+  <th>管理方法</th>
+  <th>特徴</th>
+  <th>注意点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>個人PC</td>
+  <td>本人がすぐ編集できる</td>
+  <td>他者が確認できず、異動時に失われる</td>
+</tr>
+<tr>
+  <td>メール添付</td>
+  <td>受け渡しが簡単</td>
+  <td>同じファイルが複数保存される</td>
+</tr>
+<tr>
+  <td>共有フォルダ</td>
+  <td>複数人で確認できる</td>
+  <td>命名・保存ルールが必要</td>
+</tr>
+<tr>
+  <td>OneDrive・SharePoint</td>
+  <td>共同管理や履歴を利用できる</td>
+  <td>組織ルールと権限確認が必要</td>
+</tr>
+</tbody>
+</table>
+<p>この単元では、保存サービスの詳しい設定ではなく、共同管理に必要な基本ルールを整理します。</p>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u01-02"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="ファイル名・保存場所・版管理 解説 分かりやすいファイル名 ファイル名だけで、対象期間・部門・内容が分かるようにします。 例： text 2026 05 営業1課 月次実績.xlsx 避けたい例： text 月次集計表 最新.xlsx 月次集計表 最新2.xlsx 売上 最終 修正版.xlsx ファイル名へ入れる候補 対象年月 部門 業務名 状態 版番号 必要に応じて作成日 すべてを入れる必要はありません。組織内で同じルールを使用することが重要です。 版管理の考え方 状態 意味 作業中 まだ確定していない 確認中 関係者が内容を確認している 確定 報告や保存に使用する 例： text 2026 05 営業1課 月次実績 作業中.xlsx 2026 05 営業1課 月次実績 確定.xlsx 保存場所のルール 対象業務ごとに保存先を決める 個人PCだけに保存しない 作業中と確定版の場所を分ける フォルダ階層を深くしすぎない 同じデータを複数の場所へコピーしない 誰が更新できるかを明確にする フォルダ構成例 text 月次実績 ├ 01 元データ ├ 02 集計 ├ 03 報告資料 └ 99 過去データ 研修ではこの例を参考にしつつ、クライアントの既存ルールを優先します。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>ファイル名・保存場所・版管理</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>分かりやすいファイル名</h2>
+<p>ファイル名だけで、対象期間・部門・内容が分かるようにします。</p>
+<p>例：</p>
+<pre><code class="language-text">2026-05_営業1課_月次実績.xlsx
+</code></pre>
+<p>避けたい例：</p>
+<pre><code class="language-text">月次集計表_最新.xlsx
+月次集計表_最新2.xlsx
+売上_最終_修正版.xlsx
+</code></pre>
+<h2>ファイル名へ入れる候補</h2>
+<ul>
+<li>対象年月</li>
+<li>部門</li>
+<li>業務名</li>
+<li>状態</li>
+<li>版番号</li>
+<li>必要に応じて作成日</li>
+</ul>
+<p>すべてを入れる必要はありません。組織内で同じルールを使用することが重要です。</p>
+<h2>版管理の考え方</h2>
+<table>
+<thead>
+<tr>
+  <th>状態</th>
+  <th>意味</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>作業中</td>
+  <td>まだ確定していない</td>
+</tr>
+<tr>
+  <td>確認中</td>
+  <td>関係者が内容を確認している</td>
+</tr>
+<tr>
+  <td>確定</td>
+  <td>報告や保存に使用する</td>
+</tr>
+</tbody>
+</table>
+<p>例：</p>
+<pre><code class="language-text">2026-05_営業1課_月次実績_作業中.xlsx
+2026-05_営業1課_月次実績_確定.xlsx
+</code></pre>
+<h2>保存場所のルール</h2>
+<ul>
+<li>対象業務ごとに保存先を決める</li>
+<li>個人PCだけに保存しない</li>
+<li>作業中と確定版の場所を分ける</li>
+<li>フォルダ階層を深くしすぎない</li>
+<li>同じデータを複数の場所へコピーしない</li>
+<li>誰が更新できるかを明確にする</li>
+</ul>
+<h2>フォルダ構成例</h2>
+<pre><code class="language-text">月次実績
+├ 01_元データ
+├ 02_集計
+├ 03_報告資料
+└ 99_過去データ
+</code></pre>
+<p>研修ではこの例を参考にしつつ、クライアントの既存ルールを優先します。</p>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u01-03"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="現在の集計手順を整理する 解説 サンプルファイル群 2026年4月 営業1課 実績.xlsx 2026年4月 営業2課 実績.xlsx 2026年4月 技術部 実績.xlsx 2026年5月 営業1課 実績 修正版.xlsx 2026年5月 営業1課 実績 最終.xlsx 月次集計表 最新.xlsx 月次集計表 最新2.xlsx 現在の集計手順 1. 管理者が共有フォルダを開く 2. 部門・担当者ごとの実績ファイルを探す 3. 提出済みのファイルを確認する 4. ファイルごとの列名・列順を確認する 5. 必要な列を管理者用集計表へコピーする 6. 表記違いと日付・数値形式を修正する 7. 月別・担当者別・部門別の集計表を作る 8. 集計結果をグラフへ反映する 9. 月次報告資料を保存する 集計手順を整理する項目 項目 確認内容 入力者 誰が元データを作成するか 提出方法 どこへ、どのように保存するか 回収担当 誰がファイルを集めるか 修正内容 何を統一・補正しているか 集計方法 どの表へコピーし、何を集計するか 報告 誰が、どの資料を作成するか 所要時間 どの作業に時間がかかるか 一元管理する対象を決める 一元管理するのは、繰り返し集計する明細データです。 例： 実績ID 実績日 部門 担当者 サービス 数量 売上金額 ステータス 一元管理対象にしないものの例： 完成した報告書 説明資料 会議メモ 元の証憑 レイアウトを重視した提出用帳票">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>現在の集計手順を整理する</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>サンプルファイル群</h2>
+<ul>
+<li><code>2026年4月_営業1課_実績.xlsx</code></li>
+<li><code>2026年4月_営業2課_実績.xlsx</code></li>
+<li><code>2026年4月_技術部_実績.xlsx</code></li>
+<li><code>2026年5月_営業1課_実績_修正版.xlsx</code></li>
+<li><code>2026年5月_営業1課_実績_最終.xlsx</code></li>
+<li><code>月次集計表_最新.xlsx</code></li>
+<li><code>月次集計表_最新2.xlsx</code></li>
+</ul>
+<h2>現在の集計手順</h2>
+<ol>
+<li>管理者が共有フォルダを開く</li>
+<li>部門・担当者ごとの実績ファイルを探す</li>
+<li>提出済みのファイルを確認する</li>
+<li>ファイルごとの列名・列順を確認する</li>
+<li>必要な列を管理者用集計表へコピーする</li>
+<li>表記違いと日付・数値形式を修正する</li>
+<li>月別・担当者別・部門別の集計表を作る</li>
+<li>集計結果をグラフへ反映する</li>
+<li>月次報告資料を保存する</li>
+</ol>
+<h2>集計手順を整理する項目</h2>
+<table>
+<thead>
+<tr>
+  <th>項目</th>
+  <th>確認内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>入力者</td>
+  <td>誰が元データを作成するか</td>
+</tr>
+<tr>
+  <td>提出方法</td>
+  <td>どこへ、どのように保存するか</td>
+</tr>
+<tr>
+  <td>回収担当</td>
+  <td>誰がファイルを集めるか</td>
+</tr>
+<tr>
+  <td>修正内容</td>
+  <td>何を統一・補正しているか</td>
+</tr>
+<tr>
+  <td>集計方法</td>
+  <td>どの表へコピーし、何を集計するか</td>
+</tr>
+<tr>
+  <td>報告</td>
+  <td>誰が、どの資料を作成するか</td>
+</tr>
+<tr>
+  <td>所要時間</td>
+  <td>どの作業に時間がかかるか</td>
+</tr>
+</tbody>
+</table>
+<h2>一元管理する対象を決める</h2>
+<p>一元管理するのは、繰り返し集計する明細データです。</p>
+<p>例：</p>
+<ul>
+<li>実績ID</li>
+<li>実績日</li>
+<li>部門</li>
+<li>担当者</li>
+<li>サービス</li>
+<li>数量</li>
+<li>売上金額</li>
+<li>ステータス</li>
+</ul>
+<p>一元管理対象にしないものの例：</p>
+<ul>
+<li>完成した報告書</li>
+<li>説明資料</li>
+<li>会議メモ</li>
+<li>元の証憑</li>
+<li>レイアウトを重視した提出用帳票</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u01-04"
+  data-type="PRACTICE" data-answer="false"
+  data-track="true" data-search="演習：ファイル構成と集計手順を整理する 練習・提出 課題 講師から配布されたサンプルフォルダを確認し、現在のファイル構成と月次集計手順を整理してください。 所要時間の目安 約65分 作成するもの 1. ファイル・フォルダ構成整理表 2. 現状の月次集計フロー 3. ファイル管理上の課題一覧 4. 一元管理対象データの整理表 手順 1. 対象年月、部門、ファイルの役割、版を確認する 2. 同じ年月・部門・内容を持つ重複ファイルを探す 3. 最新 、 最終 、 修正版 など判断基準が不明な名前を確認する 4. 回収、確認、修正、コピー、集計、グラフ更新、保存の順で集計手順を書く 5. ファイル名、保存場所、版、列構成、入力形式、回収方法の問題を記載する 6. 月をまたいで継続的に追加する明細データを選ぶ 7. ファイル名、保存場所、確定版の扱いを整理する 完成条件 ファイルの役割と対象年月が分かる 同じ情報を持つ重複ファイルが確認されている 現在の集計手順が事実に基づいている 最新版が分かりにくい理由を説明できる 一元管理する明細データが決まっている 報告資料など、一元管理対象外の資料と区別できる 提出物 ファイル・フォルダ構成整理表 現状の月次集計フロー ファイル管理上の課題一覧 一元管理対象データの整理表">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge PRACTICE">練習・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>演習：ファイル構成と集計手順を整理する</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>課題</h1>
+<p>講師から配布されたサンプルフォルダを確認し、現在のファイル構成と月次集計手順を整理してください。</p>
+<h2>所要時間の目安</h2>
+<p><strong>約65分</strong></p>
+<h2>作成するもの</h2>
+<ol>
+<li>ファイル・フォルダ構成整理表</li>
+<li>現状の月次集計フロー</li>
+<li>ファイル管理上の課題一覧</li>
+<li>一元管理対象データの整理表</li>
+</ol>
+<h2>手順</h2>
+<ol>
+<li>対象年月、部門、ファイルの役割、版を確認する</li>
+<li>同じ年月・部門・内容を持つ重複ファイルを探す</li>
+<li><code>最新</code>、<code>最終</code>、<code>修正版</code>など判断基準が不明な名前を確認する</li>
+<li>回収、確認、修正、コピー、集計、グラフ更新、保存の順で集計手順を書く</li>
+<li>ファイル名、保存場所、版、列構成、入力形式、回収方法の問題を記載する</li>
+<li>月をまたいで継続的に追加する明細データを選ぶ</li>
+<li>ファイル名、保存場所、確定版の扱いを整理する</li>
+</ol>
+<h2>完成条件</h2>
+<ul>
+<li>ファイルの役割と対象年月が分かる</li>
+<li>同じ情報を持つ重複ファイルが確認されている</li>
+<li>現在の集計手順が事実に基づいている</li>
+<li>最新版が分かりにくい理由を説明できる</li>
+<li>一元管理する明細データが決まっている</li>
+<li>報告資料など、一元管理対象外の資料と区別できる</li>
+</ul>
+<h2>提出物</h2>
+<ul>
+<li>ファイル・フォルダ構成整理表</li>
+<li>現状の月次集計フロー</li>
+<li>ファイル管理上の課題一覧</li>
+<li>一元管理対象データの整理表</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card answer-card" id="lesson-u01-05"
+  data-type="WIKI" data-answer="true"
+  data-track="false" data-search="解答例と確認ポイント 解説 ファイル構成整理表の例 ファイル名 対象年月 部門 役割 状態 課題 2026年4月 営業1課 実績.xlsx 2026年4月 営業1課 元データ 不明 確定済みか分からない 2026年5月 営業1課 実績 修正版.xlsx 2026年5月 営業1課 元データ 修正版 最終版との違いが不明 月次集計表 最新2.xlsx 複数月 全体 集計 最新 使用元データが不明 一元管理対象の例 対象 一元管理 理由 月次実績明細 対象 毎月同じ項目を追加・集計する 部門別売上 元データから集計 明細から作成できる 月次グラフ 元データから作成 毎月更新する 報告コメント 対象外 月ごとに文章が異なる 完成報告書 対象外 確定資料として別に保存する 評価のポイント ファイルが多いことだけを課題にしていない どの情報を一元化するかが具体的 元データと集計結果を区別している ファイル名・保存場所・版の改善案が現実的 現状集計フローの開始と終了が分かる">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span><span class="badge answer">解答例</span></div>
+      <h3>解答例と確認ポイント</h3>
+    </div>
+    
+  </summary>
+  <div class="lesson-body"><h2>ファイル構成整理表の例</h2>
+<table>
+<thead>
+<tr>
+  <th>ファイル名</th>
+  <th>対象年月</th>
+  <th>部門</th>
+  <th>役割</th>
+  <th>状態</th>
+  <th>課題</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>2026年4月_営業1課_実績.xlsx</td>
+  <td>2026年4月</td>
+  <td>営業1課</td>
+  <td>元データ</td>
+  <td>不明</td>
+  <td>確定済みか分からない</td>
+</tr>
+<tr>
+  <td>2026年5月_営業1課_実績_修正版.xlsx</td>
+  <td>2026年5月</td>
+  <td>営業1課</td>
+  <td>元データ</td>
+  <td>修正版</td>
+  <td>最終版との違いが不明</td>
+</tr>
+<tr>
+  <td>月次集計表_最新2.xlsx</td>
+  <td>複数月</td>
+  <td>全体</td>
+  <td>集計</td>
+  <td>最新</td>
+  <td>使用元データが不明</td>
+</tr>
+</tbody>
+</table>
+<h2>一元管理対象の例</h2>
+<table>
+<thead>
+<tr>
+  <th>対象</th>
+  <th>一元管理</th>
+  <th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>月次実績明細</td>
+  <td>対象</td>
+  <td>毎月同じ項目を追加・集計する</td>
+</tr>
+<tr>
+  <td>部門別売上</td>
+  <td>元データから集計</td>
+  <td>明細から作成できる</td>
+</tr>
+<tr>
+  <td>月次グラフ</td>
+  <td>元データから作成</td>
+  <td>毎月更新する</td>
+</tr>
+<tr>
+  <td>報告コメント</td>
+  <td>対象外</td>
+  <td>月ごとに文章が異なる</td>
+</tr>
+<tr>
+  <td>完成報告書</td>
+  <td>対象外</td>
+  <td>確定資料として別に保存する</td>
+</tr>
+</tbody>
+</table>
+<h2>評価のポイント</h2>
+<ul>
+<li>ファイルが多いことだけを課題にしていない</li>
+<li>どの情報を一元化するかが具体的</li>
+<li>元データと集計結果を区別している</li>
+<li>ファイル名・保存場所・版の改善案が現実的</li>
+<li>現状集計フローの開始と終了が分かる</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u01-06"
+  data-type="CHECK" data-answer="false"
+  data-track="true" data-search="確認問題：データ管理の現状整理 確認・提出 確認問題 問題1 同じ月次実績データが複数ファイルへ分散していると、どのような問題が起こるか2つ説明してください。 問題2 月次集計表 最新2.xlsx というファイル名だけでは判断できない内容を2つ答えてください。 問題3 一元管理する対象として、完成した報告書ではなく実績明細を選ぶ理由を説明してください。 問題4 現状の集計手順を整理するときに確認する項目を3つ答えてください。 問題5 作業中と確定版を区別する方法を1つ説明してください。 提出前の確認 すべての問題へ回答した 元データと報告資料を区別した 一元管理対象を具体的に説明した">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge CHECK">確認・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>確認問題：データ管理の現状整理</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>確認問題</h1>
+<h2>問題1</h2>
+<p>同じ月次実績データが複数ファイルへ分散していると、どのような問題が起こるか2つ説明してください。</p>
+<h2>問題2</h2>
+<p><code>月次集計表_最新2.xlsx</code>というファイル名だけでは判断できない内容を2つ答えてください。</p>
+<h2>問題3</h2>
+<p>一元管理する対象として、完成した報告書ではなく実績明細を選ぶ理由を説明してください。</p>
+<h2>問題4</h2>
+<p>現状の集計手順を整理するときに確認する項目を3つ答えてください。</p>
+<h2>問題5</h2>
+<p>作業中と確定版を区別する方法を1つ説明してください。</p>
+<h2>提出前の確認</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>すべての問題へ回答した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>元データと報告資料を区別した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>一元管理対象を具体的に説明した</li>
+</ul>
+</div>
+</details>
+</div>
+</details>
+
+<details class="unit-section" id="unit-u02">
+  <summary>
+    <span class="unit-num">02</span>
+    <div class="unit-heading">
+      <h2>共通フォーマットと入力ルール</h2>
+      <small>7教材</small>
+    </div>
+    <span class="chevron">⌄</span>
+  </summary>
+  <div class="lesson-list">
+<details class="lesson-card" id="lesson-u02-00"
+  data-type="INFO" data-answer="false"
+  data-track="true" data-search="この単元について 案内 所要時間の目安 約3時間 この単元で学ぶこと 共通フォーマットを作成する目的を説明できる 複数ファイルの列名・列順・入力形式を比較できる 集計に必要な必須項目と、補足用の任意項目を区別できる 1行1データ・1列1項目の共通データを設計できる 日付・年月・数値・文字列・コードの形式を統一できる Excelテーブルを使った一元管理用データを作成できる 入力規則を設定し、表記違いを防げる データ項目定義書と入力ルールを作成できる 使用する前単元の成果物 一元管理対象データの整理表 ファイル管理上の課題一覧 この単元の完成物 一元管理用Excelテーブル 共通フォーマット 入力規則を設定した入力シート データ項目定義書 入力ルール">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge INFO">案内</span></div>
+      <h3>この単元について</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>所要時間の目安</h2>
+<p><strong>約3時間</strong></p>
+<h2>この単元で学ぶこと</h2>
+<ul>
+<li>共通フォーマットを作成する目的を説明できる</li>
+<li>複数ファイルの列名・列順・入力形式を比較できる</li>
+<li>集計に必要な必須項目と、補足用の任意項目を区別できる</li>
+<li>1行1データ・1列1項目の共通データを設計できる</li>
+<li>日付・年月・数値・文字列・コードの形式を統一できる</li>
+<li>Excelテーブルを使った一元管理用データを作成できる</li>
+<li>入力規則を設定し、表記違いを防げる</li>
+<li>データ項目定義書と入力ルールを作成できる</li>
+</ul>
+<h2>使用する前単元の成果物</h2>
+<ul>
+<li>一元管理対象データの整理表</li>
+<li>ファイル管理上の課題一覧</li>
+</ul>
+<h2>この単元の完成物</h2>
+<ul>
+<li>一元管理用Excelテーブル</li>
+<li>共通フォーマット</li>
+<li>入力規則を設定した入力シート</li>
+<li>データ項目定義書</li>
+<li>入力ルール</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u02-01"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="共通フォーマットの基本 解説 共通フォーマットとは 共通フォーマットは、部門・担当者・月が異なっても、同じ列名・列順・入力形式でデータを登録するための形です。 ファイルを1つにまとめても、入力ルールが統一されていなければ、集計前の修正作業は残ります。 1行1データ・1列1項目 1行には1件の実績を登録します。1列には同じ種類の情報だけを入力します。 避けたい例： 1行へ複数のサービスを記載する 売上金額へ 100,000円 と文字を含める 担当者列へ 佐藤／営業1課 と2つの情報を入れる 実績日列へ 5/1 完了 と日付と状態を入れる 共通データの項目 項目 内容 形式 実績ID 1件を識別する番号 文字列 実績日 実績が発生した日 日付 年月 月次集計に使用する年月 年月 部門 担当部門 選択式 担当者 実績担当者 選択式またはコード 地域 対象地域 選択式 顧客区分 新規・既存など 選択式 サービスカテゴリ 大分類 選択式 サービス名 提供サービス 選択式 数量 件数・個数 数値 単価 1件あたり金額 数値 売上金額 対象実績の金額 数値 ステータス 進捗状態 選択式 受注経路 紹介・Webなど 選択式 備考 補足情報 文字列 必須項目と任意項目 集計や更新に必要な項目は必須にします。 例： 実績ID 実績日 年月 部門 担当者 サービス名 売上金額 ステータス 備考や補足情報は任意にできます。 必須項目を増やしすぎると入力負担が増えるため、集計や確認で本当に使用するかを基準に判断します。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>共通フォーマットの基本</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>共通フォーマットとは</h2>
+<p>共通フォーマットは、部門・担当者・月が異なっても、同じ列名・列順・入力形式でデータを登録するための形です。</p>
+<p>ファイルを1つにまとめても、入力ルールが統一されていなければ、集計前の修正作業は残ります。</p>
+<h2>1行1データ・1列1項目</h2>
+<p>1行には1件の実績を登録します。1列には同じ種類の情報だけを入力します。</p>
+<p>避けたい例：</p>
+<ul>
+<li>1行へ複数のサービスを記載する</li>
+<li>売上金額へ<code>100,000円</code>と文字を含める</li>
+<li>担当者列へ<code>佐藤／営業1課</code>と2つの情報を入れる</li>
+<li>実績日列へ<code>5/1 完了</code>と日付と状態を入れる</li>
+</ul>
+<h2>共通データの項目</h2>
+<table>
+<thead>
+<tr>
+  <th>項目</th>
+  <th>内容</th>
+  <th>形式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>実績ID</td>
+  <td>1件を識別する番号</td>
+  <td>文字列</td>
+</tr>
+<tr>
+  <td>実績日</td>
+  <td>実績が発生した日</td>
+  <td>日付</td>
+</tr>
+<tr>
+  <td>年月</td>
+  <td>月次集計に使用する年月</td>
+  <td>年月</td>
+</tr>
+<tr>
+  <td>部門</td>
+  <td>担当部門</td>
+  <td>選択式</td>
+</tr>
+<tr>
+  <td>担当者</td>
+  <td>実績担当者</td>
+  <td>選択式またはコード</td>
+</tr>
+<tr>
+  <td>地域</td>
+  <td>対象地域</td>
+  <td>選択式</td>
+</tr>
+<tr>
+  <td>顧客区分</td>
+  <td>新規・既存など</td>
+  <td>選択式</td>
+</tr>
+<tr>
+  <td>サービスカテゴリ</td>
+  <td>大分類</td>
+  <td>選択式</td>
+</tr>
+<tr>
+  <td>サービス名</td>
+  <td>提供サービス</td>
+  <td>選択式</td>
+</tr>
+<tr>
+  <td>数量</td>
+  <td>件数・個数</td>
+  <td>数値</td>
+</tr>
+<tr>
+  <td>単価</td>
+  <td>1件あたり金額</td>
+  <td>数値</td>
+</tr>
+<tr>
+  <td>売上金額</td>
+  <td>対象実績の金額</td>
+  <td>数値</td>
+</tr>
+<tr>
+  <td>ステータス</td>
+  <td>進捗状態</td>
+  <td>選択式</td>
+</tr>
+<tr>
+  <td>受注経路</td>
+  <td>紹介・Webなど</td>
+  <td>選択式</td>
+</tr>
+<tr>
+  <td>備考</td>
+  <td>補足情報</td>
+  <td>文字列</td>
+</tr>
+</tbody>
+</table>
+<h2>必須項目と任意項目</h2>
+<p>集計や更新に必要な項目は必須にします。</p>
+<p>例：</p>
+<ul>
+<li>実績ID</li>
+<li>実績日</li>
+<li>年月</li>
+<li>部門</li>
+<li>担当者</li>
+<li>サービス名</li>
+<li>売上金額</li>
+<li>ステータス</li>
+</ul>
+<p>備考や補足情報は任意にできます。</p>
+<p>必須項目を増やしすぎると入力負担が増えるため、集計や確認で本当に使用するかを基準に判断します。</p>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u02-02"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="入力形式・コード・入力規則 解説 日付と年月 実績日はExcelの日付として入力します。年月を別列に持たせる場合は、すべて同じ表示形式へ統一します。 避けたい状態： 2026/5/1 5月1日 2026 05 01 文字列としての 2026年5月 見た目が異なっても、Excel内部で日付として認識されているかを確認します。 数値 数量、単価、売上金額には数値だけを入力します。 良い例： 3 避けたい例： 3件 良い例： 150000 避けたい例： 150,000円 単位は列名または表示形式で表します。 コード管理 担当者、部門、サービスなどをコードで管理すると、名称変更や表記違いの影響を減らせます。 担当者コード 担当者名 部門 E001 佐藤太郎 営業1課 E002 鈴木花子 営業2課 中級コースではコード管理の考え方を使用しますが、複雑なマスタ連携は初級内容を前提とします。 入力規則 入力規則を使用する項目の例： 部門 担当者 地域 顧客区分 サービスカテゴリ ステータス 受注経路 入力規則の確認 選択肢が表示される 表記が統一される 対象外の値を入力した場合に確認できる 新しい行にも設定が反映される 選択肢の追加方法が決まっている 売上金額の扱い 研修用データでは、売上金額があらかじめ入力されている場合と、数量×単価で算出する場合があります。 講師の指定に従い、同じファイル内で計算方法を混在させないようにします。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>入力形式・コード・入力規則</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>日付と年月</h2>
+<p>実績日はExcelの日付として入力します。年月を別列に持たせる場合は、すべて同じ表示形式へ統一します。</p>
+<p>避けたい状態：</p>
+<ul>
+<li><code>2026/5/1</code></li>
+<li><code>5月1日</code></li>
+<li><code>2026-05-01</code></li>
+<li>文字列としての<code>2026年5月</code></li>
+</ul>
+<p>見た目が異なっても、Excel内部で日付として認識されているかを確認します。</p>
+<h2>数値</h2>
+<p>数量、単価、売上金額には数値だけを入力します。</p>
+<ul>
+<li><p>良い例：<code>3</code></p>
+</li>
+<li><p>避けたい例：<code>3件</code></p>
+</li>
+<li><p>良い例：<code>150000</code></p>
+</li>
+<li><p>避けたい例：<code>150,000円</code></p>
+</li>
+</ul>
+<p>単位は列名または表示形式で表します。</p>
+<h2>コード管理</h2>
+<p>担当者、部門、サービスなどをコードで管理すると、名称変更や表記違いの影響を減らせます。</p>
+<table>
+<thead>
+<tr>
+  <th>担当者コード</th>
+  <th>担当者名</th>
+  <th>部門</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>E001</td>
+  <td>佐藤太郎</td>
+  <td>営業1課</td>
+</tr>
+<tr>
+  <td>E002</td>
+  <td>鈴木花子</td>
+  <td>営業2課</td>
+</tr>
+</tbody>
+</table>
+<p>中級コースではコード管理の考え方を使用しますが、複雑なマスタ連携は初級内容を前提とします。</p>
+<h2>入力規則</h2>
+<p>入力規則を使用する項目の例：</p>
+<ul>
+<li>部門</li>
+<li>担当者</li>
+<li>地域</li>
+<li>顧客区分</li>
+<li>サービスカテゴリ</li>
+<li>ステータス</li>
+<li>受注経路</li>
+</ul>
+<h2>入力規則の確認</h2>
+<ul>
+<li>選択肢が表示される</li>
+<li>表記が統一される</li>
+<li>対象外の値を入力した場合に確認できる</li>
+<li>新しい行にも設定が反映される</li>
+<li>選択肢の追加方法が決まっている</li>
+</ul>
+<h2>売上金額の扱い</h2>
+<p>研修用データでは、売上金額があらかじめ入力されている場合と、数量×単価で算出する場合があります。</p>
+<p>講師の指定に従い、同じファイル内で計算方法を混在させないようにします。</p>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u02-03"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="データ項目定義書とサンプル統一 解説 データ項目定義書 データ項目定義書は、各列の意味と入力ルールをまとめたものです。 列名 説明 必須 形式 入力例 実績ID 実績を識別する番号 必須 文字列 R0001 実績日 実績が発生した日 必須 日付 2026/05/01 部門 担当部門 必須 選択式 営業1課 売上金額 対象実績の売上 必須 数値 150000 備考 補足 任意 文字列 紹介案件 複数ファイルを統一する手順 1．列名を一覧にする 各ファイルの列名を比較します。 ファイルA ファイルB 共通列名 日付 実績日 実績日 担当 担当者名 担当者 金額 売上 売上金額 2．不要列を確認する 重複列、個人メモ、集計済み小計などを確認します。 3．不足列を追加する 一元管理に必要な列がない場合は追加します。 4．列順を統一する すべてのデータを同じ列順にします。 5．値を統一する 日付、数値、部門名、ステータスなどを統一します。 6．Excelテーブルへ変換する 指定がない場合のテーブル名は、 月次実績テーブル とします。 7．入力テストを行う 新しい実績を1件追加し、入力規則とテーブル範囲を確認します。 集計結果を元データへ混ぜない 担当者別合計や月別小計は、共通データ内へ入れません。元データは実績明細だけにし、集計結果はピボットテーブルで作成します。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>データ項目定義書とサンプル統一</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>データ項目定義書</h2>
+<p>データ項目定義書は、各列の意味と入力ルールをまとめたものです。</p>
+<table>
+<thead>
+<tr>
+  <th>列名</th>
+  <th>説明</th>
+  <th>必須</th>
+  <th>形式</th>
+  <th>入力例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>実績ID</td>
+  <td>実績を識別する番号</td>
+  <td>必須</td>
+  <td>文字列</td>
+  <td>R0001</td>
+</tr>
+<tr>
+  <td>実績日</td>
+  <td>実績が発生した日</td>
+  <td>必須</td>
+  <td>日付</td>
+  <td>2026/05/01</td>
+</tr>
+<tr>
+  <td>部門</td>
+  <td>担当部門</td>
+  <td>必須</td>
+  <td>選択式</td>
+  <td>営業1課</td>
+</tr>
+<tr>
+  <td>売上金額</td>
+  <td>対象実績の売上</td>
+  <td>必須</td>
+  <td>数値</td>
+  <td>150000</td>
+</tr>
+<tr>
+  <td>備考</td>
+  <td>補足</td>
+  <td>任意</td>
+  <td>文字列</td>
+  <td>紹介案件</td>
+</tr>
+</tbody>
+</table>
+<h2>複数ファイルを統一する手順</h2>
+<h3>1．列名を一覧にする</h3>
+<p>各ファイルの列名を比較します。</p>
+<table>
+<thead>
+<tr>
+  <th>ファイルA</th>
+  <th>ファイルB</th>
+  <th>共通列名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>日付</td>
+  <td>実績日</td>
+  <td>実績日</td>
+</tr>
+<tr>
+  <td>担当</td>
+  <td>担当者名</td>
+  <td>担当者</td>
+</tr>
+<tr>
+  <td>金額</td>
+  <td>売上</td>
+  <td>売上金額</td>
+</tr>
+</tbody>
+</table>
+<h3>2．不要列を確認する</h3>
+<p>重複列、個人メモ、集計済み小計などを確認します。</p>
+<h3>3．不足列を追加する</h3>
+<p>一元管理に必要な列がない場合は追加します。</p>
+<h3>4．列順を統一する</h3>
+<p>すべてのデータを同じ列順にします。</p>
+<h3>5．値を統一する</h3>
+<p>日付、数値、部門名、ステータスなどを統一します。</p>
+<h3>6．Excelテーブルへ変換する</h3>
+<p>指定がない場合のテーブル名は、<code>月次実績テーブル</code>とします。</p>
+<h3>7．入力テストを行う</h3>
+<p>新しい実績を1件追加し、入力規則とテーブル範囲を確認します。</p>
+<h2>集計結果を元データへ混ぜない</h2>
+<p>担当者別合計や月別小計は、共通データ内へ入れません。元データは実績明細だけにし、集計結果はピボットテーブルで作成します。</p>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u02-04"
+  data-type="PRACTICE" data-answer="false"
+  data-track="true" data-search="演習：共通フォーマットへ統一する 練習・提出 課題 講師から配布された複数の月次実績ファイルを確認し、1つの共通フォーマットへ統一してください。 所要時間の目安 約75分 作成するもの 1. 一元管理用Excelテーブル 2. 共通フォーマット 3. 入力規則を設定した入力シート 4. データ項目定義書 5. 入力ルール 手順 1. 複数ファイルの列名、列順、重複列を確認する 2. 指定された共通列を同じ順番で作成する 3. 各ファイルの実績を1行1データで共通フォーマットへ移す 4. 実績日・年月・数量・単価・売上金額の形式を統一する 5. 部門・担当者・ステータスを指定表記へ統一する 6. Excelテーブルへ変換し、テーブル名を確認する 7. 部門、担当者、ステータスなどに入力規則を設定する 8. 列名、説明、必須・任意、形式、入力例を定義書へ記載する 9. 新しい実績を1件追加し、動作確認する 完成条件 列名と列順が統一されている 1行1データ・1列1項目になっている 日付・年月・数値の形式が統一されている Excelテーブルになっている 必要な入力規則が設定されている 必須項目と任意項目が分かる 小計行・合計行が含まれていない データ項目定義書と実際の列が一致している 提出物 一元管理用Excelテーブル 共通フォーマット 入力規則を設定した入力シート データ項目定義書 入力ルール">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge PRACTICE">練習・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>演習：共通フォーマットへ統一する</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>課題</h1>
+<p>講師から配布された複数の月次実績ファイルを確認し、1つの共通フォーマットへ統一してください。</p>
+<h2>所要時間の目安</h2>
+<p><strong>約75分</strong></p>
+<h2>作成するもの</h2>
+<ol>
+<li>一元管理用Excelテーブル</li>
+<li>共通フォーマット</li>
+<li>入力規則を設定した入力シート</li>
+<li>データ項目定義書</li>
+<li>入力ルール</li>
+</ol>
+<h2>手順</h2>
+<ol>
+<li>複数ファイルの列名、列順、重複列を確認する</li>
+<li>指定された共通列を同じ順番で作成する</li>
+<li>各ファイルの実績を1行1データで共通フォーマットへ移す</li>
+<li>実績日・年月・数量・単価・売上金額の形式を統一する</li>
+<li>部門・担当者・ステータスを指定表記へ統一する</li>
+<li>Excelテーブルへ変換し、テーブル名を確認する</li>
+<li>部門、担当者、ステータスなどに入力規則を設定する</li>
+<li>列名、説明、必須・任意、形式、入力例を定義書へ記載する</li>
+<li>新しい実績を1件追加し、動作確認する</li>
+</ol>
+<h2>完成条件</h2>
+<ul>
+<li>列名と列順が統一されている</li>
+<li>1行1データ・1列1項目になっている</li>
+<li>日付・年月・数値の形式が統一されている</li>
+<li>Excelテーブルになっている</li>
+<li>必要な入力規則が設定されている</li>
+<li>必須項目と任意項目が分かる</li>
+<li>小計行・合計行が含まれていない</li>
+<li>データ項目定義書と実際の列が一致している</li>
+</ul>
+<h2>提出物</h2>
+<ul>
+<li>一元管理用Excelテーブル</li>
+<li>共通フォーマット</li>
+<li>入力規則を設定した入力シート</li>
+<li>データ項目定義書</li>
+<li>入力ルール</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card answer-card" id="lesson-u02-05"
+  data-type="WIKI" data-answer="true"
+  data-track="false" data-search="解答例と確認ポイント 解説 共通フォーマットの例 実績ID 実績日 年月 部門 担当者 地域 サービス名 数量 単価 売上金額 ステータス : : : R0001 2026/05/01 2026 05 営業1課 佐藤太郎 関西 保守A 1 120000 120000 完了 R0002 2026/05/02 2026 05 営業2課 鈴木花子 関東 導入B 2 80000 160000 進行中 確認方法 件数 統合前の各ファイルの実績行数を合計し、統合後の行数と比較します。 売上合計 統合前の売上合計と、共通データの売上合計を比較します。 表記 部門、担当者、ステータスをフィルターで確認し、同じ意味の複数表記が残っていないか確認します。 入力規則 新しい行で選択肢が表示されるか確認します。 よくある修正例 状態 修正方法 売上 と 売上金額 が両方ある 意味を確認し、共通列へ統一する 年月が文字列と日付で混在 講師指定の形式へ統一する 150,000円 と入力されている 数値の 150000 へ修正する 部門名が省略表記 指定された正式表記へ統一する 小計行が残っている 元データから除き、ピボットで集計する">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span><span class="badge answer">解答例</span></div>
+      <h3>解答例と確認ポイント</h3>
+    </div>
+    
+  </summary>
+  <div class="lesson-body"><h2>共通フォーマットの例</h2>
+<table>
+<thead>
+<tr>
+  <th>実績ID</th>
+  <th>実績日</th>
+  <th>年月</th>
+  <th>部門</th>
+  <th>担当者</th>
+  <th>地域</th>
+  <th>サービス名</th>
+  <th style="text-align:right">数量</th>
+  <th style="text-align:right">単価</th>
+  <th style="text-align:right">売上金額</th>
+  <th>ステータス</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>R0001</td>
+  <td>2026/05/01</td>
+  <td>2026-05</td>
+  <td>営業1課</td>
+  <td>佐藤太郎</td>
+  <td>関西</td>
+  <td>保守A</td>
+  <td style="text-align:right">1</td>
+  <td style="text-align:right">120000</td>
+  <td style="text-align:right">120000</td>
+  <td>完了</td>
+</tr>
+<tr>
+  <td>R0002</td>
+  <td>2026/05/02</td>
+  <td>2026-05</td>
+  <td>営業2課</td>
+  <td>鈴木花子</td>
+  <td>関東</td>
+  <td>導入B</td>
+  <td style="text-align:right">2</td>
+  <td style="text-align:right">80000</td>
+  <td style="text-align:right">160000</td>
+  <td>進行中</td>
+</tr>
+</tbody>
+</table>
+<h2>確認方法</h2>
+<h3>件数</h3>
+<p>統合前の各ファイルの実績行数を合計し、統合後の行数と比較します。</p>
+<h3>売上合計</h3>
+<p>統合前の売上合計と、共通データの売上合計を比較します。</p>
+<h3>表記</h3>
+<p>部門、担当者、ステータスをフィルターで確認し、同じ意味の複数表記が残っていないか確認します。</p>
+<h3>入力規則</h3>
+<p>新しい行で選択肢が表示されるか確認します。</p>
+<h2>よくある修正例</h2>
+<table>
+<thead>
+<tr>
+  <th>状態</th>
+  <th>修正方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>売上</code>と<code>売上金額</code>が両方ある</td>
+  <td>意味を確認し、共通列へ統一する</td>
+</tr>
+<tr>
+  <td>年月が文字列と日付で混在</td>
+  <td>講師指定の形式へ統一する</td>
+</tr>
+<tr>
+  <td><code>150,000円</code>と入力されている</td>
+  <td>数値の<code>150000</code>へ修正する</td>
+</tr>
+<tr>
+  <td>部門名が省略表記</td>
+  <td>指定された正式表記へ統一する</td>
+</tr>
+<tr>
+  <td>小計行が残っている</td>
+  <td>元データから除き、ピボットで集計する</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u02-06"
+  data-type="CHECK" data-answer="false"
+  data-track="true" data-search="確認問題：共通フォーマット 確認・提出 確認問題 問題1 共通フォーマットを作成する目的を説明してください。 問題2 必須項目と任意項目を区別する理由を説明してください。 問題3 売上金額へ 150,000円 ではなく数値の 150000 を入力する理由を答えてください。 問題4 データ項目定義書へ記載する内容を3つ答えてください。 問題5 複数ファイルを統合したあと、件数と売上合計を確認する理由を説明してください。 提出前の確認 すべての問題へ回答した 共通フォーマットと入力ルールの関係を確認した 統合前後の件数・合計を比較した">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge CHECK">確認・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>確認問題：共通フォーマット</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>確認問題</h1>
+<h2>問題1</h2>
+<p>共通フォーマットを作成する目的を説明してください。</p>
+<h2>問題2</h2>
+<p>必須項目と任意項目を区別する理由を説明してください。</p>
+<h2>問題3</h2>
+<p>売上金額へ<code>150,000円</code>ではなく数値の<code>150000</code>を入力する理由を答えてください。</p>
+<h2>問題4</h2>
+<p>データ項目定義書へ記載する内容を3つ答えてください。</p>
+<h2>問題5</h2>
+<p>複数ファイルを統合したあと、件数と売上合計を確認する理由を説明してください。</p>
+<h2>提出前の確認</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>すべての問題へ回答した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>共通フォーマットと入力ルールの関係を確認した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>統合前後の件数・合計を比較した</li>
+</ul>
+</div>
+</details>
+</div>
+</details>
+
+<details class="unit-section" id="unit-u03">
+  <summary>
+    <span class="unit-num">03</span>
+    <div class="unit-heading">
+      <h2>ピボットテーブルによる基本集計</h2>
+      <small>7教材</small>
+    </div>
+    <span class="chevron">⌄</span>
+  </summary>
+  <div class="lesson-list">
+<details class="lesson-card" id="lesson-u03-00"
+  data-type="INFO" data-answer="false"
+  data-track="true" data-search="この単元について 案内 所要時間の目安 約3時間 この単元で学ぶこと ピボットテーブルの役割を説明できる 元データと集計表を分けて考えられる 行・列・値・フィルターの役割を理解できる 合計・件数・平均を目的に応じて切り替えられる 月別・担当者別・部門別・サービス別・ステータス別に集計できる 数値表示形式と並べ替えを設定できる 元データへ追加した行をピボットテーブルへ反映できる 集計結果を元データと比較して確認できる 使用する前単元の成果物 一元管理用Excelテーブル データ項目定義書 この単元の完成物 月別売上集計表 担当者別売上集計表 部門別実績件数表 サービス別売上集計表 ステータス別件数表">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge INFO">案内</span></div>
+      <h3>この単元について</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>所要時間の目安</h2>
+<p><strong>約3時間</strong></p>
+<h2>この単元で学ぶこと</h2>
+<ul>
+<li>ピボットテーブルの役割を説明できる</li>
+<li>元データと集計表を分けて考えられる</li>
+<li>行・列・値・フィルターの役割を理解できる</li>
+<li>合計・件数・平均を目的に応じて切り替えられる</li>
+<li>月別・担当者別・部門別・サービス別・ステータス別に集計できる</li>
+<li>数値表示形式と並べ替えを設定できる</li>
+<li>元データへ追加した行をピボットテーブルへ反映できる</li>
+<li>集計結果を元データと比較して確認できる</li>
+</ul>
+<h2>使用する前単元の成果物</h2>
+<ul>
+<li>一元管理用Excelテーブル</li>
+<li>データ項目定義書</li>
+</ul>
+<h2>この単元の完成物</h2>
+<ul>
+<li>月別売上集計表</li>
+<li>担当者別売上集計表</li>
+<li>部門別実績件数表</li>
+<li>サービス別売上集計表</li>
+<li>ステータス別件数表</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u03-01"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="ピボットテーブルの基本 解説 ピボットテーブルとは ピボットテーブルは、同じ元データから、項目の組み合わせを変えて集計表を作成する機能です。 元データをコピーして集計表を作り直すのではなく、行・列・値・フィルターへ項目を配置して集計します。 元データの条件 Excelテーブルになっている 1行1データ 1列1項目 列名が1行だけ 空白行・小計行がない 日付と数値の形式が統一されている 同じ意味の表記が統一されている 4つの領域 行 縦方向に分類する項目です。担当者、部門、サービス名、ステータスなどを配置します。 列 横方向に分類する項目です。年月やステータスなどを配置します。 値 合計・件数・平均などを計算する項目です。 フィルター 集計表全体を特定の条件へ絞り込む項目です。地域、顧客区分、受注経路などを配置します。 集計方法を確認する 目的 値 集計方法 売上合計 売上金額 合計 実績件数 実績ID 件数 平均単価 単価 平均 意図せず「売上金額の個数」になっていないか確認します。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>ピボットテーブルの基本</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>ピボットテーブルとは</h2>
+<p>ピボットテーブルは、同じ元データから、項目の組み合わせを変えて集計表を作成する機能です。</p>
+<p>元データをコピーして集計表を作り直すのではなく、行・列・値・フィルターへ項目を配置して集計します。</p>
+<h2>元データの条件</h2>
+<ul>
+<li>Excelテーブルになっている</li>
+<li>1行1データ</li>
+<li>1列1項目</li>
+<li>列名が1行だけ</li>
+<li>空白行・小計行がない</li>
+<li>日付と数値の形式が統一されている</li>
+<li>同じ意味の表記が統一されている</li>
+</ul>
+<h2>4つの領域</h2>
+<h3>行</h3>
+<p>縦方向に分類する項目です。担当者、部門、サービス名、ステータスなどを配置します。</p>
+<h3>列</h3>
+<p>横方向に分類する項目です。年月やステータスなどを配置します。</p>
+<h3>値</h3>
+<p>合計・件数・平均などを計算する項目です。</p>
+<h3>フィルター</h3>
+<p>集計表全体を特定の条件へ絞り込む項目です。地域、顧客区分、受注経路などを配置します。</p>
+<h2>集計方法を確認する</h2>
+<table>
+<thead>
+<tr>
+  <th>目的</th>
+  <th>値</th>
+  <th>集計方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>売上合計</td>
+  <td>売上金額</td>
+  <td>合計</td>
+</tr>
+<tr>
+  <td>実績件数</td>
+  <td>実績ID</td>
+  <td>件数</td>
+</tr>
+<tr>
+  <td>平均単価</td>
+  <td>単価</td>
+  <td>平均</td>
+</tr>
+</tbody>
+</table>
+<p>意図せず「売上金額の個数」になっていないか確認します。</p>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u03-02"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="ピボットテーブルを作成する手順 解説 基本手順 1. 元データのExcelテーブル内を選択する 2. ピボットテーブルの作成を選択する 3. 元データと配置先を確認する 4. 新しいシートへ作成する 5. 行・列・値・フィルターへ項目を配置する 6. 集計方法を確認する 7. 数値表示形式を設定する 8. 見出しを分かりやすく変更する 月別売上集計 行：年月 値：売上金額の合計 年月の並び順、金額表示、総計を確認します。 担当者別売上集計 行：担当者 値：売上金額の合計 売上金額の降順に並べ替えます。 部門別実績件数 行：部門 値：実績IDの件数 売上合計ではなく、実績件数を確認する集計です。 サービス別売上集計 行：サービス名 値：売上金額の合計 フィルター：サービスカテゴリ ステータス別件数 行：ステータス 値：実績IDの件数 表示形式 金額には桁区切り、件数には整数表示を設定します。値フィールド側で表示形式を設定すると、更新後も維持しやすくなります。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>ピボットテーブルを作成する手順</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>基本手順</h2>
+<ol>
+<li>元データのExcelテーブル内を選択する</li>
+<li>ピボットテーブルの作成を選択する</li>
+<li>元データと配置先を確認する</li>
+<li>新しいシートへ作成する</li>
+<li>行・列・値・フィルターへ項目を配置する</li>
+<li>集計方法を確認する</li>
+<li>数値表示形式を設定する</li>
+<li>見出しを分かりやすく変更する</li>
+</ol>
+<h2>月別売上集計</h2>
+<ul>
+<li>行：年月</li>
+<li>値：売上金額の合計</li>
+</ul>
+<p>年月の並び順、金額表示、総計を確認します。</p>
+<h2>担当者別売上集計</h2>
+<ul>
+<li>行：担当者</li>
+<li>値：売上金額の合計</li>
+</ul>
+<p>売上金額の降順に並べ替えます。</p>
+<h2>部門別実績件数</h2>
+<ul>
+<li>行：部門</li>
+<li>値：実績IDの件数</li>
+</ul>
+<p>売上合計ではなく、実績件数を確認する集計です。</p>
+<h2>サービス別売上集計</h2>
+<ul>
+<li>行：サービス名</li>
+<li>値：売上金額の合計</li>
+<li>フィルター：サービスカテゴリ</li>
+</ul>
+<h2>ステータス別件数</h2>
+<ul>
+<li>行：ステータス</li>
+<li>値：実績IDの件数</li>
+</ul>
+<h2>表示形式</h2>
+<p>金額には桁区切り、件数には整数表示を設定します。値フィールド側で表示形式を設定すると、更新後も維持しやすくなります。</p>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u03-03"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="フィルター・更新・数値確認 解説 フィルター 月・部門・担当者などで絞り込めます。確認後は、条件が残っていないか確認します。 並べ替え 担当者別・サービス別集計では、売上の大きい順にすると比較しやすくなります。年月は時系列順にします。 元データ追加後の更新 1. 元データへ新しい行を追加する 2. Excelテーブルの範囲を確認する 3. ピボットテーブルを更新する 4. 新しい年月・担当者・部門が表示されるか確認する 5. 件数・売上合計を比較する 集計結果の確認 件数 元データの行数と、実績件数の総計を比較します。 売上合計 元データの売上金額列の合計と、ピボットテーブルの総計を比較します。 フィルター 意図しない項目が非表示になっていないか確認します。 空白 部門・担当者・ステータスに空白項目が表示された場合は、元データの入力漏れを確認します。 よくある状態 状態 確認すること 売上が件数になっている 値フィールドの集計方法 新しい月が表示されない 元データ追加と更新 順番が不自然 年月の形式と並べ替え 空白項目がある 元データの必須項目 合計が合わない フィルター、小計行、数値形式">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>フィルター・更新・数値確認</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>フィルター</h2>
+<p>月・部門・担当者などで絞り込めます。確認後は、条件が残っていないか確認します。</p>
+<h2>並べ替え</h2>
+<p>担当者別・サービス別集計では、売上の大きい順にすると比較しやすくなります。年月は時系列順にします。</p>
+<h2>元データ追加後の更新</h2>
+<ol>
+<li>元データへ新しい行を追加する</li>
+<li>Excelテーブルの範囲を確認する</li>
+<li>ピボットテーブルを更新する</li>
+<li>新しい年月・担当者・部門が表示されるか確認する</li>
+<li>件数・売上合計を比較する</li>
+</ol>
+<h2>集計結果の確認</h2>
+<h3>件数</h3>
+<p>元データの行数と、実績件数の総計を比較します。</p>
+<h3>売上合計</h3>
+<p>元データの売上金額列の合計と、ピボットテーブルの総計を比較します。</p>
+<h3>フィルター</h3>
+<p>意図しない項目が非表示になっていないか確認します。</p>
+<h3>空白</h3>
+<p>部門・担当者・ステータスに空白項目が表示された場合は、元データの入力漏れを確認します。</p>
+<h2>よくある状態</h2>
+<table>
+<thead>
+<tr>
+  <th>状態</th>
+  <th>確認すること</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>売上が件数になっている</td>
+  <td>値フィールドの集計方法</td>
+</tr>
+<tr>
+  <td>新しい月が表示されない</td>
+  <td>元データ追加と更新</td>
+</tr>
+<tr>
+  <td>順番が不自然</td>
+  <td>年月の形式と並べ替え</td>
+</tr>
+<tr>
+  <td>空白項目がある</td>
+  <td>元データの必須項目</td>
+</tr>
+<tr>
+  <td>合計が合わない</td>
+  <td>フィルター、小計行、数値形式</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u03-04"
+  data-type="PRACTICE" data-answer="false"
+  data-track="true" data-search="演習：指定ピボットテーブルを作成する 練習・提出 課題 単元2で作成した共通データを使用し、指定された5つのピボットテーブルを作成してください。 所要時間の目安 約75分 作成する集計表 1. 月別売上集計 2. 担当者別売上集計 3. 部門別実績件数 4. サービス別売上集計 5. ステータス別件数 手順 1. 元データのテーブル名、件数、売上合計を記録する 2. 月別売上を作成する 3. 担当者別売上を作成し、降順にする 4. 部門別実績件数を作成する 5. サービス別売上を作成する 6. ステータス別件数を作成する 7. 金額・件数の表示形式を整える 8. 講師から配布された追加行を元データへ登録する 9. ピボットテーブルを更新する 10. 元データと件数・売上合計を比較する 完成条件 5つの集計表が作成されている 行・値の設定が指定どおり 合計・件数の集計方法が正しい 年月が時系列順 担当者別売上が降順 金額・件数の表示形式が適切 追加データが更新後に反映される 元データと総件数・売上合計が一致する 提出物 月別売上集計表 担当者別売上集計表 部門別実績件数表 サービス別売上集計表 ステータス別件数表">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge PRACTICE">練習・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>演習：指定ピボットテーブルを作成する</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>課題</h1>
+<p>単元2で作成した共通データを使用し、指定された5つのピボットテーブルを作成してください。</p>
+<h2>所要時間の目安</h2>
+<p><strong>約75分</strong></p>
+<h2>作成する集計表</h2>
+<ol>
+<li>月別売上集計</li>
+<li>担当者別売上集計</li>
+<li>部門別実績件数</li>
+<li>サービス別売上集計</li>
+<li>ステータス別件数</li>
+</ol>
+<h2>手順</h2>
+<ol>
+<li>元データのテーブル名、件数、売上合計を記録する</li>
+<li>月別売上を作成する</li>
+<li>担当者別売上を作成し、降順にする</li>
+<li>部門別実績件数を作成する</li>
+<li>サービス別売上を作成する</li>
+<li>ステータス別件数を作成する</li>
+<li>金額・件数の表示形式を整える</li>
+<li>講師から配布された追加行を元データへ登録する</li>
+<li>ピボットテーブルを更新する</li>
+<li>元データと件数・売上合計を比較する</li>
+</ol>
+<h2>完成条件</h2>
+<ul>
+<li>5つの集計表が作成されている</li>
+<li>行・値の設定が指定どおり</li>
+<li>合計・件数の集計方法が正しい</li>
+<li>年月が時系列順</li>
+<li>担当者別売上が降順</li>
+<li>金額・件数の表示形式が適切</li>
+<li>追加データが更新後に反映される</li>
+<li>元データと総件数・売上合計が一致する</li>
+</ul>
+<h2>提出物</h2>
+<ul>
+<li>月別売上集計表</li>
+<li>担当者別売上集計表</li>
+<li>部門別実績件数表</li>
+<li>サービス別売上集計表</li>
+<li>ステータス別件数表</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card answer-card" id="lesson-u03-05"
+  data-type="WIKI" data-answer="true"
+  data-track="false" data-search="解答例と確認ポイント 解説 フィールド配置例 集計表 行 値 集計方法 月別売上 年月 売上金額 合計 担当者別売上 担当者 売上金額 合計 部門別実績件数 部門 実績ID 件数 サービス別売上 サービス名 売上金額 合計 ステータス別件数 ステータス 実績ID 件数 確認の順番 1. フィールド配置 2. 集計方法 3. 表示形式 4. 並べ替え 5. フィルター 6. 総件数・売上合計 7. 更新後の新しいデータ 元データとの比較例 元データ実績件数：120件 元データ売上合計：12,500,000 ピボットの実績ID件数：120 ピボットの売上金額合計：12,500,000 よくある修正例 状態 修正方法 部門別が売上合計になっている 実績IDの件数へ変更する 担当者が五十音順 売上金額の降順へ変更する 金額に小数が表示される 値フィールドの表示形式を変更する 新しい月が出ない テーブルへ追加し、更新する 総計が合わない フィルターと数値形式を確認する">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span><span class="badge answer">解答例</span></div>
+      <h3>解答例と確認ポイント</h3>
+    </div>
+    
+  </summary>
+  <div class="lesson-body"><h2>フィールド配置例</h2>
+<table>
+<thead>
+<tr>
+  <th>集計表</th>
+  <th>行</th>
+  <th>値</th>
+  <th>集計方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>月別売上</td>
+  <td>年月</td>
+  <td>売上金額</td>
+  <td>合計</td>
+</tr>
+<tr>
+  <td>担当者別売上</td>
+  <td>担当者</td>
+  <td>売上金額</td>
+  <td>合計</td>
+</tr>
+<tr>
+  <td>部門別実績件数</td>
+  <td>部門</td>
+  <td>実績ID</td>
+  <td>件数</td>
+</tr>
+<tr>
+  <td>サービス別売上</td>
+  <td>サービス名</td>
+  <td>売上金額</td>
+  <td>合計</td>
+</tr>
+<tr>
+  <td>ステータス別件数</td>
+  <td>ステータス</td>
+  <td>実績ID</td>
+  <td>件数</td>
+</tr>
+</tbody>
+</table>
+<h2>確認の順番</h2>
+<ol>
+<li>フィールド配置</li>
+<li>集計方法</li>
+<li>表示形式</li>
+<li>並べ替え</li>
+<li>フィルター</li>
+<li>総件数・売上合計</li>
+<li>更新後の新しいデータ</li>
+</ol>
+<h2>元データとの比較例</h2>
+<ul>
+<li>元データ実績件数：120件</li>
+<li>元データ売上合計：12,500,000</li>
+<li>ピボットの実績ID件数：120</li>
+<li>ピボットの売上金額合計：12,500,000</li>
+</ul>
+<h2>よくある修正例</h2>
+<table>
+<thead>
+<tr>
+  <th>状態</th>
+  <th>修正方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>部門別が売上合計になっている</td>
+  <td>実績IDの件数へ変更する</td>
+</tr>
+<tr>
+  <td>担当者が五十音順</td>
+  <td>売上金額の降順へ変更する</td>
+</tr>
+<tr>
+  <td>金額に小数が表示される</td>
+  <td>値フィールドの表示形式を変更する</td>
+</tr>
+<tr>
+  <td>新しい月が出ない</td>
+  <td>テーブルへ追加し、更新する</td>
+</tr>
+<tr>
+  <td>総計が合わない</td>
+  <td>フィルターと数値形式を確認する</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u03-06"
+  data-type="CHECK" data-answer="false"
+  data-track="true" data-search="確認問題：ピボットテーブル 確認・提出 確認問題 問題1 ピボットテーブルの「行」「列」「値」「フィルター」の役割を説明してください。 問題2 部門別実績件数を作成するとき、値へ配置する項目と集計方法を答えてください。 問題3 元データへ新しい行を追加したあと、ピボットテーブルで必要な操作を答えてください。 問題4 売上合計が元データと一致しない場合に確認する内容を2つ答えてください。 問題5 金額の表示形式を値フィールド側で設定する理由を説明してください。 提出前の確認 すべての問題へ回答した 合計と件数を区別した 更新前後の件数・合計を確認した">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge CHECK">確認・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>確認問題：ピボットテーブル</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>確認問題</h1>
+<h2>問題1</h2>
+<p>ピボットテーブルの「行」「列」「値」「フィルター」の役割を説明してください。</p>
+<h2>問題2</h2>
+<p>部門別実績件数を作成するとき、値へ配置する項目と集計方法を答えてください。</p>
+<h2>問題3</h2>
+<p>元データへ新しい行を追加したあと、ピボットテーブルで必要な操作を答えてください。</p>
+<h2>問題4</h2>
+<p>売上合計が元データと一致しない場合に確認する内容を2つ答えてください。</p>
+<h2>問題5</h2>
+<p>金額の表示形式を値フィールド側で設定する理由を説明してください。</p>
+<h2>提出前の確認</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>すべての問題へ回答した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>合計と件数を区別した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>更新前後の件数・合計を確認した</li>
+</ul>
+</div>
+</details>
+</div>
+</details>
+
+<details class="unit-section" id="unit-u04">
+  <summary>
+    <span class="unit-num">04</span>
+    <div class="unit-heading">
+      <h2>集計結果の見える化と報告資料作成</h2>
+      <small>7教材</small>
+    </div>
+    <span class="chevron">⌄</span>
+  </summary>
+  <div class="lesson-list">
+<details class="lesson-card" id="lesson-u04-00"
+  data-type="INFO" data-answer="false"
+  data-track="true" data-search="この単元について 案内 所要時間の目安 約3時間 この単元で学ぶこと 報告相手と確認目的に合わせて表示する数値を選べる 表・グラフ・指標の使い分けを説明できる ピボットグラフを作成できる 年月・部門・ステータスのスライサーを設定できる 複数のピボットテーブルへスライサーを接続できる 月次推移・担当者比較・部門比較を分かりやすく配置できる タイトル・単位・並び順を整えられる 元データと報告シートの件数・合計を比較できる 使用する前単元の成果物 各種ピボット集計表 この単元の完成物 ピボットグラフ スライサー付き月次報告シート 集計結果確認チェックシート">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge INFO">案内</span></div>
+      <h3>この単元について</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>所要時間の目安</h2>
+<p><strong>約3時間</strong></p>
+<h2>この単元で学ぶこと</h2>
+<ul>
+<li>報告相手と確認目的に合わせて表示する数値を選べる</li>
+<li>表・グラフ・指標の使い分けを説明できる</li>
+<li>ピボットグラフを作成できる</li>
+<li>年月・部門・ステータスのスライサーを設定できる</li>
+<li>複数のピボットテーブルへスライサーを接続できる</li>
+<li>月次推移・担当者比較・部門比較を分かりやすく配置できる</li>
+<li>タイトル・単位・並び順を整えられる</li>
+<li>元データと報告シートの件数・合計を比較できる</li>
+</ul>
+<h2>使用する前単元の成果物</h2>
+<ul>
+<li>各種ピボット集計表</li>
+</ul>
+<h2>この単元の完成物</h2>
+<ul>
+<li>ピボットグラフ</li>
+<li>スライサー付き月次報告シート</li>
+<li>集計結果確認チェックシート</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u04-01"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="報告資料に必要な情報を選ぶ 解説 可視化の目的 グラフを増やすことではなく、報告相手が必要な情報を短時間で確認できる状態を作ることが目的です。 最初に次を整理します。 誰が見るか 何を判断するか どの期間を確認するか 何と何を比較するか 詳細まで必要か 表とグラフの使い分け 表示方法 向いている内容 指標・カード 売上合計、実績件数、完了件数 折れ線・縦棒 月次推移 横棒 担当者・サービスの比較 表 詳細数値 スライサー 年月・部門・ステータスの条件切替 報告シートへ配置する内容 売上合計 実績件数 完了件数 月別売上推移 担当者別売上 部門別実績件数 年月スライサー 部門スライサー ステータススライサー 情報を増やしすぎない 同じ内容を表とグラフの両方で繰り返す場合は、目的を確認します。重要な指標、比較、条件切替の順に配置します。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>報告資料に必要な情報を選ぶ</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>可視化の目的</h2>
+<p>グラフを増やすことではなく、報告相手が必要な情報を短時間で確認できる状態を作ることが目的です。</p>
+<p>最初に次を整理します。</p>
+<ul>
+<li>誰が見るか</li>
+<li>何を判断するか</li>
+<li>どの期間を確認するか</li>
+<li>何と何を比較するか</li>
+<li>詳細まで必要か</li>
+</ul>
+<h2>表とグラフの使い分け</h2>
+<table>
+<thead>
+<tr>
+  <th>表示方法</th>
+  <th>向いている内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>指標・カード</td>
+  <td>売上合計、実績件数、完了件数</td>
+</tr>
+<tr>
+  <td>折れ線・縦棒</td>
+  <td>月次推移</td>
+</tr>
+<tr>
+  <td>横棒</td>
+  <td>担当者・サービスの比較</td>
+</tr>
+<tr>
+  <td>表</td>
+  <td>詳細数値</td>
+</tr>
+<tr>
+  <td>スライサー</td>
+  <td>年月・部門・ステータスの条件切替</td>
+</tr>
+</tbody>
+</table>
+<h2>報告シートへ配置する内容</h2>
+<ul>
+<li>売上合計</li>
+<li>実績件数</li>
+<li>完了件数</li>
+<li>月別売上推移</li>
+<li>担当者別売上</li>
+<li>部門別実績件数</li>
+<li>年月スライサー</li>
+<li>部門スライサー</li>
+<li>ステータススライサー</li>
+</ul>
+<h2>情報を増やしすぎない</h2>
+<p>同じ内容を表とグラフの両方で繰り返す場合は、目的を確認します。重要な指標、比較、条件切替の順に配置します。</p>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u04-02"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="ピボットグラフとスライサー 解説 ピボットグラフ ピボットグラフは、ピボットテーブルの集計結果と連動するグラフです。元のピボットテーブルを更新すると、グラフも更新できます。 グラフ選択の例 月別売上推移 時系列の変化を見るため、折れ線または縦棒を使用します。 担当者別売上 担当者間の比較を行うため、横棒または縦棒を使用します。 部門別実績件数 部門ごとの件数を比較する棒グラフを使用します。 スライサー スライサーは、項目をボタンで選択して集計結果を絞り込む機能です。 使用する項目： 年月 部門 ステータス スライサーの確認 1つの条件を選択できる 複数の条件を選択できる 条件を解除できる 対象のピボットテーブルとグラフが連動する 意図しないピボットテーブルへ接続されていない 同じ元データから作成した複数のピボットテーブルは、レポート接続などの機能で同じスライサーへ接続できます。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>ピボットグラフとスライサー</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>ピボットグラフ</h2>
+<p>ピボットグラフは、ピボットテーブルの集計結果と連動するグラフです。元のピボットテーブルを更新すると、グラフも更新できます。</p>
+<h2>グラフ選択の例</h2>
+<h3>月別売上推移</h3>
+<p>時系列の変化を見るため、折れ線または縦棒を使用します。</p>
+<h3>担当者別売上</h3>
+<p>担当者間の比較を行うため、横棒または縦棒を使用します。</p>
+<h3>部門別実績件数</h3>
+<p>部門ごとの件数を比較する棒グラフを使用します。</p>
+<h2>スライサー</h2>
+<p>スライサーは、項目をボタンで選択して集計結果を絞り込む機能です。</p>
+<p>使用する項目：</p>
+<ul>
+<li>年月</li>
+<li>部門</li>
+<li>ステータス</li>
+</ul>
+<h2>スライサーの確認</h2>
+<ul>
+<li>1つの条件を選択できる</li>
+<li>複数の条件を選択できる</li>
+<li>条件を解除できる</li>
+<li>対象のピボットテーブルとグラフが連動する</li>
+<li>意図しないピボットテーブルへ接続されていない</li>
+</ul>
+<p>同じ元データから作成した複数のピボットテーブルは、レポート接続などの機能で同じスライサーへ接続できます。</p>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u04-03"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="月次報告シートの作り方 解説 基本レイアウト 上部 報告タイトル 対象期間 売上合計 実績件数 完了件数 中央 月別売上推移 担当者別売上 部門別実績件数 側面または上部 年月スライサー 部門スライサー ステータススライサー タイトル 避けたい例： グラフ1 売上 集計結果 分かりやすい例： 月別売上推移 担当者別売上 部門別実績件数 単位 金額：円、千円、万円など 件数：件 数量：個、件など 同じシート内で単位を混在させないようにします。 並び順 年月：古い月から新しい月 担当者別売上：売上の大きい順 部門：組織の標準順または件数順 ステータス：未着手、進行中、完了など業務順 数値確認 1. 元データの件数・売上合計 2. ピボットテーブルの総計 3. 報告シートの指標 4. スライサー条件選択後の結果 同じ条件で比較します。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>月次報告シートの作り方</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>基本レイアウト</h2>
+<h3>上部</h3>
+<ul>
+<li>報告タイトル</li>
+<li>対象期間</li>
+<li>売上合計</li>
+<li>実績件数</li>
+<li>完了件数</li>
+</ul>
+<h3>中央</h3>
+<ul>
+<li>月別売上推移</li>
+<li>担当者別売上</li>
+<li>部門別実績件数</li>
+</ul>
+<h3>側面または上部</h3>
+<ul>
+<li>年月スライサー</li>
+<li>部門スライサー</li>
+<li>ステータススライサー</li>
+</ul>
+<h2>タイトル</h2>
+<p>避けたい例：</p>
+<ul>
+<li>グラフ1</li>
+<li>売上</li>
+<li>集計結果</li>
+</ul>
+<p>分かりやすい例：</p>
+<ul>
+<li>月別売上推移</li>
+<li>担当者別売上</li>
+<li>部門別実績件数</li>
+</ul>
+<h2>単位</h2>
+<ul>
+<li>金額：円、千円、万円など</li>
+<li>件数：件</li>
+<li>数量：個、件など</li>
+</ul>
+<p>同じシート内で単位を混在させないようにします。</p>
+<h2>並び順</h2>
+<ul>
+<li>年月：古い月から新しい月</li>
+<li>担当者別売上：売上の大きい順</li>
+<li>部門：組織の標準順または件数順</li>
+<li>ステータス：未着手、進行中、完了など業務順</li>
+</ul>
+<h2>数値確認</h2>
+<ol>
+<li>元データの件数・売上合計</li>
+<li>ピボットテーブルの総計</li>
+<li>報告シートの指標</li>
+<li>スライサー条件選択後の結果</li>
+</ol>
+<p>同じ条件で比較します。</p>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u04-04"
+  data-type="PRACTICE" data-answer="false"
+  data-track="true" data-search="演習：月次報告シートを作成する 練習・提出 課題 指定された完成見本に沿って、ピボットグラフとスライサーを備えた月次報告シートを作成してください。 所要時間の目安 約75分 作成する内容 売上合計 実績件数 完了件数 月別売上推移グラフ 担当者別売上グラフ 部門別実績件数グラフ 年月スライサー 部門スライサー ステータススライサー 手順 1. 新しい報告用シートを作り、タイトルと対象期間を配置する 2. 売上合計・実績件数・完了件数を表示する 3. 月別、担当者別、部門別のピボットグラフを作成する 4. 年月、部門、ステータスのスライサーを追加する 5. スライサーの接続先を確認する 6. タイトル、単位、並び順、グラフサイズを整える 7. 全件表示で元データと件数・売上合計を比較する 8. 特定条件を選び、表示が正しく変わるか確認する 完成条件 必要な指標・グラフ・スライサーが配置されている グラフタイトルと単位が分かる 年月が時系列順 担当者別売上が比較しやすい順番 スライサーが必要な集計へ接続されている 条件解除方法が分かる 元データと総件数・売上合計が一致する 報告相手が1画面で主要情報を確認できる 提出物 ピボットグラフ スライサー付き月次報告シート 集計結果確認チェックシート">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge PRACTICE">練習・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>演習：月次報告シートを作成する</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>課題</h1>
+<p>指定された完成見本に沿って、ピボットグラフとスライサーを備えた月次報告シートを作成してください。</p>
+<h2>所要時間の目安</h2>
+<p><strong>約75分</strong></p>
+<h2>作成する内容</h2>
+<ul>
+<li>売上合計</li>
+<li>実績件数</li>
+<li>完了件数</li>
+<li>月別売上推移グラフ</li>
+<li>担当者別売上グラフ</li>
+<li>部門別実績件数グラフ</li>
+<li>年月スライサー</li>
+<li>部門スライサー</li>
+<li>ステータススライサー</li>
+</ul>
+<h2>手順</h2>
+<ol>
+<li>新しい報告用シートを作り、タイトルと対象期間を配置する</li>
+<li>売上合計・実績件数・完了件数を表示する</li>
+<li>月別、担当者別、部門別のピボットグラフを作成する</li>
+<li>年月、部門、ステータスのスライサーを追加する</li>
+<li>スライサーの接続先を確認する</li>
+<li>タイトル、単位、並び順、グラフサイズを整える</li>
+<li>全件表示で元データと件数・売上合計を比較する</li>
+<li>特定条件を選び、表示が正しく変わるか確認する</li>
+</ol>
+<h2>完成条件</h2>
+<ul>
+<li>必要な指標・グラフ・スライサーが配置されている</li>
+<li>グラフタイトルと単位が分かる</li>
+<li>年月が時系列順</li>
+<li>担当者別売上が比較しやすい順番</li>
+<li>スライサーが必要な集計へ接続されている</li>
+<li>条件解除方法が分かる</li>
+<li>元データと総件数・売上合計が一致する</li>
+<li>報告相手が1画面で主要情報を確認できる</li>
+</ul>
+<h2>提出物</h2>
+<ul>
+<li>ピボットグラフ</li>
+<li>スライサー付き月次報告シート</li>
+<li>集計結果確認チェックシート</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card answer-card" id="lesson-u04-05"
+  data-type="WIKI" data-answer="true"
+  data-track="false" data-search="解答例と確認ポイント 解説 レイアウト例 text 月次実績レポート 対象期間：2026年4月～6月 売上合計 実績件数 完了件数 月別売上推移 担当者別売上 部門別実績件数 年月・部門・ステータス 確認チェックシートの例 確認項目 期待結果 結果 売上合計 元データと一致 実績件数 元データ行数と一致 完了件数 完了データ件数と一致 年月スライサー 月別に切替可能 部門スライサー 部門別に切替可能 ステータススライサー 状態別に切替可能 条件解除 全件表示へ戻る よくある修正例 状態 修正方法 一部グラフだけスライサーが動かない スライサーの接続先を確認する 売上合計が元データと違う フィルター条件とピボット更新を確認する 年月が文字順になる 年月のデータ形式を確認する グラフの項目名が途中で切れる グラフサイズ・向きを調整する 条件が残ったまま提出 スライサーを解除して全件表示に戻す">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span><span class="badge answer">解答例</span></div>
+      <h3>解答例と確認ポイント</h3>
+    </div>
+    
+  </summary>
+  <div class="lesson-body"><h2>レイアウト例</h2>
+<pre><code class="language-text">月次実績レポート
+対象期間：2026年4月～6月
+
+[売上合計] [実績件数] [完了件数]
+
+[月別売上推移]     [担当者別売上]
+
+[部門別実績件数]   [年月・部門・ステータス]
+</code></pre>
+<h2>確認チェックシートの例</h2>
+<table>
+<thead>
+<tr>
+  <th>確認項目</th>
+  <th>期待結果</th>
+  <th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>売上合計</td>
+  <td>元データと一致</td>
+  <td></td>
+</tr>
+<tr>
+  <td>実績件数</td>
+  <td>元データ行数と一致</td>
+  <td></td>
+</tr>
+<tr>
+  <td>完了件数</td>
+  <td>完了データ件数と一致</td>
+  <td></td>
+</tr>
+<tr>
+  <td>年月スライサー</td>
+  <td>月別に切替可能</td>
+  <td></td>
+</tr>
+<tr>
+  <td>部門スライサー</td>
+  <td>部門別に切替可能</td>
+  <td></td>
+</tr>
+<tr>
+  <td>ステータススライサー</td>
+  <td>状態別に切替可能</td>
+  <td></td>
+</tr>
+<tr>
+  <td>条件解除</td>
+  <td>全件表示へ戻る</td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<h2>よくある修正例</h2>
+<table>
+<thead>
+<tr>
+  <th>状態</th>
+  <th>修正方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>一部グラフだけスライサーが動かない</td>
+  <td>スライサーの接続先を確認する</td>
+</tr>
+<tr>
+  <td>売上合計が元データと違う</td>
+  <td>フィルター条件とピボット更新を確認する</td>
+</tr>
+<tr>
+  <td>年月が文字順になる</td>
+  <td>年月のデータ形式を確認する</td>
+</tr>
+<tr>
+  <td>グラフの項目名が途中で切れる</td>
+  <td>グラフサイズ・向きを調整する</td>
+</tr>
+<tr>
+  <td>条件が残ったまま提出</td>
+  <td>スライサーを解除して全件表示に戻す</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u04-06"
+  data-type="CHECK" data-answer="false"
+  data-track="true" data-search="確認問題：見える化と報告資料 確認・提出 確認問題 問題1 月次推移と担当者比較で、適したグラフの考え方を説明してください。 問題2 スライサーを複数のピボットテーブルへ接続する目的を説明してください。 問題3 報告シートを保存・提出する前に、スライサーについて確認する内容を答えてください。 問題4 元データ、ピボットテーブル、報告シートの数値を比較する理由を説明してください。 問題5 見やすい報告シートに必要な要素を3つ答えてください。 提出前の確認 すべての問題へ回答した 表・グラフ・スライサーの役割を区別した 全件表示で件数・合計を確認した">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge CHECK">確認・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>確認問題：見える化と報告資料</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>確認問題</h1>
+<h2>問題1</h2>
+<p>月次推移と担当者比較で、適したグラフの考え方を説明してください。</p>
+<h2>問題2</h2>
+<p>スライサーを複数のピボットテーブルへ接続する目的を説明してください。</p>
+<h2>問題3</h2>
+<p>報告シートを保存・提出する前に、スライサーについて確認する内容を答えてください。</p>
+<h2>問題4</h2>
+<p>元データ、ピボットテーブル、報告シートの数値を比較する理由を説明してください。</p>
+<h2>問題5</h2>
+<p>見やすい報告シートに必要な要素を3つ答えてください。</p>
+<h2>提出前の確認</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>すべての問題へ回答した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>表・グラフ・スライサーの役割を区別した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>全件表示で件数・合計を確認した</li>
+</ul>
+</div>
+</details>
+</div>
+</details>
+
+<details class="unit-section" id="unit-u05">
+  <summary>
+    <span class="unit-num">05</span>
+    <div class="unit-heading">
+      <h2>Power BI Desktopによるデータ可視化</h2>
+      <small>8教材</small>
+    </div>
+    <span class="chevron">⌄</span>
+  </summary>
+  <div class="lesson-list">
+<details class="lesson-card" id="lesson-u05-00"
+  data-type="INFO" data-answer="false"
+  data-track="true" data-search="この単元について 案内 所要時間の目安 約3時間 この単元で学ぶこと Power BI DesktopとExcelの役割の違いを説明できる 指定されたExcelテーブルをPower BI Desktopへ読み込める 読み込んだ列とデータ型を確認できる 売上合計・実績件数・完了件数のカードを作成できる 担当者別売上・部門別実績件数のグラフを作成できる 月別・担当者別のマトリックスと実績明細表を作成できる 年月・部門・担当者・ステータスのスライサーを設定できる ビジュアル同士の連動を確認できる PBIXファイルを指定された場所へ保存できる この単元の範囲 この単元では、整ったExcelデータを使用し、Power BI Desktopの基本的なレポート作成を行います。 次の内容は必須演習に含めません。 複雑なPower Query DAXの詳細 Power BI Serviceへの発行 組織内共有 SharePointへの掲載 使用する前単元の成果物 一元管理用Excelテーブル 月次報告シート この単元の完成物 Power BI Desktopレポート 基本ビジュアルを配置したPBIXファイル Power BI Desktop操作確認シート">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge INFO">案内</span></div>
+      <h3>この単元について</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>所要時間の目安</h2>
+<p><strong>約3時間</strong></p>
+<h2>この単元で学ぶこと</h2>
+<ul>
+<li>Power BI DesktopとExcelの役割の違いを説明できる</li>
+<li>指定されたExcelテーブルをPower BI Desktopへ読み込める</li>
+<li>読み込んだ列とデータ型を確認できる</li>
+<li>売上合計・実績件数・完了件数のカードを作成できる</li>
+<li>担当者別売上・部門別実績件数のグラフを作成できる</li>
+<li>月別・担当者別のマトリックスと実績明細表を作成できる</li>
+<li>年月・部門・担当者・ステータスのスライサーを設定できる</li>
+<li>ビジュアル同士の連動を確認できる</li>
+<li>PBIXファイルを指定された場所へ保存できる</li>
+</ul>
+<h2>この単元の範囲</h2>
+<p>この単元では、整ったExcelデータを使用し、Power BI Desktopの基本的なレポート作成を行います。</p>
+<p>次の内容は必須演習に含めません。</p>
+<ul>
+<li>複雑なPower Query</li>
+<li>DAXの詳細</li>
+<li>Power BI Serviceへの発行</li>
+<li>組織内共有</li>
+<li>SharePointへの掲載</li>
+</ul>
+<h2>使用する前単元の成果物</h2>
+<ul>
+<li>一元管理用Excelテーブル</li>
+<li>月次報告シート</li>
+</ul>
+<h2>この単元の完成物</h2>
+<ul>
+<li>Power BI Desktopレポート</li>
+<li>基本ビジュアルを配置したPBIXファイル</li>
+<li>Power BI Desktop操作確認シート</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u05-01"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="Power BI Desktopの役割と基本画面 解説 ExcelとPower BI Desktopの使い分け Excel 元データを入力・確認する 小規模な集計を行う ピボットテーブルで柔軟に表を作る 個別の数値を確認・修正する Power BI Desktop 複数のビジュアルを1画面へ配置する スライサーで条件を切り替える グラフ同士を連動させる 同じレイアウトでレポートを更新する PBIXファイルとして保存する Power BI Desktopへ実績を直接入力するのではなく、元データはExcel側で管理します。 基本画面 レポートビュー カード・グラフ・表・スライサーを配置する画面です。 データビュー 読み込んだデータの内容を確認する画面です。 モデルビュー 複数テーブルの関係を確認する画面です。本コースでは原則として1つのExcelテーブルを使用します。 データペイン 読み込んだ列を確認し、ビジュアルへ配置します。 視覚化・書式設定 グラフの種類、タイトル、軸、表示単位などを設定します。 保存 Power BI Desktopの作業ファイルは、 .pbix 形式で保存します。 例： text 山田太郎 05 PowerBI基本レポート.pbix">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>Power BI Desktopの役割と基本画面</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>ExcelとPower BI Desktopの使い分け</h2>
+<h3>Excel</h3>
+<ul>
+<li>元データを入力・確認する</li>
+<li>小規模な集計を行う</li>
+<li>ピボットテーブルで柔軟に表を作る</li>
+<li>個別の数値を確認・修正する</li>
+</ul>
+<h3>Power BI Desktop</h3>
+<ul>
+<li>複数のビジュアルを1画面へ配置する</li>
+<li>スライサーで条件を切り替える</li>
+<li>グラフ同士を連動させる</li>
+<li>同じレイアウトでレポートを更新する</li>
+<li>PBIXファイルとして保存する</li>
+</ul>
+<p>Power BI Desktopへ実績を直接入力するのではなく、元データはExcel側で管理します。</p>
+<h2>基本画面</h2>
+<h3>レポートビュー</h3>
+<p>カード・グラフ・表・スライサーを配置する画面です。</p>
+<h3>データビュー</h3>
+<p>読み込んだデータの内容を確認する画面です。</p>
+<h3>モデルビュー</h3>
+<p>複数テーブルの関係を確認する画面です。本コースでは原則として1つのExcelテーブルを使用します。</p>
+<h3>データペイン</h3>
+<p>読み込んだ列を確認し、ビジュアルへ配置します。</p>
+<h3>視覚化・書式設定</h3>
+<p>グラフの種類、タイトル、軸、表示単位などを設定します。</p>
+<h2>保存</h2>
+<p>Power BI Desktopの作業ファイルは、<code>.pbix</code>形式で保存します。</p>
+<p>例：</p>
+<pre><code class="language-text">山田太郎_05_PowerBI基本レポート.pbix
+</code></pre>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u05-02"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="Excelデータの読み込みとデータ型 解説 読み込み前のExcel確認 Excelファイルが指定された場所にある 対象データがExcelテーブルになっている テーブル名が分かる 列名が変更されていない 日付・数値の形式が統一されている ファイルを保存している 読み込みの基本手順 1. Power BI Desktopを起動する 2. Excelブックからデータ取得を選択する 3. 指定されたExcelファイルを選ぶ 4. 対象のテーブルを選択する 5. データのプレビューを確認する 6. 読み込みを実行する 7. データペインに列が表示されることを確認する 本コースでは、受講者自身のPCにあるExcelを読み込みます。講師が作成したPBIXの参照先をそのまま使用するのではなく、自分のExcelファイルを読み込むことで、保存場所の違いによるエラーを減らします。 確認するデータ型 列 想定する型 実績ID テキスト 実績日 日付 年月 日付またはテキスト（講師指定） 数量 整数または小数 単価 数値 売上金額 数値 部門・担当者・ステータス テキスト データ型が違う場合の影響 日付が文字列：時系列順にならない 売上金額が文字列：合計できない 実績IDが数値：先頭の0が失われる場合がある 年月が不統一：スライサーの表示が分かれる 本コースでは、Excel側で整ったデータを使用し、Power BI内での複雑な変換は行いません。 読み込み後の確認 行数 売上金額の合計 列名 空白値 データ型 対象年月">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>Excelデータの読み込みとデータ型</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>読み込み前のExcel確認</h2>
+<ul>
+<li>Excelファイルが指定された場所にある</li>
+<li>対象データがExcelテーブルになっている</li>
+<li>テーブル名が分かる</li>
+<li>列名が変更されていない</li>
+<li>日付・数値の形式が統一されている</li>
+<li>ファイルを保存している</li>
+</ul>
+<h2>読み込みの基本手順</h2>
+<ol>
+<li>Power BI Desktopを起動する</li>
+<li>Excelブックからデータ取得を選択する</li>
+<li>指定されたExcelファイルを選ぶ</li>
+<li>対象のテーブルを選択する</li>
+<li>データのプレビューを確認する</li>
+<li>読み込みを実行する</li>
+<li>データペインに列が表示されることを確認する</li>
+</ol>
+<p>本コースでは、受講者自身のPCにあるExcelを読み込みます。講師が作成したPBIXの参照先をそのまま使用するのではなく、自分のExcelファイルを読み込むことで、保存場所の違いによるエラーを減らします。</p>
+<h2>確認するデータ型</h2>
+<table>
+<thead>
+<tr>
+  <th>列</th>
+  <th>想定する型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>実績ID</td>
+  <td>テキスト</td>
+</tr>
+<tr>
+  <td>実績日</td>
+  <td>日付</td>
+</tr>
+<tr>
+  <td>年月</td>
+  <td>日付またはテキスト（講師指定）</td>
+</tr>
+<tr>
+  <td>数量</td>
+  <td>整数または小数</td>
+</tr>
+<tr>
+  <td>単価</td>
+  <td>数値</td>
+</tr>
+<tr>
+  <td>売上金額</td>
+  <td>数値</td>
+</tr>
+<tr>
+  <td>部門・担当者・ステータス</td>
+  <td>テキスト</td>
+</tr>
+</tbody>
+</table>
+<h2>データ型が違う場合の影響</h2>
+<ul>
+<li>日付が文字列：時系列順にならない</li>
+<li>売上金額が文字列：合計できない</li>
+<li>実績IDが数値：先頭の0が失われる場合がある</li>
+<li>年月が不統一：スライサーの表示が分かれる</li>
+</ul>
+<p>本コースでは、Excel側で整ったデータを使用し、Power BI内での複雑な変換は行いません。</p>
+<h2>読み込み後の確認</h2>
+<ul>
+<li>行数</li>
+<li>売上金額の合計</li>
+<li>列名</li>
+<li>空白値</li>
+<li>データ型</li>
+<li>対象年月</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u05-03"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="基本ビジュアルとスライサー 解説 カード 1つの重要な数値を表示します。 売上合計 値：売上金額 集計：合計 実績件数 値：実績ID 集計：件数 完了件数 値：実績ID 集計：件数 ビジュアルのフィルター：ステータスが完了 本コースでは、完了件数を作るための複雑なDAXは使用せず、カードへのフィルターで作成します。 棒グラフ 担当者別売上 軸：担当者 値：売上金額の合計 並び順：売上金額の降順 部門別実績件数 軸：部門 値：実績IDの件数 マトリックス 月別・担当者別の売上を交差表で確認します。 行：担当者 列：年月 値：売上金額の合計 明細表 次の項目を表示します。 実績日 部門 担当者 サービス名 売上金額 ステータス スライサー 年月 部門 担当者 ステータス ビジュアルの連動 棒グラフの担当者を選択したとき、カード・マトリックス・明細表が同じ担当者へ絞り込まれるか確認します。 意図しないビジュアルが連動する場合は、講師の操作デモに従って相互作用を調整します。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>基本ビジュアルとスライサー</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>カード</h2>
+<p>1つの重要な数値を表示します。</p>
+<h3>売上合計</h3>
+<ul>
+<li>値：売上金額</li>
+<li>集計：合計</li>
+</ul>
+<h3>実績件数</h3>
+<ul>
+<li>値：実績ID</li>
+<li>集計：件数</li>
+</ul>
+<h3>完了件数</h3>
+<ul>
+<li>値：実績ID</li>
+<li>集計：件数</li>
+<li>ビジュアルのフィルター：ステータスが完了</li>
+</ul>
+<p>本コースでは、完了件数を作るための複雑なDAXは使用せず、カードへのフィルターで作成します。</p>
+<h2>棒グラフ</h2>
+<h3>担当者別売上</h3>
+<ul>
+<li>軸：担当者</li>
+<li>値：売上金額の合計</li>
+<li>並び順：売上金額の降順</li>
+</ul>
+<h3>部門別実績件数</h3>
+<ul>
+<li>軸：部門</li>
+<li>値：実績IDの件数</li>
+</ul>
+<h2>マトリックス</h2>
+<p>月別・担当者別の売上を交差表で確認します。</p>
+<ul>
+<li>行：担当者</li>
+<li>列：年月</li>
+<li>値：売上金額の合計</li>
+</ul>
+<h2>明細表</h2>
+<p>次の項目を表示します。</p>
+<ul>
+<li>実績日</li>
+<li>部門</li>
+<li>担当者</li>
+<li>サービス名</li>
+<li>売上金額</li>
+<li>ステータス</li>
+</ul>
+<h2>スライサー</h2>
+<ul>
+<li>年月</li>
+<li>部門</li>
+<li>担当者</li>
+<li>ステータス</li>
+</ul>
+<h2>ビジュアルの連動</h2>
+<p>棒グラフの担当者を選択したとき、カード・マトリックス・明細表が同じ担当者へ絞り込まれるか確認します。</p>
+<p>意図しないビジュアルが連動する場合は、講師の操作デモに従って相互作用を調整します。</p>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u05-04"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="レポートの配置・確認・保存 解説 1ページの構成例 text 月次実績ダッシュボード 売上合計 実績件数 完了件数 担当者別売上 部門別実績件数 月別・担当者別マトリックス 実績明細表 年月・部門・担当者・ステータス タイトルと表示単位 ページタイトル：月次実績ダッシュボード グラフタイトル：担当者別売上、部門別実績件数 金額単位：円、千円、万円など講師指定 件数：整数表示 並び順 担当者別売上：売上金額の降順 年月：時系列順 明細表：実績日の新しい順または講師指定 数値確認 Power BIのカードとExcelの元データを比較します。 売上合計 実績件数 完了件数 スライサーを解除した全件表示で確認します。 保存 1. 指定された研修フォルダを選ぶ 2. 指定されたファイル名でPBIXを保存する 3. 保存済みであることを確認する 4. 再度開けることを確認する 元Excelとの関係 PBIXは元Excelを参照します。Excelの場所やファイル名を変更すると、更新時に参照先の確認が必要になる場合があります。 研修中は次を守ります。 ExcelとPBIXを同じ研修用フォルダで管理する 元Excelのファイル名を変更しない Excelテーブル名・列名を変更しない 更新前にExcelを保存する">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>レポートの配置・確認・保存</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>1ページの構成例</h2>
+<pre><code class="language-text">月次実績ダッシュボード
+
+[売上合計] [実績件数] [完了件数]
+
+[担当者別売上]      [部門別実績件数]
+
+[月別・担当者別マトリックス]
+
+[実績明細表]        [年月・部門・担当者・ステータス]
+</code></pre>
+<h2>タイトルと表示単位</h2>
+<ul>
+<li>ページタイトル：月次実績ダッシュボード</li>
+<li>グラフタイトル：担当者別売上、部門別実績件数</li>
+<li>金額単位：円、千円、万円など講師指定</li>
+<li>件数：整数表示</li>
+</ul>
+<h2>並び順</h2>
+<ul>
+<li>担当者別売上：売上金額の降順</li>
+<li>年月：時系列順</li>
+<li>明細表：実績日の新しい順または講師指定</li>
+</ul>
+<h2>数値確認</h2>
+<p>Power BIのカードとExcelの元データを比較します。</p>
+<ul>
+<li>売上合計</li>
+<li>実績件数</li>
+<li>完了件数</li>
+</ul>
+<p>スライサーを解除した全件表示で確認します。</p>
+<h2>保存</h2>
+<ol>
+<li>指定された研修フォルダを選ぶ</li>
+<li>指定されたファイル名でPBIXを保存する</li>
+<li>保存済みであることを確認する</li>
+<li>再度開けることを確認する</li>
+</ol>
+<h2>元Excelとの関係</h2>
+<p>PBIXは元Excelを参照します。Excelの場所やファイル名を変更すると、更新時に参照先の確認が必要になる場合があります。</p>
+<p>研修中は次を守ります。</p>
+<ul>
+<li>ExcelとPBIXを同じ研修用フォルダで管理する</li>
+<li>元Excelのファイル名を変更しない</li>
+<li>Excelテーブル名・列名を変更しない</li>
+<li>更新前にExcelを保存する</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u05-05"
+  data-type="PRACTICE" data-answer="false"
+  data-track="true" data-search="演習：Power BI基本レポートを作成する 練習・提出 課題 指定されたExcelテーブルを読み込み、完成見本に沿ってPower BI Desktopの基本レポートを作成してください。 所要時間の目安 約75分 作成する内容 売上合計カード 実績件数カード 完了件数カード 担当者別売上グラフ 部門別実績件数グラフ 月別・担当者別マトリックス 実績明細表 年月スライサー 部門スライサー 担当者スライサー ステータススライサー 手順 1. 指定されたExcelファイルとテーブルを読み込む 2. 行数、売上合計、列名、データ型を確認する 3. 売上合計、実績件数、完了件数のカードを作成する 4. 担当者別売上と部門別実績件数の棒グラフを作成する 5. 月別・担当者別マトリックスと実績明細表を作成する 6. 年月、部門、担当者、ステータスのスライサーを配置する 7. スライサーとグラフ選択による表示変化を確認する 8. タイトル、単位、並び順、サイズを整える 9. 全件表示でExcelと主要数値を比較する 10. 指定されたフォルダとファイル名で保存する 完成条件 指定されたExcelテーブルを読み込んでいる 必要なカード・グラフ・表・マトリックスがある 必要なスライサーがある 完了件数が完了データだけを数えている 担当者別売上が降順 ビジュアル同士が連動する Excelと主要数値が一致する PBIXファイルを保存できる 提出物 Power BI Desktopレポート 基本ビジュアルを配置したPBIXファイル Power BI Desktop操作確認シート">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge PRACTICE">練習・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>演習：Power BI基本レポートを作成する</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>課題</h1>
+<p>指定されたExcelテーブルを読み込み、完成見本に沿ってPower BI Desktopの基本レポートを作成してください。</p>
+<h2>所要時間の目安</h2>
+<p><strong>約75分</strong></p>
+<h2>作成する内容</h2>
+<ul>
+<li>売上合計カード</li>
+<li>実績件数カード</li>
+<li>完了件数カード</li>
+<li>担当者別売上グラフ</li>
+<li>部門別実績件数グラフ</li>
+<li>月別・担当者別マトリックス</li>
+<li>実績明細表</li>
+<li>年月スライサー</li>
+<li>部門スライサー</li>
+<li>担当者スライサー</li>
+<li>ステータススライサー</li>
+</ul>
+<h2>手順</h2>
+<ol>
+<li>指定されたExcelファイルとテーブルを読み込む</li>
+<li>行数、売上合計、列名、データ型を確認する</li>
+<li>売上合計、実績件数、完了件数のカードを作成する</li>
+<li>担当者別売上と部門別実績件数の棒グラフを作成する</li>
+<li>月別・担当者別マトリックスと実績明細表を作成する</li>
+<li>年月、部門、担当者、ステータスのスライサーを配置する</li>
+<li>スライサーとグラフ選択による表示変化を確認する</li>
+<li>タイトル、単位、並び順、サイズを整える</li>
+<li>全件表示でExcelと主要数値を比較する</li>
+<li>指定されたフォルダとファイル名で保存する</li>
+</ol>
+<h2>完成条件</h2>
+<ul>
+<li>指定されたExcelテーブルを読み込んでいる</li>
+<li>必要なカード・グラフ・表・マトリックスがある</li>
+<li>必要なスライサーがある</li>
+<li>完了件数が完了データだけを数えている</li>
+<li>担当者別売上が降順</li>
+<li>ビジュアル同士が連動する</li>
+<li>Excelと主要数値が一致する</li>
+<li>PBIXファイルを保存できる</li>
+</ul>
+<h2>提出物</h2>
+<ul>
+<li>Power BI Desktopレポート</li>
+<li>基本ビジュアルを配置したPBIXファイル</li>
+<li>Power BI Desktop操作確認シート</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card answer-card" id="lesson-u05-06"
+  data-type="WIKI" data-answer="true"
+  data-track="false" data-search="解答例と確認ポイント 解説 フィールド配置例 ビジュアル 分類・軸 値 条件 売上合計カード なし 売上金額の合計 なし 実績件数カード なし 実績IDの件数 なし 完了件数カード なし 実績IDの件数 ステータス＝完了 担当者別売上 担当者 売上金額の合計 降順 部門別実績件数 部門 実績IDの件数 なし マトリックス 行：担当者、列：年月 売上金額の合計 なし 操作確認シートの例 確認項目 期待結果 結果 Excel読み込み 指定テーブルが表示 売上合計 Excelと一致 実績件数 Excel行数と一致 完了件数 完了行数と一致 スライサー 条件切替可能 ビジュアル連動 選択内容へ絞り込み PBIX保存 再度開ける よくある状態 状態 確認すること 売上合計にならない 売上金額のデータ型と集計方法 完了件数が全件になる カードのフィルター 年月の順番が不自然 年月のデータ型 一部グラフが連動しない ビジュアル相互作用 Excelを更新しても変わらない Excel保存とPower BI更新 更新時にファイルが見つからない Excelの保存場所・ファイル名">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span><span class="badge answer">解答例</span></div>
+      <h3>解答例と確認ポイント</h3>
+    </div>
+    
+  </summary>
+  <div class="lesson-body"><h2>フィールド配置例</h2>
+<table>
+<thead>
+<tr>
+  <th>ビジュアル</th>
+  <th>分類・軸</th>
+  <th>値</th>
+  <th>条件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>売上合計カード</td>
+  <td>なし</td>
+  <td>売上金額の合計</td>
+  <td>なし</td>
+</tr>
+<tr>
+  <td>実績件数カード</td>
+  <td>なし</td>
+  <td>実績IDの件数</td>
+  <td>なし</td>
+</tr>
+<tr>
+  <td>完了件数カード</td>
+  <td>なし</td>
+  <td>実績IDの件数</td>
+  <td>ステータス＝完了</td>
+</tr>
+<tr>
+  <td>担当者別売上</td>
+  <td>担当者</td>
+  <td>売上金額の合計</td>
+  <td>降順</td>
+</tr>
+<tr>
+  <td>部門別実績件数</td>
+  <td>部門</td>
+  <td>実績IDの件数</td>
+  <td>なし</td>
+</tr>
+<tr>
+  <td>マトリックス</td>
+  <td>行：担当者、列：年月</td>
+  <td>売上金額の合計</td>
+  <td>なし</td>
+</tr>
+</tbody>
+</table>
+<h2>操作確認シートの例</h2>
+<table>
+<thead>
+<tr>
+  <th>確認項目</th>
+  <th>期待結果</th>
+  <th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Excel読み込み</td>
+  <td>指定テーブルが表示</td>
+  <td></td>
+</tr>
+<tr>
+  <td>売上合計</td>
+  <td>Excelと一致</td>
+  <td></td>
+</tr>
+<tr>
+  <td>実績件数</td>
+  <td>Excel行数と一致</td>
+  <td></td>
+</tr>
+<tr>
+  <td>完了件数</td>
+  <td>完了行数と一致</td>
+  <td></td>
+</tr>
+<tr>
+  <td>スライサー</td>
+  <td>条件切替可能</td>
+  <td></td>
+</tr>
+<tr>
+  <td>ビジュアル連動</td>
+  <td>選択内容へ絞り込み</td>
+  <td></td>
+</tr>
+<tr>
+  <td>PBIX保存</td>
+  <td>再度開ける</td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<h2>よくある状態</h2>
+<table>
+<thead>
+<tr>
+  <th>状態</th>
+  <th>確認すること</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>売上合計にならない</td>
+  <td>売上金額のデータ型と集計方法</td>
+</tr>
+<tr>
+  <td>完了件数が全件になる</td>
+  <td>カードのフィルター</td>
+</tr>
+<tr>
+  <td>年月の順番が不自然</td>
+  <td>年月のデータ型</td>
+</tr>
+<tr>
+  <td>一部グラフが連動しない</td>
+  <td>ビジュアル相互作用</td>
+</tr>
+<tr>
+  <td>Excelを更新しても変わらない</td>
+  <td>Excel保存とPower BI更新</td>
+</tr>
+<tr>
+  <td>更新時にファイルが見つからない</td>
+  <td>Excelの保存場所・ファイル名</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u05-07"
+  data-type="CHECK" data-answer="false"
+  data-track="true" data-search="確認問題：Power BI Desktop 確認・提出 確認問題 問題1 ExcelとPower BI Desktopの役割の違いを説明してください。 問題2 Power BIへExcelを読み込む前に確認する内容を3つ答えてください。 問題3 DAXを使わずに完了件数カードを作成する方法を説明してください。 問題4 Power BIの売上合計がExcelと一致しない場合に確認する内容を2つ答えてください。 問題5 元Excelの保存場所とファイル名を研修中に変更しない理由を説明してください。 提出前の確認 すべての問題へ回答した カードの集計方法とフィルターを確認した PBIXを保存して再度開けることを確認した">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge CHECK">確認・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>確認問題：Power BI Desktop</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>確認問題</h1>
+<h2>問題1</h2>
+<p>ExcelとPower BI Desktopの役割の違いを説明してください。</p>
+<h2>問題2</h2>
+<p>Power BIへExcelを読み込む前に確認する内容を3つ答えてください。</p>
+<h2>問題3</h2>
+<p>DAXを使わずに完了件数カードを作成する方法を説明してください。</p>
+<h2>問題4</h2>
+<p>Power BIの売上合計がExcelと一致しない場合に確認する内容を2つ答えてください。</p>
+<h2>問題5</h2>
+<p>元Excelの保存場所とファイル名を研修中に変更しない理由を説明してください。</p>
+<h2>提出前の確認</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>すべての問題へ回答した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>カードの集計方法とフィルターを確認した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>PBIXを保存して再度開けることを確認した</li>
+</ul>
+</div>
+</details>
+</div>
+</details>
+
+<details class="unit-section" id="unit-u06">
+  <summary>
+    <span class="unit-num">06</span>
+    <div class="unit-heading">
+      <h2>月次更新と運用の標準化</h2>
+      <small>7教材</small>
+    </div>
+    <span class="chevron">⌄</span>
+  </summary>
+  <div class="lesson-list">
+<details class="lesson-card" id="lesson-u06-00"
+  data-type="INFO" data-answer="false"
+  data-track="true" data-search="この単元について 案内 所要時間の目安 約2時間 この単元で学ぶこと 月次更新作業を標準化する目的を説明できる 新しい月のデータをExcelテーブルへ追加できる ピボットテーブル・ピボットグラフを更新できる Power BI Desktopレポートを更新できる 更新前後の件数・売上合計を比較できる 新しい年月がスライサーへ追加されたことを確認できる 列名・テーブル名・ファイル名を維持する理由を説明できる 更新エラーの基本的な確認ができる 担当者以外でも再現できる月次更新手順を作成できる 使用する前単元の成果物 一元管理用Excelファイル スライサー付き月次報告シート Power BI Desktopレポート この単元の完成物 更新確認済みExcelファイル 更新確認済みPBIXファイル 月次更新手順 更新確認チェックリスト エラー発生時の確認事項">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge INFO">案内</span></div>
+      <h3>この単元について</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>所要時間の目安</h2>
+<p><strong>約2時間</strong></p>
+<h2>この単元で学ぶこと</h2>
+<ul>
+<li>月次更新作業を標準化する目的を説明できる</li>
+<li>新しい月のデータをExcelテーブルへ追加できる</li>
+<li>ピボットテーブル・ピボットグラフを更新できる</li>
+<li>Power BI Desktopレポートを更新できる</li>
+<li>更新前後の件数・売上合計を比較できる</li>
+<li>新しい年月がスライサーへ追加されたことを確認できる</li>
+<li>列名・テーブル名・ファイル名を維持する理由を説明できる</li>
+<li>更新エラーの基本的な確認ができる</li>
+<li>担当者以外でも再現できる月次更新手順を作成できる</li>
+</ul>
+<h2>使用する前単元の成果物</h2>
+<ul>
+<li>一元管理用Excelファイル</li>
+<li>スライサー付き月次報告シート</li>
+<li>Power BI Desktopレポート</li>
+</ul>
+<h2>この単元の完成物</h2>
+<ul>
+<li>更新確認済みExcelファイル</li>
+<li>更新確認済みPBIXファイル</li>
+<li>月次更新手順</li>
+<li>更新確認チェックリスト</li>
+<li>エラー発生時の確認事項</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u06-01"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="月次更新の基本フロー 解説 更新作業を標準化する理由 毎月の担当者や操作順が変わると、次の問題が起こります。 データを追加する場所が分からない 列名や形式を変更してしまう ピボットテーブルだけ更新し、Power BIを更新し忘れる 件数・合計を確認しない 保存先やファイル名が変わる 更新エラーの原因を特定できない 月次更新手順では、操作だけでなく確認内容も記載します。 基本フロー 1. 追加データを受け取る 2. 追加データの列名と形式を確認する 3. Excelテーブルへ新しい行を追加する 4. Excelファイルを保存する 5. ピボットテーブルを更新する 6. ピボットグラフとスライサーを確認する 7. 更新前後の件数・売上合計を比較する 8. Power BI Desktopを開く 9. データを更新する 10. カード・グラフ・スライサーを確認する 11. PBIXを保存する 12. 更新確認チェックリストを記録する 更新前に記録する数値 元データ件数 売上合計 最新年月 完了件数 更新後に同じ項目を確認し、追加データ分だけ増えているか比較します。 変更しない項目 Excelの列名 列順 テーブル名 日付・数値の形式 元Excelのファイル名 PBIXが参照する保存場所 変更が必要な場合は、影響範囲を確認してから行います。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>月次更新の基本フロー</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>更新作業を標準化する理由</h2>
+<p>毎月の担当者や操作順が変わると、次の問題が起こります。</p>
+<ul>
+<li>データを追加する場所が分からない</li>
+<li>列名や形式を変更してしまう</li>
+<li>ピボットテーブルだけ更新し、Power BIを更新し忘れる</li>
+<li>件数・合計を確認しない</li>
+<li>保存先やファイル名が変わる</li>
+<li>更新エラーの原因を特定できない</li>
+</ul>
+<p>月次更新手順では、操作だけでなく確認内容も記載します。</p>
+<h2>基本フロー</h2>
+<ol>
+<li>追加データを受け取る</li>
+<li>追加データの列名と形式を確認する</li>
+<li>Excelテーブルへ新しい行を追加する</li>
+<li>Excelファイルを保存する</li>
+<li>ピボットテーブルを更新する</li>
+<li>ピボットグラフとスライサーを確認する</li>
+<li>更新前後の件数・売上合計を比較する</li>
+<li>Power BI Desktopを開く</li>
+<li>データを更新する</li>
+<li>カード・グラフ・スライサーを確認する</li>
+<li>PBIXを保存する</li>
+<li>更新確認チェックリストを記録する</li>
+</ol>
+<h2>更新前に記録する数値</h2>
+<ul>
+<li>元データ件数</li>
+<li>売上合計</li>
+<li>最新年月</li>
+<li>完了件数</li>
+</ul>
+<p>更新後に同じ項目を確認し、追加データ分だけ増えているか比較します。</p>
+<h2>変更しない項目</h2>
+<ul>
+<li>Excelの列名</li>
+<li>列順</li>
+<li>テーブル名</li>
+<li>日付・数値の形式</li>
+<li>元Excelのファイル名</li>
+<li>PBIXが参照する保存場所</li>
+</ul>
+<p>変更が必要な場合は、影響範囲を確認してから行います。</p>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u06-02"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="ExcelとPower BIの更新手順 解説 Excelへのデータ追加 1．追加データを確認する 列名 列順 件数 売上合計 日付・年月 必須項目 表記違い 2．テーブルへ追加する Excelテーブルの最下部へ行を追加します。途中に空白行や小計行を入れません。 3．テーブル範囲を確認する 追加行がテーブルへ含まれているか確認します。 4．Excelを保存する Power BIを更新する前に、Excelの変更を保存します。 ピボットテーブルの更新 1. ピボットテーブルを更新する 2. すべてのピボットテーブルを確認する 3. 新しい年月が表示されるか確認する 4. ピボットグラフを確認する 5. スライサーに新しい年月が表示されるか確認する 6. 件数・売上合計を確認する Power BI Desktopの更新 1. 元Excelが保存されていることを確認する 2. PBIXファイルを開く 3. 更新を実行する 4. エラーが表示されないことを確認する 5. 売上合計・実績件数・完了件数を確認する 6. 新しい年月をスライサーで選択する 7. グラフ・マトリックス・明細表を確認する 8. PBIXを保存する 更新順 text 追加データ確認 → Excelへ追加 → Excel保存 → ピボット更新・確認 → Power BI更新・確認 → PBIX保存">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>ExcelとPower BIの更新手順</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>Excelへのデータ追加</h2>
+<h3>1．追加データを確認する</h3>
+<ul>
+<li>列名</li>
+<li>列順</li>
+<li>件数</li>
+<li>売上合計</li>
+<li>日付・年月</li>
+<li>必須項目</li>
+<li>表記違い</li>
+</ul>
+<h3>2．テーブルへ追加する</h3>
+<p>Excelテーブルの最下部へ行を追加します。途中に空白行や小計行を入れません。</p>
+<h3>3．テーブル範囲を確認する</h3>
+<p>追加行がテーブルへ含まれているか確認します。</p>
+<h3>4．Excelを保存する</h3>
+<p>Power BIを更新する前に、Excelの変更を保存します。</p>
+<h2>ピボットテーブルの更新</h2>
+<ol>
+<li>ピボットテーブルを更新する</li>
+<li>すべてのピボットテーブルを確認する</li>
+<li>新しい年月が表示されるか確認する</li>
+<li>ピボットグラフを確認する</li>
+<li>スライサーに新しい年月が表示されるか確認する</li>
+<li>件数・売上合計を確認する</li>
+</ol>
+<h2>Power BI Desktopの更新</h2>
+<ol>
+<li>元Excelが保存されていることを確認する</li>
+<li>PBIXファイルを開く</li>
+<li>更新を実行する</li>
+<li>エラーが表示されないことを確認する</li>
+<li>売上合計・実績件数・完了件数を確認する</li>
+<li>新しい年月をスライサーで選択する</li>
+<li>グラフ・マトリックス・明細表を確認する</li>
+<li>PBIXを保存する</li>
+</ol>
+<h2>更新順</h2>
+<pre><code class="language-text">追加データ確認
+→ Excelへ追加
+→ Excel保存
+→ ピボット更新・確認
+→ Power BI更新・確認
+→ PBIX保存
+</code></pre>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u06-03"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="更新エラーと手順書の作り方 解説 よくある更新エラー 状態 確認すること 新しい月がピボットに出ない テーブル範囲、更新 スライサーに年月が追加されない ピボット更新、年月の形式 Power BIの数値が変わらない Excel保存、Power BI更新 Power BIでファイルが見つからない 元Excelの保存場所・ファイル名 売上合計が増えすぎた 重複追加、小計行、数値形式 実績件数が合わない 空白行、重複ID、フィルター 一部の列がエラー 列名変更、データ型の混在 エラー確認の順番 1. 追加データの内容 2. Excelテーブルの範囲 3. 列名とデータ形式 4. Excelの保存 5. ピボットテーブルの更新 6. Power BIのデータソース 7. Power BIの更新 8. フィルター・スライサー 月次更新手順へ記載する内容 使用するExcelファイル 使用するPBIXファイル 保存場所 追加データの受け取り方法 追加前の確認 Excelへの追加方法 ピボットの更新方法 Power BIの更新方法 件数・合計の確認方法 保存方法 エラー時の確認 更新担当者 更新日 問い合わせ先 再現可能な手順 避けたい例： データを追加してレポートを更新する。 分かりやすい例： 1. 月次実績.xlsx を開く 2. 月次実績テーブル の最下部へ追加データを貼り付ける 3. 実績件数と売上合計を記録する 4. すべてのピボットテーブルを更新する 5. 月次実績レポート.pbix を開いて更新する 6. 売上合計・実績件数・最新年月を確認する">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>更新エラーと手順書の作り方</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>よくある更新エラー</h2>
+<table>
+<thead>
+<tr>
+  <th>状態</th>
+  <th>確認すること</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>新しい月がピボットに出ない</td>
+  <td>テーブル範囲、更新</td>
+</tr>
+<tr>
+  <td>スライサーに年月が追加されない</td>
+  <td>ピボット更新、年月の形式</td>
+</tr>
+<tr>
+  <td>Power BIの数値が変わらない</td>
+  <td>Excel保存、Power BI更新</td>
+</tr>
+<tr>
+  <td>Power BIでファイルが見つからない</td>
+  <td>元Excelの保存場所・ファイル名</td>
+</tr>
+<tr>
+  <td>売上合計が増えすぎた</td>
+  <td>重複追加、小計行、数値形式</td>
+</tr>
+<tr>
+  <td>実績件数が合わない</td>
+  <td>空白行、重複ID、フィルター</td>
+</tr>
+<tr>
+  <td>一部の列がエラー</td>
+  <td>列名変更、データ型の混在</td>
+</tr>
+</tbody>
+</table>
+<h2>エラー確認の順番</h2>
+<ol>
+<li>追加データの内容</li>
+<li>Excelテーブルの範囲</li>
+<li>列名とデータ形式</li>
+<li>Excelの保存</li>
+<li>ピボットテーブルの更新</li>
+<li>Power BIのデータソース</li>
+<li>Power BIの更新</li>
+<li>フィルター・スライサー</li>
+</ol>
+<h2>月次更新手順へ記載する内容</h2>
+<ul>
+<li>使用するExcelファイル</li>
+<li>使用するPBIXファイル</li>
+<li>保存場所</li>
+<li>追加データの受け取り方法</li>
+<li>追加前の確認</li>
+<li>Excelへの追加方法</li>
+<li>ピボットの更新方法</li>
+<li>Power BIの更新方法</li>
+<li>件数・合計の確認方法</li>
+<li>保存方法</li>
+<li>エラー時の確認</li>
+<li>更新担当者</li>
+<li>更新日</li>
+<li>問い合わせ先</li>
+</ul>
+<h2>再現可能な手順</h2>
+<p>避けたい例：</p>
+<blockquote>
+<p>データを追加してレポートを更新する。</p>
+</blockquote>
+<p>分かりやすい例：</p>
+<ol>
+<li><code>月次実績.xlsx</code>を開く</li>
+<li><code>月次実績テーブル</code>の最下部へ追加データを貼り付ける</li>
+<li>実績件数と売上合計を記録する</li>
+<li>すべてのピボットテーブルを更新する</li>
+<li><code>月次実績レポート.pbix</code>を開いて更新する</li>
+<li>売上合計・実績件数・最新年月を確認する</li>
+</ol>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u06-04"
+  data-type="PRACTICE" data-answer="false"
+  data-track="true" data-search="演習：追加データで更新し手順書を作成する 練習・提出 課題 講師から配布された新しい月のデータを追加し、ExcelとPower BI Desktopを更新してください。その後、同じ操作を別の担当者が再現できる月次更新手順を作成してください。 所要時間の目安 約55分 手順 1. 更新前の実績件数、売上合計、完了件数、最新年月を記録する 2. 追加データの列名、列順、件数、売上合計、年月、必須項目を確認する 3. 新しい月の実績をテーブル最下部へ追加する 4. Excelを保存し、追加後の件数と売上合計を記録する 5. すべての集計表・グラフ・スライサーを更新する 6. PBIXを開き、更新を実行する 7. ExcelとPower BIで主要数値と最新年月を比較する 8. ファイル名、保存場所、操作順、確認数値、エラー時の対応を手順書へ記載する 完成条件 追加データがExcelテーブルに含まれている ピボットテーブル・グラフが更新されている 新しい年月がスライサーへ表示される Power BIが更新されている 更新前後の件数・売上合計を記録している ExcelとPower BIの主要数値が一致している 月次更新手順だけで操作を再現できる エラー時の基本確認が記載されている 提出物 更新確認済みExcelファイル 更新確認済みPBIXファイル 月次更新手順 更新確認チェックリスト エラー発生時の確認事項">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge PRACTICE">練習・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>演習：追加データで更新し手順書を作成する</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>課題</h1>
+<p>講師から配布された新しい月のデータを追加し、ExcelとPower BI Desktopを更新してください。その後、同じ操作を別の担当者が再現できる月次更新手順を作成してください。</p>
+<h2>所要時間の目安</h2>
+<p><strong>約55分</strong></p>
+<h2>手順</h2>
+<ol>
+<li>更新前の実績件数、売上合計、完了件数、最新年月を記録する</li>
+<li>追加データの列名、列順、件数、売上合計、年月、必須項目を確認する</li>
+<li>新しい月の実績をテーブル最下部へ追加する</li>
+<li>Excelを保存し、追加後の件数と売上合計を記録する</li>
+<li>すべての集計表・グラフ・スライサーを更新する</li>
+<li>PBIXを開き、更新を実行する</li>
+<li>ExcelとPower BIで主要数値と最新年月を比較する</li>
+<li>ファイル名、保存場所、操作順、確認数値、エラー時の対応を手順書へ記載する</li>
+</ol>
+<h2>完成条件</h2>
+<ul>
+<li>追加データがExcelテーブルに含まれている</li>
+<li>ピボットテーブル・グラフが更新されている</li>
+<li>新しい年月がスライサーへ表示される</li>
+<li>Power BIが更新されている</li>
+<li>更新前後の件数・売上合計を記録している</li>
+<li>ExcelとPower BIの主要数値が一致している</li>
+<li>月次更新手順だけで操作を再現できる</li>
+<li>エラー時の基本確認が記載されている</li>
+</ul>
+<h2>提出物</h2>
+<ul>
+<li>更新確認済みExcelファイル</li>
+<li>更新確認済みPBIXファイル</li>
+<li>月次更新手順</li>
+<li>更新確認チェックリスト</li>
+<li>エラー発生時の確認事項</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card answer-card" id="lesson-u06-05"
+  data-type="WIKI" data-answer="true"
+  data-track="false" data-search="解答例と確認ポイント 解説 更新確認チェックリストの例 確認項目 更新前 追加分 更新後 結果 : : : 実績件数 120 20 140 売上合計 12,500,000 1,800,000 14,300,000 完了件数 95 14 109 最新年月 2026 05 2026 06 2026 06 ExcelとPower BIの比較 項目 Excel Power BI 一致 : : 売上合計 14,300,000 14,300,000 実績件数 140 140 完了件数 109 109 よくある修正例 状態 修正方法 Excelは増えたがピボットが変わらない ピボットを更新する ピボットは変わったがPower BIが変わらない Excelを保存し、Power BIを更新する 新しい年月だけ表示されない 年月の形式を既存データと統一する 売上合計が追加分より大きく増えた 重複追加を確認する Power BIが元ファイルを見つけられない 保存場所・名前を確認する 手順書の評価 ファイル名と保存場所が具体的 操作順がExcel→Power BIになっている 更新前後の確認数値がある フィルター・スライサー解除の確認がある エラー時の確認順がある 更新担当者と問い合わせ先が分かる">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span><span class="badge answer">解答例</span></div>
+      <h3>解答例と確認ポイント</h3>
+    </div>
+    
+  </summary>
+  <div class="lesson-body"><h2>更新確認チェックリストの例</h2>
+<table>
+<thead>
+<tr>
+  <th>確認項目</th>
+  <th style="text-align:right">更新前</th>
+  <th style="text-align:right">追加分</th>
+  <th style="text-align:right">更新後</th>
+  <th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>実績件数</td>
+  <td style="text-align:right">120</td>
+  <td style="text-align:right">20</td>
+  <td style="text-align:right">140</td>
+  <td></td>
+</tr>
+<tr>
+  <td>売上合計</td>
+  <td style="text-align:right">12,500,000</td>
+  <td style="text-align:right">1,800,000</td>
+  <td style="text-align:right">14,300,000</td>
+  <td></td>
+</tr>
+<tr>
+  <td>完了件数</td>
+  <td style="text-align:right">95</td>
+  <td style="text-align:right">14</td>
+  <td style="text-align:right">109</td>
+  <td></td>
+</tr>
+<tr>
+  <td>最新年月</td>
+  <td style="text-align:right">2026-05</td>
+  <td style="text-align:right">2026-06</td>
+  <td style="text-align:right">2026-06</td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<h2>ExcelとPower BIの比較</h2>
+<table>
+<thead>
+<tr>
+  <th>項目</th>
+  <th style="text-align:right">Excel</th>
+  <th style="text-align:right">Power BI</th>
+  <th>一致</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>売上合計</td>
+  <td style="text-align:right">14,300,000</td>
+  <td style="text-align:right">14,300,000</td>
+  <td></td>
+</tr>
+<tr>
+  <td>実績件数</td>
+  <td style="text-align:right">140</td>
+  <td style="text-align:right">140</td>
+  <td></td>
+</tr>
+<tr>
+  <td>完了件数</td>
+  <td style="text-align:right">109</td>
+  <td style="text-align:right">109</td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<h2>よくある修正例</h2>
+<table>
+<thead>
+<tr>
+  <th>状態</th>
+  <th>修正方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Excelは増えたがピボットが変わらない</td>
+  <td>ピボットを更新する</td>
+</tr>
+<tr>
+  <td>ピボットは変わったがPower BIが変わらない</td>
+  <td>Excelを保存し、Power BIを更新する</td>
+</tr>
+<tr>
+  <td>新しい年月だけ表示されない</td>
+  <td>年月の形式を既存データと統一する</td>
+</tr>
+<tr>
+  <td>売上合計が追加分より大きく増えた</td>
+  <td>重複追加を確認する</td>
+</tr>
+<tr>
+  <td>Power BIが元ファイルを見つけられない</td>
+  <td>保存場所・名前を確認する</td>
+</tr>
+</tbody>
+</table>
+<h2>手順書の評価</h2>
+<ul>
+<li>ファイル名と保存場所が具体的</li>
+<li>操作順がExcel→Power BIになっている</li>
+<li>更新前後の確認数値がある</li>
+<li>フィルター・スライサー解除の確認がある</li>
+<li>エラー時の確認順がある</li>
+<li>更新担当者と問い合わせ先が分かる</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u06-06"
+  data-type="CHECK" data-answer="false"
+  data-track="true" data-search="確認問題：月次更新と標準化 確認・提出 確認問題 問題1 Power BIを更新する前に、Excelファイルを保存する必要がある理由を説明してください。 問題2 月次更新の前後で確認する数値を3つ答えてください。 問題3 新しい年月がスライサーへ表示されない場合に確認する内容を2つ答えてください。 問題4 Excelの列名・テーブル名・ファイル名を変更しない理由を説明してください。 問題5 担当者以外でも更新できる手順書に必要な情報を3つ答えてください。 提出前の確認 すべての問題へ回答した ExcelとPower BIの更新順を確認した 更新前後の件数・合計を比較した">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge CHECK">確認・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>確認問題：月次更新と標準化</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>確認問題</h1>
+<h2>問題1</h2>
+<p>Power BIを更新する前に、Excelファイルを保存する必要がある理由を説明してください。</p>
+<h2>問題2</h2>
+<p>月次更新の前後で確認する数値を3つ答えてください。</p>
+<h2>問題3</h2>
+<p>新しい年月がスライサーへ表示されない場合に確認する内容を2つ答えてください。</p>
+<h2>問題4</h2>
+<p>Excelの列名・テーブル名・ファイル名を変更しない理由を説明してください。</p>
+<h2>問題5</h2>
+<p>担当者以外でも更新できる手順書に必要な情報を3つ答えてください。</p>
+<h2>提出前の確認</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>すべての問題へ回答した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>ExcelとPower BIの更新順を確認した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>更新前後の件数・合計を比較した</li>
+</ul>
+</div>
+</details>
+</div>
+</details>
+
+<details class="unit-section" id="unit-u07">
+  <summary>
+    <span class="unit-num">07</span>
+    <div class="unit-heading">
+      <h2>総合演習：月次実績の集計・可視化環境の完成</h2>
+      <small>7教材</small>
+    </div>
+    <span class="chevron">⌄</span>
+  </summary>
+  <div class="lesson-list">
+<details class="lesson-card" id="lesson-u07-00"
+  data-type="INFO" data-answer="false"
+  data-track="true" data-search="総合演習について 案内 所要時間の目安 約2時間 演習の目的 この総合演習では、講師が用意した共通データと未完成ファイルを使用し、単元1〜6で学んだ内容を、月次実績の集計・可視化環境として完成させます。 自由に指標やグラフを追加する演習ではありません。完成見本、課題要件、チェックリストに沿って、指定された集計・可視化・更新を正確に完成させることを優先します。 この演習で確認すること 共通データの列・形式を確認できる ピボットテーブルを指定された切り口で作成できる ピボットグラフとスライサーを設定できる Power BI Desktopの基本レポートを作成できる 追加データをExcelとPower BIへ反映できる 件数・売上合計・完了件数を比較できる 月次更新手順を完成させられる 講師から配布されるもの 完成見本 課題要件 共通データ 未完成のExcelファイル Power BIレポート作成用Excel 追加月データ 月次更新手順のひな型 完成確認用チェックリスト 提出物 一元管理用Excelファイル Power BI Desktopレポート 月次更新手順 自己確認済みの完成確認用チェックリスト">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge INFO">案内</span></div>
+      <h3>総合演習について</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>所要時間の目安</h2>
+<p><strong>約2時間</strong></p>
+<h2>演習の目的</h2>
+<p>この総合演習では、講師が用意した共通データと未完成ファイルを使用し、単元1〜6で学んだ内容を、月次実績の集計・可視化環境として完成させます。</p>
+<p>自由に指標やグラフを追加する演習ではありません。完成見本、課題要件、チェックリストに沿って、指定された集計・可視化・更新を正確に完成させることを優先します。</p>
+<h2>この演習で確認すること</h2>
+<ul>
+<li>共通データの列・形式を確認できる</li>
+<li>ピボットテーブルを指定された切り口で作成できる</li>
+<li>ピボットグラフとスライサーを設定できる</li>
+<li>Power BI Desktopの基本レポートを作成できる</li>
+<li>追加データをExcelとPower BIへ反映できる</li>
+<li>件数・売上合計・完了件数を比較できる</li>
+<li>月次更新手順を完成させられる</li>
+</ul>
+<h2>講師から配布されるもの</h2>
+<ul>
+<li>完成見本</li>
+<li>課題要件</li>
+<li>共通データ</li>
+<li>未完成のExcelファイル</li>
+<li>Power BIレポート作成用Excel</li>
+<li>追加月データ</li>
+<li>月次更新手順のひな型</li>
+<li>完成確認用チェックリスト</li>
+</ul>
+<h2>提出物</h2>
+<ul>
+<li>一元管理用Excelファイル</li>
+<li>Power BI Desktopレポート</li>
+<li>月次更新手順</li>
+<li>自己確認済みの完成確認用チェックリスト</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u07-01"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="完成要件を確認する 解説 共通データ 次の項目を持つExcelテーブルを使用します。 実績ID 実績日 年月 部門 担当者 地域 顧客区分 サービスカテゴリ サービス名 数量 単価 売上金額 ステータス 受注経路 備考 ピボット集計 月別売上 担当者別売上 部門別実績件数 ステータス別件数 Excelでの可視化 月別売上推移グラフ 担当者別売上グラフ 年月スライサー 部門スライサー ステータススライサー Power BI Desktopでの可視化 売上合計カード 実績件数カード 完了件数カード 担当者別売上グラフ 部門別実績件数グラフ 月別・担当者別マトリックス 年月スライサー 部門スライサー 担当者スライサー ステータススライサー 更新確認 追加データをExcelテーブルへ登録する ピボットテーブルとグラフを更新する Power BI Desktopを更新する 更新前後の件数・売上合計・完了件数を確認する 新しい年月が各スライサーへ表示されることを確認する 月次更新手順 元データへの追加方法 ピボット更新方法 Power BI更新方法 件数・合計の確認方法 保存方法 エラー発生時の確認事項">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>完成要件を確認する</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>共通データ</h2>
+<p>次の項目を持つExcelテーブルを使用します。</p>
+<ul>
+<li>実績ID</li>
+<li>実績日</li>
+<li>年月</li>
+<li>部門</li>
+<li>担当者</li>
+<li>地域</li>
+<li>顧客区分</li>
+<li>サービスカテゴリ</li>
+<li>サービス名</li>
+<li>数量</li>
+<li>単価</li>
+<li>売上金額</li>
+<li>ステータス</li>
+<li>受注経路</li>
+<li>備考</li>
+</ul>
+<h2>ピボット集計</h2>
+<ul>
+<li>月別売上</li>
+<li>担当者別売上</li>
+<li>部門別実績件数</li>
+<li>ステータス別件数</li>
+</ul>
+<h2>Excelでの可視化</h2>
+<ul>
+<li>月別売上推移グラフ</li>
+<li>担当者別売上グラフ</li>
+<li>年月スライサー</li>
+<li>部門スライサー</li>
+<li>ステータススライサー</li>
+</ul>
+<h2>Power BI Desktopでの可視化</h2>
+<ul>
+<li>売上合計カード</li>
+<li>実績件数カード</li>
+<li>完了件数カード</li>
+<li>担当者別売上グラフ</li>
+<li>部門別実績件数グラフ</li>
+<li>月別・担当者別マトリックス</li>
+<li>年月スライサー</li>
+<li>部門スライサー</li>
+<li>担当者スライサー</li>
+<li>ステータススライサー</li>
+</ul>
+<h2>更新確認</h2>
+<ul>
+<li>追加データをExcelテーブルへ登録する</li>
+<li>ピボットテーブルとグラフを更新する</li>
+<li>Power BI Desktopを更新する</li>
+<li>更新前後の件数・売上合計・完了件数を確認する</li>
+<li>新しい年月が各スライサーへ表示されることを確認する</li>
+</ul>
+<h2>月次更新手順</h2>
+<ul>
+<li>元データへの追加方法</li>
+<li>ピボット更新方法</li>
+<li>Power BI更新方法</li>
+<li>件数・合計の確認方法</li>
+<li>保存方法</li>
+<li>エラー発生時の確認事項</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u07-02"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="演習の進め方と時間配分 解説 推奨する時間配分 作業 目安 : 完成見本・課題要件・共通データの確認 10分 ピボットテーブル 20分 ピボットグラフ・スライサー 15分 Power BI基本レポート 35分 追加データと更新確認 20分 月次更新手順 10分 提出前確認・保存 10分 合計 120分 見た目の細かな調整より、必要な集計・ビジュアル・更新確認を優先します。 作業の順番 1. 共通データの列名、件数、売上合計、最新年月を確認する 2. 指定された4つのピボット集計を作成する 3. Excel報告シートへグラフとスライサーを配置する 4. Power BIへExcelを読み込み、カード・グラフ・マトリックス・スライサーを作成する 5. ExcelとPower BIの主要数値を比較する 6. Excelテーブルへ新しい月のデータを追加する 7. ピボットとPower BIを更新する 8. 件数・売上合計・完了件数・最新年月を確認する 9. 月次更新手順を完成させる 10. チェックリストを記入して保存する 時間が不足した場合の優先順位 1. 共通データの確認 2. ピボット集計 3. Excelのグラフとスライサー 4. Power BIのカード・主要グラフ 5. Power BIのスライサー 6. 更新確認 7. 月次更新手順 8. 見た目の調整">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>演習の進め方と時間配分</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>推奨する時間配分</h2>
+<table>
+<thead>
+<tr>
+  <th>作業</th>
+  <th style="text-align:right">目安</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>完成見本・課題要件・共通データの確認</td>
+  <td style="text-align:right">10分</td>
+</tr>
+<tr>
+  <td>ピボットテーブル</td>
+  <td style="text-align:right">20分</td>
+</tr>
+<tr>
+  <td>ピボットグラフ・スライサー</td>
+  <td style="text-align:right">15分</td>
+</tr>
+<tr>
+  <td>Power BI基本レポート</td>
+  <td style="text-align:right">35分</td>
+</tr>
+<tr>
+  <td>追加データと更新確認</td>
+  <td style="text-align:right">20分</td>
+</tr>
+<tr>
+  <td>月次更新手順</td>
+  <td style="text-align:right">10分</td>
+</tr>
+<tr>
+  <td>提出前確認・保存</td>
+  <td style="text-align:right">10分</td>
+</tr>
+<tr>
+  <td><strong>合計</strong></td>
+  <td style="text-align:right"><strong>120分</strong></td>
+</tr>
+</tbody>
+</table>
+<p>見た目の細かな調整より、必要な集計・ビジュアル・更新確認を優先します。</p>
+<h2>作業の順番</h2>
+<ol>
+<li>共通データの列名、件数、売上合計、最新年月を確認する</li>
+<li>指定された4つのピボット集計を作成する</li>
+<li>Excel報告シートへグラフとスライサーを配置する</li>
+<li>Power BIへExcelを読み込み、カード・グラフ・マトリックス・スライサーを作成する</li>
+<li>ExcelとPower BIの主要数値を比較する</li>
+<li>Excelテーブルへ新しい月のデータを追加する</li>
+<li>ピボットとPower BIを更新する</li>
+<li>件数・売上合計・完了件数・最新年月を確認する</li>
+<li>月次更新手順を完成させる</li>
+<li>チェックリストを記入して保存する</li>
+</ol>
+<h2>時間が不足した場合の優先順位</h2>
+<ol>
+<li>共通データの確認</li>
+<li>ピボット集計</li>
+<li>Excelのグラフとスライサー</li>
+<li>Power BIのカード・主要グラフ</li>
+<li>Power BIのスライサー</li>
+<li>更新確認</li>
+<li>月次更新手順</li>
+<li>見た目の調整</li>
+</ol>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u07-03"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="最終確認とトラブル対応 解説 提出前に確認する順番 共通データ 列名が指定どおり Excelテーブルになっている 日付・数値形式が正しい 空白行・小計行がない 件数と売上合計を記録している ピボット集計 行・値が指定どおり 合計・件数の設定が正しい 年月の並び順が正しい 担当者別売上が降順 総計が元データと一致する Excelの可視化 必要なグラフがある 必要なスライサーがある スライサーの接続が正しい 全件表示へ戻せる Power BI 必要なカード・グラフ・マトリックスがある 必要なスライサーがある 完了件数のフィルターが正しい ビジュアルが連動する Excelと主要数値が一致する 更新 新しい月がExcelへ追加されている ピボットが更新されている Power BIが更新されている 更新前後の件数・合計を記録している PBIXを保存している よくあるトラブル 状態 確認すること ピボット総計が合わない 集計方法、フィルター、元データ スライサーが一部だけ動かない 接続先 Power BIの数値が古い Excel保存、Power BI更新 完了件数が全件になる カードのフィルター 新しい年月が表示されない 年月形式、更新 PBIXでExcelが見つからない 保存場所・ファイル名 件数が増えすぎた 追加データの重複 修正時の注意 数値が合わないまま見た目を整えない エラー部分を固定値で上書きしない 列名・テーブル名を途中で変更しない フィルター条件を確認してからデータを修正する 修正後にExcelとPower BIの両方を再確認する">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>最終確認とトラブル対応</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>提出前に確認する順番</h2>
+<h3>共通データ</h3>
+<ul>
+<li>列名が指定どおり</li>
+<li>Excelテーブルになっている</li>
+<li>日付・数値形式が正しい</li>
+<li>空白行・小計行がない</li>
+<li>件数と売上合計を記録している</li>
+</ul>
+<h3>ピボット集計</h3>
+<ul>
+<li>行・値が指定どおり</li>
+<li>合計・件数の設定が正しい</li>
+<li>年月の並び順が正しい</li>
+<li>担当者別売上が降順</li>
+<li>総計が元データと一致する</li>
+</ul>
+<h3>Excelの可視化</h3>
+<ul>
+<li>必要なグラフがある</li>
+<li>必要なスライサーがある</li>
+<li>スライサーの接続が正しい</li>
+<li>全件表示へ戻せる</li>
+</ul>
+<h3>Power BI</h3>
+<ul>
+<li>必要なカード・グラフ・マトリックスがある</li>
+<li>必要なスライサーがある</li>
+<li>完了件数のフィルターが正しい</li>
+<li>ビジュアルが連動する</li>
+<li>Excelと主要数値が一致する</li>
+</ul>
+<h3>更新</h3>
+<ul>
+<li>新しい月がExcelへ追加されている</li>
+<li>ピボットが更新されている</li>
+<li>Power BIが更新されている</li>
+<li>更新前後の件数・合計を記録している</li>
+<li>PBIXを保存している</li>
+</ul>
+<h2>よくあるトラブル</h2>
+<table>
+<thead>
+<tr>
+  <th>状態</th>
+  <th>確認すること</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>ピボット総計が合わない</td>
+  <td>集計方法、フィルター、元データ</td>
+</tr>
+<tr>
+  <td>スライサーが一部だけ動かない</td>
+  <td>接続先</td>
+</tr>
+<tr>
+  <td>Power BIの数値が古い</td>
+  <td>Excel保存、Power BI更新</td>
+</tr>
+<tr>
+  <td>完了件数が全件になる</td>
+  <td>カードのフィルター</td>
+</tr>
+<tr>
+  <td>新しい年月が表示されない</td>
+  <td>年月形式、更新</td>
+</tr>
+<tr>
+  <td>PBIXでExcelが見つからない</td>
+  <td>保存場所・ファイル名</td>
+</tr>
+<tr>
+  <td>件数が増えすぎた</td>
+  <td>追加データの重複</td>
+</tr>
+</tbody>
+</table>
+<h2>修正時の注意</h2>
+<ul>
+<li>数値が合わないまま見た目を整えない</li>
+<li>エラー部分を固定値で上書きしない</li>
+<li>列名・テーブル名を途中で変更しない</li>
+<li>フィルター条件を確認してからデータを修正する</li>
+<li>修正後にExcelとPower BIの両方を再確認する</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u07-04"
+  data-type="PRACTICE" data-answer="false"
+  data-track="true" data-search="総合演習：集計・可視化環境を完成させる 練習・提出 課題 講師が提示した完成条件に沿って、月次実績の集計・可視化環境を完成させてください。 手順 1. 完成見本、課題要件、共通データを確認する 2. 月別・担当者別・部門別・ステータス別のピボット集計を作成する 3. 月別売上推移・担当者別売上グラフを作成する 4. 年月・部門・ステータスのスライサーを設定する 5. Power BI DesktopへExcelを読み込む 6. カード・グラフ・マトリックス・スライサーを作成する 7. ExcelとPower BIの主要数値を比較する 8. 追加データをExcelテーブルへ登録する 9. ピボットとPower BIを更新する 10. 更新前後の件数・売上合計・完了件数を確認する 11. 月次更新手順を完成させる 12. チェックリストを記入して保存する 完成条件 共通データの列・形式が正しい 指定された4つのピボット集計がある Excelのグラフとスライサーがある 指定されたPower BIビジュアルがある ExcelとPower BIの主要数値が一致する 追加データが両方へ反映される 新しい年月がスライサーへ表示される 更新前後の確認記録がある 月次更新手順が完成している 提出物 一元管理用Excelファイル Power BI Desktopレポート（PBIX） 月次更新手順 完成確認用チェックリスト">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge PRACTICE">練習・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>総合演習：集計・可視化環境を完成させる</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>課題</h1>
+<p>講師が提示した完成条件に沿って、月次実績の集計・可視化環境を完成させてください。</p>
+<h2>手順</h2>
+<ol>
+<li>完成見本、課題要件、共通データを確認する</li>
+<li>月別・担当者別・部門別・ステータス別のピボット集計を作成する</li>
+<li>月別売上推移・担当者別売上グラフを作成する</li>
+<li>年月・部門・ステータスのスライサーを設定する</li>
+<li>Power BI DesktopへExcelを読み込む</li>
+<li>カード・グラフ・マトリックス・スライサーを作成する</li>
+<li>ExcelとPower BIの主要数値を比較する</li>
+<li>追加データをExcelテーブルへ登録する</li>
+<li>ピボットとPower BIを更新する</li>
+<li>更新前後の件数・売上合計・完了件数を確認する</li>
+<li>月次更新手順を完成させる</li>
+<li>チェックリストを記入して保存する</li>
+</ol>
+<h2>完成条件</h2>
+<ul>
+<li>共通データの列・形式が正しい</li>
+<li>指定された4つのピボット集計がある</li>
+<li>Excelのグラフとスライサーがある</li>
+<li>指定されたPower BIビジュアルがある</li>
+<li>ExcelとPower BIの主要数値が一致する</li>
+<li>追加データが両方へ反映される</li>
+<li>新しい年月がスライサーへ表示される</li>
+<li>更新前後の確認記録がある</li>
+<li>月次更新手順が完成している</li>
+</ul>
+<h2>提出物</h2>
+<ul>
+<li>一元管理用Excelファイル</li>
+<li>Power BI Desktopレポート（PBIX）</li>
+<li>月次更新手順</li>
+<li>完成確認用チェックリスト</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u07-05"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="評価基準と振り返り 解説 評価基準 評価項目 確認内容 データ設計 共通フォーマットと入力形式が統一されている ピボット集計 指定された切り口・集計方法で作成されている Excel可視化 グラフ・スライサーが正しく連動する Power BI 必要なビジュアルとスライサーが配置されている 数値確認 ExcelとPower BIの件数・合計が一致する 更新 追加データが両方へ反映される 標準化 第三者が更新できる手順がある 提出 指定ファイルが開け、名前が正しい 達成状況の目安 達成 完成条件を満たし、追加データ更新後もExcelとPower BIの数値が一致する。 一部達成 主要集計・ビジュアルは完成しているが、一部のスライサー接続、更新確認、手順書に不足がある。 要修正 元データ、集計方法、主要数値、データ更新など、月次運用に影響する問題が残っている。 振り返り 改善前に最も時間がかかっていた集計作業 共通フォーマットにより減らせる作業 ピボットテーブルが向いている確認 Power BIが向いている確認 更新時に最も注意すべき項目 実務適用時に確認が必要な社内ルール 手作業削減時間の試算 例： text 改善前の集計・グラフ更新：毎月90分 改善後のデータ追加・更新確認：毎月25分 1回あたりの削減：65分 年間12回：65分 × 12回 = 780分（13時間）">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>評価基準と振り返り</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>評価基準</h2>
+<table>
+<thead>
+<tr>
+  <th>評価項目</th>
+  <th>確認内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>データ設計</td>
+  <td>共通フォーマットと入力形式が統一されている</td>
+</tr>
+<tr>
+  <td>ピボット集計</td>
+  <td>指定された切り口・集計方法で作成されている</td>
+</tr>
+<tr>
+  <td>Excel可視化</td>
+  <td>グラフ・スライサーが正しく連動する</td>
+</tr>
+<tr>
+  <td>Power BI</td>
+  <td>必要なビジュアルとスライサーが配置されている</td>
+</tr>
+<tr>
+  <td>数値確認</td>
+  <td>ExcelとPower BIの件数・合計が一致する</td>
+</tr>
+<tr>
+  <td>更新</td>
+  <td>追加データが両方へ反映される</td>
+</tr>
+<tr>
+  <td>標準化</td>
+  <td>第三者が更新できる手順がある</td>
+</tr>
+<tr>
+  <td>提出</td>
+  <td>指定ファイルが開け、名前が正しい</td>
+</tr>
+</tbody>
+</table>
+<h2>達成状況の目安</h2>
+<h3>達成</h3>
+<p>完成条件を満たし、追加データ更新後もExcelとPower BIの数値が一致する。</p>
+<h3>一部達成</h3>
+<p>主要集計・ビジュアルは完成しているが、一部のスライサー接続、更新確認、手順書に不足がある。</p>
+<h3>要修正</h3>
+<p>元データ、集計方法、主要数値、データ更新など、月次運用に影響する問題が残っている。</p>
+<h2>振り返り</h2>
+<ul>
+<li>改善前に最も時間がかかっていた集計作業</li>
+<li>共通フォーマットにより減らせる作業</li>
+<li>ピボットテーブルが向いている確認</li>
+<li>Power BIが向いている確認</li>
+<li>更新時に最も注意すべき項目</li>
+<li>実務適用時に確認が必要な社内ルール</li>
+</ul>
+<h2>手作業削減時間の試算</h2>
+<p>例：</p>
+<pre><code class="language-text">改善前の集計・グラフ更新：毎月90分
+改善後のデータ追加・更新確認：毎月25分
+1回あたりの削減：65分
+年間12回：65分 × 12回 = 780分（13時間）
+</code></pre>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u07-06"
+  data-type="CHECK" data-answer="false"
+  data-track="true" data-search="確認問題：総合演習の成果物提出 確認・提出 成果物提出 次の成果物を提出してください。 一元管理用Excelファイル Power BI Desktopレポート（PBIX） 月次更新手順 完成確認用チェックリスト 提出前の確認 Excel 共通データがExcelテーブルになっている ピボット集計が指定どおり グラフとスライサーが動作する 元データと件数・売上合計が一致する Power BI 必要なカードがある 必要なグラフとマトリックスがある 必要なスライサーがある 完了件数の条件が正しい Excelと主要数値が一致する PBIXを保存して再度開ける 更新 追加データを登録した ピボットを更新した Power BIを更新した 新しい年月を確認した 更新前後の件数・合計を記録した 手順書 Excelへの追加方法がある ピボットの更新方法がある Power BIの更新方法がある 件数・合計の確認方法がある エラー時の確認事項がある 振り返り問題 問題1 共通フォーマットを作成することで削減できる作業を2つ答えてください。 問題2 ExcelピボットテーブルとPower BI Desktopの使い分けを説明してください。 問題3 月次更新時に、ExcelとPower BIの両方で確認する数値を3つ答えてください。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge CHECK">確認・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>確認問題：総合演習の成果物提出</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>成果物提出</h1>
+<p>次の成果物を提出してください。</p>
+<ul>
+<li>一元管理用Excelファイル</li>
+<li>Power BI Desktopレポート（PBIX）</li>
+<li>月次更新手順</li>
+<li>完成確認用チェックリスト</li>
+</ul>
+<h2>提出前の確認</h2>
+<h3>Excel</h3>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>共通データがExcelテーブルになっている</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>ピボット集計が指定どおり</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>グラフとスライサーが動作する</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>元データと件数・売上合計が一致する</li>
+</ul>
+<h3>Power BI</h3>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>必要なカードがある</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>必要なグラフとマトリックスがある</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>必要なスライサーがある</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>完了件数の条件が正しい</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>Excelと主要数値が一致する</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>PBIXを保存して再度開ける</li>
+</ul>
+<h3>更新</h3>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>追加データを登録した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>ピボットを更新した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>Power BIを更新した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>新しい年月を確認した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>更新前後の件数・合計を記録した</li>
+</ul>
+<h3>手順書</h3>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>Excelへの追加方法がある</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>ピボットの更新方法がある</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>Power BIの更新方法がある</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>件数・合計の確認方法がある</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>エラー時の確認事項がある</li>
+</ul>
+<h2>振り返り問題</h2>
+<h3>問題1</h3>
+<p>共通フォーマットを作成することで削減できる作業を2つ答えてください。</p>
+<h3>問題2</h3>
+<p>ExcelピボットテーブルとPower BI Desktopの使い分けを説明してください。</p>
+<h3>問題3</h3>
+<p>月次更新時に、ExcelとPower BIの両方で確認する数値を3つ答えてください。</p>
+</div>
+</details>
+</div>
+</details>
+</div>
+    <div id="empty-state" class="empty-state">該当する教材が見つかりませんでした。</div>
+    <footer class="footer">
+      コースA HTML閲覧版。確認済みの状態は、このブラウザ内に保存されます。
+    </footer>
+  </main>
+</div>
+</div>
+<script>
+(() => {
+  const body = document.body;
+  const courseId = body.dataset.course || "course";
+  const search = document.querySelector("#course-search");
+  const typeFilter = document.querySelector("#type-filter");
+  const result = document.querySelector("#search-result");
+  const cards = [...document.querySelectorAll(".lesson-card")];
+  const units = [...document.querySelectorAll(".unit-section")];
+  const answerToggle = document.querySelector("#answer-toggle");
+  const progressBar = document.querySelector("#progress-bar");
+  const progressText = document.querySelector("#progress-text");
+  let answersVisible = true;
+
+  const normalize = (s) => (s || "").toLocaleLowerCase("ja").replace(/\s+/g, " ").trim();
+
+  function applyFilters() {
+    const q = normalize(search?.value);
+    const type = typeFilter?.value || "ALL";
+    let shown = 0;
+
+    cards.forEach(card => {
+      const haystack = normalize(card.dataset.search);
+      const matchesSearch = !q || haystack.includes(q);
+      const matchesType =
+        type === "ALL" ||
+        (type === "ANSWER" && card.dataset.answer === "true") ||
+        (type !== "ANSWER" && card.dataset.type === type);
+      const matchesAnswer = answersVisible || card.dataset.answer !== "true";
+      const visible = matchesSearch && matchesType && matchesAnswer;
+      card.hidden = !visible;
+      if (visible) {
+        shown++;
+        if (q) card.open = true;
+      }
+    });
+
+    units.forEach(unit => {
+      const hasVisible = [...unit.querySelectorAll(".lesson-card")].some(card => !card.hidden);
+      unit.hidden = !hasVisible;
+      if (q && hasVisible) unit.open = true;
+    });
+
+    const empty = document.querySelector("#empty-state");
+    if (empty) empty.style.display = shown ? "none" : "block";
+    if (result) result.textContent = q || type !== "ALL" || !answersVisible
+      ? `${shown}件の教材を表示しています`
+      : `全${cards.length}件の教材を表示しています`;
+  }
+
+  function updateProgress() {
+    const trackable = cards.filter(c => c.dataset.track === "true");
+    let completed = 0;
+    trackable.forEach(card => {
+      const checkbox = card.querySelector(".lesson-complete");
+      const key = `is-course:${courseId}:${card.id}`;
+      const checked = localStorage.getItem(key) === "1";
+      if (checkbox) checkbox.checked = checked;
+      if (checked) completed++;
+    });
+    const pct = trackable.length ? Math.round(completed / trackable.length * 100) : 0;
+    if (progressBar) progressBar.style.width = pct + "%";
+    if (progressText) progressText.textContent = `${completed} / ${trackable.length}（${pct}%）`;
+  }
+
+  cards.forEach(card => {
+    const checkbox = card.querySelector(".lesson-complete");
+    if (checkbox) {
+      checkbox.addEventListener("click", e => e.stopPropagation());
+      checkbox.addEventListener("change", () => {
+        const key = `is-course:${courseId}:${card.id}`;
+        localStorage.setItem(key, checkbox.checked ? "1" : "0");
+        updateProgress();
+      });
+    }
+  });
+
+  search?.addEventListener("input", applyFilters);
+  typeFilter?.addEventListener("change", applyFilters);
+  answerToggle?.addEventListener("click", () => {
+    answersVisible = !answersVisible;
+    answerToggle.textContent = answersVisible ? "解答例を隠す" : "解答例を表示";
+    applyFilters();
+  });
+
+  document.querySelector("#open-all")?.addEventListener("click", () => {
+    units.filter(u => !u.hidden).forEach(u => u.open = true);
+    cards.filter(c => !c.hidden).forEach(c => c.open = true);
+  });
+  document.querySelector("#close-all")?.addEventListener("click", () => {
+    cards.forEach(c => c.open = false);
+    units.forEach((u, i) => u.open = i === 0);
+  });
+  document.querySelector("#print-page")?.addEventListener("click", () => window.print());
+
+  document.querySelector("#mobile-menu")?.addEventListener("click", () => {
+    body.classList.toggle("sidebar-open");
+  });
+  document.querySelectorAll(".sidebar a").forEach(a => {
+    a.addEventListener("click", () => body.classList.remove("sidebar-open"));
+  });
+  document.addEventListener("click", e => {
+    if (body.classList.contains("sidebar-open")
+      && !e.target.closest(".sidebar")
+      && !e.target.closest("#mobile-menu")) {
+      body.classList.remove("sidebar-open");
+    }
+  });
+
+  document.querySelectorAll(".lesson-nav a").forEach(link => {
+    link.addEventListener("click", () => {
+      const target = document.querySelector(link.getAttribute("href"));
+      if (target) {
+        target.open = true;
+        const unit = target.closest(".unit-section");
+        if (unit) unit.open = true;
+      }
+    });
+  });
+
+  const unitLinks = [...document.querySelectorAll(".unit-nav > a")];
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        unitLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href") === `#${entry.target.id}`));
+      }
+    });
+  }, { rootMargin: "-20% 0px -70% 0px" });
+  units.forEach(unit => observer.observe(unit));
+
+  updateProgress();
+  applyFilters();
+})();
+</script>
+</body>
+</html>

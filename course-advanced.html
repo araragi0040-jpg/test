@@ -1,0 +1,4443 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>上級・発展コース｜コースA HTML閲覧版</title>
+<style>:root {
+  --course: #2e6ca4;
+  --course-soft: #eaf2fb;
+  --bg: #f5f7fa;
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --text: #1b2533;
+  --muted: #667386;
+  --line: #dce3eb;
+  --shadow: 0 12px 32px rgba(30, 48, 72, .09);
+  --radius: 18px;
+  --sidebar: 320px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP",
+    "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.75;
+}
+button, input, select { font: inherit; }
+a { color: var(--course); }
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  height: 64px;
+  display: flex; align-items: center; gap: 14px;
+  padding: 0 22px;
+  background: rgba(255,255,255,.94);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+}
+.brand {
+  display: flex; align-items: center; gap: 10px;
+  font-weight: 800; text-decoration: none; color: var(--text);
+  white-space: nowrap;
+}
+.brand-mark {
+  display: grid; place-items: center;
+  width: 34px; height: 34px; border-radius: 11px;
+  color: #fff; background: var(--course);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--course), transparent 70%);
+}
+.topbar-spacer { flex: 1; }
+.topbar-link {
+  color: var(--muted); text-decoration: none; font-size: 14px;
+  padding: 7px 10px; border-radius: 9px;
+}
+.topbar-link:hover { background: var(--surface-2); color: var(--text); }
+.mobile-menu {
+  display: none;
+  border: 1px solid var(--line); background: #fff; border-radius: 10px;
+  padding: 7px 10px; cursor: pointer;
+}
+.app-shell {
+  display: grid;
+  grid-template-columns: var(--sidebar) minmax(0, 1fr);
+  min-height: calc(100vh - 64px);
+}
+.sidebar {
+  position: sticky; top: 64px;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+  padding: 22px 18px 36px;
+  background: #fff;
+  border-right: 1px solid var(--line);
+}
+.course-mini {
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--course-soft);
+  border: 1px solid color-mix(in srgb, var(--course), white 75%);
+  margin-bottom: 16px;
+}
+.course-mini strong { display: block; font-size: 17px; margin-bottom: 3px; }
+.course-mini span { color: var(--muted); font-size: 13px; }
+.progress-box {
+  margin: 16px 0 20px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface-2);
+}
+.progress-row {
+  display: flex; justify-content: space-between; gap: 12px;
+  font-size: 13px; color: var(--muted); margin-bottom: 8px;
+}
+.progress-track {
+  height: 8px; border-radius: 999px; background: #e6ebf1; overflow: hidden;
+}
+.progress-bar {
+  width: 0%; height: 100%; border-radius: inherit; background: var(--course);
+  transition: width .2s ease;
+}
+.nav-title {
+  margin: 18px 8px 8px;
+  color: var(--muted); font-size: 12px; font-weight: 800;
+  letter-spacing: .08em; text-transform: uppercase;
+}
+.unit-nav {
+  margin-bottom: 5px;
+}
+.unit-nav > a {
+  display: flex; gap: 9px; align-items: flex-start;
+  padding: 9px 10px;
+  color: var(--text); text-decoration: none;
+  border-radius: 10px; font-weight: 700; font-size: 14px;
+}
+.unit-nav > a:hover, .unit-nav > a.active { background: var(--course-soft); color: var(--course); }
+.unit-num {
+  flex: 0 0 auto; min-width: 29px; height: 22px;
+  display: inline-grid; place-items: center;
+  border-radius: 7px; background: var(--surface-2);
+  color: var(--muted); font-size: 11px; font-weight: 800;
+}
+.lesson-nav {
+  margin: 0 0 8px 44px; display: grid; gap: 2px;
+}
+.lesson-nav a {
+  display: block; padding: 5px 7px;
+  color: var(--muted); text-decoration: none; font-size: 12px;
+  border-radius: 7px; line-height: 1.4;
+}
+.lesson-nav a:hover { color: var(--course); background: var(--course-soft); }
+.lesson-nav a.answer-link { color: #8a5a2b; }
+.main {
+  min-width: 0;
+  padding: 30px clamp(18px, 4vw, 64px) 80px;
+}
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(28px, 5vw, 52px);
+  border-radius: 26px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 90% 10%, rgba(255,255,255,.24), transparent 26%),
+    linear-gradient(135deg, var(--course), color-mix(in srgb, var(--course), #18263d 35%));
+  box-shadow: var(--shadow);
+}
+.hero::after {
+  content: "";
+  position: absolute; right: -65px; bottom: -80px;
+  width: 230px; height: 230px; border-radius: 50%;
+  border: 36px solid rgba(255,255,255,.08);
+}
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 5px 10px; border-radius: 999px;
+  background: rgba(255,255,255,.16);
+  font-size: 12px; font-weight: 800; letter-spacing: .08em;
+}
+.hero h1 {
+  margin: 14px 0 8px;
+  font-size: clamp(28px, 4.3vw, 48px);
+  line-height: 1.25;
+}
+.hero p {
+  max-width: 780px; margin: 0;
+  color: rgba(255,255,255,.9); font-size: clamp(15px, 2vw, 18px);
+}
+.hero-stats {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  margin-top: 22px;
+}
+.stat-pill {
+  padding: 8px 12px; border-radius: 11px;
+  background: rgba(255,255,255,.13);
+  border: 1px solid rgba(255,255,255,.18);
+  font-size: 13px;
+}
+.toolbar {
+  position: sticky; top: 76px; z-index: 30;
+  display: flex; flex-wrap: wrap; gap: 10px;
+  align-items: center;
+  margin: 22px 0;
+  padding: 12px;
+  background: rgba(245,247,250,.93);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+}
+.search-wrap { flex: 1 1 300px; position: relative; }
+.search-wrap input {
+  width: 100%; min-height: 42px;
+  padding: 9px 40px 9px 13px;
+  border: 1px solid var(--line); border-radius: 11px;
+  background: #fff; color: var(--text); outline: none;
+}
+.search-wrap input:focus { border-color: var(--course); box-shadow: 0 0 0 3px var(--course-soft); }
+.search-icon {
+  position: absolute; right: 13px; top: 50%; transform: translateY(-50%);
+  color: var(--muted); pointer-events: none;
+}
+.control {
+  min-height: 42px; padding: 8px 12px;
+  border: 1px solid var(--line); border-radius: 11px;
+  background: #fff; color: var(--text); cursor: pointer;
+}
+.control:hover { border-color: var(--course); }
+.search-result {
+  width: 100%;
+  color: var(--muted); font-size: 12px; padding: 0 4px;
+}
+.unit-section {
+  margin: 22px 0;
+  scroll-margin-top: 150px;
+}
+.unit-section > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 13px;
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 4px 16px rgba(30,48,72,.05);
+}
+.unit-section > summary::-webkit-details-marker { display: none; }
+.unit-section[open] > summary {
+  border-color: color-mix(in srgb, var(--course), white 65%);
+  background: var(--course-soft);
+}
+.unit-heading {
+  min-width: 0; flex: 1;
+}
+.unit-heading h2 {
+  margin: 0; font-size: clamp(18px, 2.2vw, 24px); line-height: 1.35;
+}
+.unit-heading small { color: var(--muted); }
+.chevron {
+  width: 32px; height: 32px; display: grid; place-items: center;
+  border-radius: 9px; background: #fff; color: var(--muted);
+  transition: transform .18s ease;
+}
+.unit-section[open] .chevron { transform: rotate(180deg); }
+.lesson-list { display: grid; gap: 14px; margin-top: 14px; }
+.lesson-card {
+  scroll-margin-top: 150px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(30,48,72,.05);
+  overflow: hidden;
+}
+.lesson-card[hidden] { display: none !important; }
+.lesson-card > summary {
+  list-style: none; cursor: pointer;
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 18px;
+}
+.lesson-card > summary::-webkit-details-marker { display: none; }
+.lesson-card[open] > summary { border-bottom: 1px solid var(--line); }
+.lesson-meta {
+  display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+}
+.badge {
+  display: inline-flex; align-items: center;
+  min-height: 24px; padding: 3px 8px;
+  border-radius: 999px; font-size: 11px; font-weight: 800;
+}
+.badge.INFO { color: #4c5a68; background: #edf1f5; }
+.badge.WIKI { color: #245d8c; background: #e6f1fa; }
+.badge.PRACTICE { color: #2d6a4f; background: #e6f5ed; }
+.badge.CHECK { color: #8b5317; background: #fff0dc; }
+.badge.answer { color: #754b21; background: #fff3df; }
+.badge.submit { color: #9a2c36; background: #fdecef; }
+.lesson-heading {
+  min-width: 0; flex: 1;
+}
+.lesson-heading h3 {
+  margin: 4px 0 0; font-size: 17px; line-height: 1.45;
+}
+.lesson-check {
+  display: flex; align-items: center; gap: 5px;
+  white-space: nowrap; color: var(--muted); font-size: 12px;
+}
+.lesson-check input { width: 17px; height: 17px; accent-color: var(--course); }
+.lesson-body {
+  padding: 22px clamp(16px, 3vw, 32px) 32px;
+  overflow-wrap: anywhere;
+}
+.lesson-body > :first-child { margin-top: 0; }
+.lesson-body h1, .lesson-body h2, .lesson-body h3, .lesson-body h4 {
+  line-height: 1.45;
+  scroll-margin-top: 150px;
+}
+.lesson-body h1 { font-size: 1.65rem; margin: 1.6em 0 .65em; }
+.lesson-body h2 {
+  font-size: 1.35rem; margin: 1.8em 0 .65em;
+  padding-bottom: .35em; border-bottom: 2px solid var(--course-soft);
+}
+.lesson-body h3 { font-size: 1.13rem; margin: 1.45em 0 .5em; }
+.lesson-body h4 { font-size: 1rem; margin: 1.3em 0 .45em; }
+.lesson-body p, .lesson-body li { color: #2d3948; }
+.lesson-body strong { color: #172334; }
+.lesson-body blockquote {
+  margin: 18px 0; padding: 12px 16px;
+  border-left: 4px solid var(--course);
+  background: var(--course-soft); border-radius: 0 10px 10px 0;
+}
+.lesson-body blockquote p { margin: 0; }
+.lesson-body table {
+  width: 100%; border-collapse: separate; border-spacing: 0;
+  margin: 18px 0; font-size: 14px;
+  border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+}
+.lesson-body th, .lesson-body td {
+  padding: 9px 11px; border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line); vertical-align: top;
+}
+.lesson-body th { background: var(--course-soft); text-align: left; }
+.lesson-body tr:last-child td { border-bottom: 0; }
+.lesson-body th:last-child, .lesson-body td:last-child { border-right: 0; }
+.lesson-body pre {
+  margin: 16px 0; padding: 16px;
+  overflow-x: auto; border-radius: 12px;
+  color: #eaf1f8; background: #1e2b3a;
+  line-height: 1.55;
+}
+.lesson-body code {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: .91em;
+}
+.lesson-body :not(pre) > code {
+  padding: 2px 6px; border-radius: 6px;
+  color: #7b3350; background: #f7edf2;
+}
+.lesson-body hr { border: 0; border-top: 1px solid var(--line); margin: 28px 0; }
+.lesson-body img { max-width: 100%; height: auto; border-radius: 10px; }
+.lesson-body input[type="checkbox"] { accent-color: var(--course); }
+.answer-card { border-color: #e8d4b7; background: #fffdf9; }
+.answer-card > summary { background: #fff8ed; }
+.empty-state {
+  display: none;
+  padding: 50px 20px; text-align: center; color: var(--muted);
+  background: #fff; border: 1px dashed var(--line); border-radius: 16px;
+}
+.footer {
+  margin-top: 48px; padding-top: 24px;
+  border-top: 1px solid var(--line); color: var(--muted); font-size: 13px;
+}
+.index-body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 10% 0%, #e9f5ef 0, transparent 30%),
+    radial-gradient(circle at 90% 0%, #eee9f8 0, transparent 32%),
+    #f6f8fb;
+}
+.index-wrap { width: min(1120px, calc(100% - 36px)); margin: auto; padding: 42px 0 70px; }
+.index-hero {
+  padding: clamp(34px, 7vw, 76px) 0 46px;
+  text-align: center;
+}
+.index-kicker {
+  display: inline-block; padding: 6px 12px; border-radius: 999px;
+  background: #fff; border: 1px solid var(--line);
+  color: var(--muted); font-size: 13px; font-weight: 800;
+}
+.index-hero h1 { font-size: clamp(34px, 7vw, 64px); line-height: 1.15; margin: 18px 0 15px; }
+.index-hero p { max-width: 760px; margin: auto; color: var(--muted); font-size: 18px; }
+.course-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+}
+.course-card {
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
+  min-height: 370px; padding: 28px;
+  text-decoration: none; color: var(--text);
+  background: #fff; border: 1px solid var(--line);
+  border-radius: 24px; box-shadow: var(--shadow);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.course-card:hover { transform: translateY(-5px); box-shadow: 0 18px 42px rgba(30,48,72,.14); }
+.course-card::before {
+  content: ""; position: absolute; inset: 0 0 auto; height: 8px; background: var(--card-color);
+}
+.course-level {
+  display: inline-flex; align-items: center; align-self: flex-start;
+  padding: 5px 10px; border-radius: 999px;
+  color: var(--card-color); background: var(--card-soft);
+  font-size: 12px; font-weight: 900; letter-spacing: .08em;
+}
+.course-card h2 { margin: 18px 0 8px; font-size: 27px; line-height: 1.3; }
+.course-card .subtitle { color: var(--muted); min-height: 50px; }
+.course-theme {
+  margin: 18px 0; padding: 13px 15px;
+  border-radius: 13px; background: var(--card-soft);
+  color: color-mix(in srgb, var(--card-color), #1c2532 45%); font-weight: 700;
+}
+.card-stats {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto;
+}
+.card-stat {
+  padding: 7px 9px; border-radius: 9px;
+  background: var(--surface-2); color: var(--muted); font-size: 12px;
+}
+.open-course {
+  margin-top: 18px; display: flex; justify-content: space-between;
+  color: var(--card-color); font-weight: 800;
+}
+.index-note {
+  margin-top: 25px; padding: 18px 20px;
+  border-radius: 17px; background: #fff; border: 1px solid var(--line);
+  color: var(--muted);
+}
+@media (max-width: 1050px) {
+  :root { --sidebar: 280px; }
+  .course-grid { grid-template-columns: 1fr; }
+  .course-card { min-height: 270px; }
+}
+@media (max-width: 820px) {
+  .mobile-menu { display: inline-block; }
+  .topbar-link.hide-mobile { display: none; }
+  .app-shell { display: block; }
+  .sidebar {
+    position: fixed; z-index: 60; inset: 64px auto 0 0;
+    width: min(88vw, 340px); height: calc(100vh - 64px);
+    transform: translateX(-105%); transition: transform .2s ease;
+    box-shadow: 16px 0 35px rgba(30,48,72,.18);
+  }
+  body.sidebar-open .sidebar { transform: translateX(0); }
+  body.sidebar-open::after {
+    content: ""; position: fixed; z-index: 55; inset: 64px 0 0;
+    background: rgba(15,24,36,.4);
+  }
+  .main { padding: 20px 14px 60px; }
+  .toolbar { top: 70px; }
+  .lesson-card > summary { align-items: flex-start; }
+  .lesson-check span { display: none; }
+  .lesson-body table { display: block; overflow-x: auto; white-space: nowrap; }
+}
+@media (max-width: 560px) {
+  .topbar { padding: 0 12px; }
+  .brand-text { display: none; }
+  .hero { border-radius: 20px; padding: 26px 20px; }
+  .toolbar { padding: 9px; }
+  .control { flex: 1 1 auto; }
+  .lesson-card > summary { padding: 14px; }
+  .lesson-meta { gap: 4px; }
+  .lesson-heading h3 { font-size: 15px; }
+  .lesson-body { padding: 18px 14px 26px; }
+  .index-wrap { width: min(100% - 24px, 1120px); }
+  .course-card { padding: 22px; }
+}
+@media print {
+  body { background: #fff; }
+  .topbar, .sidebar, .toolbar, .lesson-check, .footer { display: none !important; }
+  .app-shell { display: block; }
+  .main { padding: 0; }
+  .hero { color: #000; background: #fff; box-shadow: none; border: 1px solid #bbb; }
+  .hero p { color: #333; }
+  .unit-section, .lesson-card { break-inside: avoid; box-shadow: none; }
+  details { display: block; }
+  details > summary { display: none !important; }
+  details > * { display: block !important; }
+  .lesson-body { padding: 10px 0 20px; }
+}
+
+:root{--course:#7653a6;--course-soft:#f1ecf8;}
+</style>
+</head>
+<body data-course="advanced">
+<header class="topbar">
+  <button id="mobile-menu" class="mobile-menu" type="button" aria-label="メニューを開く">☰</button>
+  <a class="brand" href="index.html">
+    <span class="brand-mark">IS</span>
+    <span class="brand-text">コースA HTML閲覧版</span>
+  </a>
+  <div class="topbar-spacer"></div>
+  <a class="topbar-link hide-mobile" href="course-basic.html">初級</a>
+  <a class="topbar-link hide-mobile" href="course-intermediate.html">中級</a>
+  <a class="topbar-link hide-mobile" href="course-advanced.html">上級</a>
+  <a class="topbar-link" href="index.html">コース一覧</a>
+</header>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="course-mini">
+      <strong>上級・発展コース</strong>
+      <span>SharePointポータルによる情報の一元化・可視化</span>
+    </div>
+    <div class="progress-box">
+      <div class="progress-row"><span>閲覧進捗</span><strong id="progress-text">0 / 0</strong></div>
+      <div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div>
+    </div>
+    <div class="nav-title">単元・教材</div>
+    
+<div class="unit-nav">
+  <a href="#unit-u00">
+    <span class="unit-num">概要</span>
+    <span>このコースの概要</span>
+  </a>
+  <div class="lesson-nav"><a class="" href="#lesson-u00-00">このコースについて</a><a class="" href="#lesson-u00-01">共通サンプルと構築の流れ</a><a class="" href="#lesson-u00-02">研修時間と教材の進め方</a><a class="" href="#lesson-u00-03">操作環境と研修前確認</a></div>
+</div>
+
+<div class="unit-nav">
+  <a href="#unit-u01">
+    <span class="unit-num">00</span>
+    <span>研修環境へのログインとSharePoint基本操作</span>
+  </a>
+  <div class="lesson-nav"><a class="" href="#lesson-u01-00">解説：研修環境への入り方とSharePointの画面構成</a><a class="" href="#lesson-u01-01">練習問題：ログインからページ・リスト・ライブラリの基本操作を行う</a><a class="" href="#lesson-u01-02">確認問題：ログイン・基本操作・作業開始準備</a><a class="answer-link" href="#lesson-u01-03">解答例：上級・第0章の課題</a></div>
+</div>
+
+<div class="unit-nav">
+  <a href="#unit-u02">
+    <span class="unit-num">01</span>
+    <span>ポータルの目的とサイト設計</span>
+  </a>
+  <div class="lesson-nav"><a class="" href="#lesson-u02-00">この単元について</a><a class="" href="#lesson-u02-01">ポータル設計を始める前に</a><a class="" href="#lesson-u02-02">掲載情報とサイトマップの設計</a><a class="" href="#lesson-u02-03">サンプルポータルの設計例</a><a class="" href="#lesson-u02-04">演習：ポータル設計とサイトマップを作成する</a><a class="answer-link" href="#lesson-u02-05">解答例と確認ポイント</a><a class="" href="#lesson-u02-06">確認問題：ポータルの目的とサイト設計</a></div>
+</div>
+
+<div class="unit-nav">
+  <a href="#unit-u03">
+    <span class="unit-num">02</span>
+    <span>SharePointページの基本作成</span>
+  </a>
+  <div class="lesson-nav"><a class="" href="#lesson-u03-00">この単元について</a><a class="" href="#lesson-u03-01">ページ・セクション・Webパーツ</a><a class="" href="#lesson-u03-02">見やすいトップページの作り方</a><a class="" href="#lesson-u03-03">トップページ土台の作成手順</a><a class="" href="#lesson-u03-04">演習：トップページの土台を作成する</a><a class="answer-link" href="#lesson-u03-05">解答例と確認ポイント</a><a class="" href="#lesson-u03-06">確認問題：SharePointページの基本作成</a></div>
+</div>
+
+<div class="unit-nav">
+  <a href="#unit-u04">
+    <span class="unit-num">03</span>
+    <span>情報への導線と資料管理</span>
+  </a>
+  <div class="lesson-nav"><a class="" href="#lesson-u04-00">この単元について</a><a class="" href="#lesson-u04-01">ニュースとクイックリンク</a><a class="" href="#lesson-u04-02">ライブラリ・列・ビュー</a><a class="" href="#lesson-u04-03">サンプルの導線と資料管理</a><a class="" href="#lesson-u04-04">演習：導線と資料管理を設定する</a><a class="answer-link" href="#lesson-u04-05">解答例と確認ポイント</a><a class="" href="#lesson-u04-06">確認問題：情報への導線と資料管理</a></div>
+</div>
+
+<div class="unit-nav">
+  <a href="#unit-u05">
+    <span class="unit-num">04</span>
+    <span>FormsとListsによるデータ収集・管理</span>
+  </a>
+  <div class="lesson-nav"><a class="" href="#lesson-u05-00">この単元について</a><a class="" href="#lesson-u05-01">FormsとListsの使い分け</a><a class="" href="#lesson-u05-02">入力項目と管理項目の設計</a><a class="" href="#lesson-u05-03">進捗リストと受付フォームの作成例</a><a class="" href="#lesson-u05-04">演習：進捗リストと受付フォームを作成する</a><a class="answer-link" href="#lesson-u05-05">解答例と確認ポイント</a><a class="" href="#lesson-u05-06">確認問題：FormsとListsによるデータ収集・管理</a></div>
+</div>
+
+<div class="unit-nav">
+  <a href="#unit-u06">
+    <span class="unit-num">05</span>
+    <span>業務情報の見える化とページ統合</span>
+  </a>
+  <div class="lesson-nav"><a class="" href="#lesson-u06-00">この単元について</a><a class="" href="#lesson-u06-01">リストビューの基本</a><a class="" href="#lesson-u06-02">トップページと詳細一覧の役割</a><a class="" href="#lesson-u06-03">ビュー作成とページ統合の手順</a><a class="" href="#lesson-u06-04">演習：ビューを作成しポータルへ統合する</a><a class="answer-link" href="#lesson-u06-05">解答例と確認ポイント</a><a class="" href="#lesson-u06-06">確認問題：業務情報の見える化とページ統合</a></div>
+</div>
+
+<div class="unit-nav">
+  <a href="#unit-u07">
+    <span class="unit-num">06</span>
+    <span>権限と継続運用</span>
+  </a>
+  <div class="lesson-nav"><a class="" href="#lesson-u07-00">この単元について</a><a class="" href="#lesson-u07-01">SharePointの基本的な権限</a><a class="" href="#lesson-u07-02">継続運用のルール</a><a class="" href="#lesson-u07-03">権限設計表と運用ルールの例</a><a class="" href="#lesson-u07-04">演習：権限設計と運用ルールを作成する</a><a class="answer-link" href="#lesson-u07-05">解答例と確認ポイント</a><a class="" href="#lesson-u07-06">確認問題：権限と継続運用</a></div>
+</div>
+
+<div class="unit-nav">
+  <a href="#unit-u08">
+    <span class="unit-num">07</span>
+    <span>総合演習：設計部業務ポータルの完成</span>
+  </a>
+  <div class="lesson-nav"><a class="" href="#lesson-u08-00">この単元について</a><a class="" href="#lesson-u08-01">総合演習の完成要件</a><a class="" href="#lesson-u08-02">演習の進め方と時間配分</a><a class="" href="#lesson-u08-03">最終確認とトラブル対応</a><a class="" href="#lesson-u08-04">総合演習：設計部業務ポータルを完成させる</a><a class="answer-link" href="#lesson-u08-05">解答例と確認ポイント</a><a class="" href="#lesson-u08-06">確認問題：総合演習：設計部業務ポータルの完成</a></div>
+</div>
+
+  </aside>
+  <main class="main">
+    <section class="hero">
+      <span class="eyebrow">上級 COURSE</span>
+      <h1>上級・発展コース</h1>
+      <p>SharePointポータルによる情報の一元化・可視化。テーマは「必要な情報を一か所で確認できる仕組みを作る」です。</p>
+      <div class="hero-stats">
+        <span class="stat-pill">8単元</span>
+        <span class="stat-pill">49教材</span>
+        <span class="stat-pill">解答例 8件</span>
+        <span class="stat-pill">講座内容 20時間</span>
+        <span class="stat-pill">全体22時間</span>
+      </div>
+    </section>
+
+    <div class="toolbar">
+      <div class="search-wrap">
+        <input id="course-search" type="search" placeholder="教材内を検索（例：ピボット、権限、マスタ）">
+        <span class="search-icon">⌕</span>
+      </div>
+      <select id="type-filter" class="control" aria-label="教材種別">
+        <option value="ALL">すべての教材</option>
+        <option value="INFO">案内</option>
+        <option value="WIKI">解説</option>
+        <option value="PRACTICE">練習・提出</option>
+        <option value="CHECK">確認・提出</option>
+        <option value="ANSWER">解答例</option>
+      </select>
+      <button id="answer-toggle" class="control" type="button">解答例を隠す</button>
+      <button id="open-all" class="control" type="button">すべて開く</button>
+      <button id="close-all" class="control" type="button">閉じる</button>
+      <button id="print-page" class="control" type="button">印刷</button>
+      <div id="search-result" class="search-result"></div>
+    </div>
+
+    <div id="course-content">
+<details class="unit-section" id="unit-u00" open>
+  <summary>
+    <span class="unit-num">概要</span>
+    <div class="unit-heading">
+      <h2>このコースの概要</h2>
+      <small>4教材</small>
+    </div>
+    <span class="chevron">⌄</span>
+  </summary>
+  <div class="lesson-list">
+<details class="lesson-card" id="lesson-u00-00"
+  data-type="INFO" data-answer="false"
+  data-track="true" data-search="このコースについて 案内 更新情報：第0章を追加しました SharePointの実作業へ入る前に、研修用Microsoft 365アカウントへのログイン、サイト・URL・権限の確認、ページ・リスト・ライブラリの基本操作を行う 第0章（1時間） を追加しています。 講座内容：20時間 運営上のバッファ：2時間 全体スケジュール：22時間 第0章を完了してから、第一章「ポータルの目的とサイト設計」へ進みます。 テーマ 「必要な情報を一か所で確認できる仕組みを作る」 このコースでは、SharePointを中心に、ページ、ニュース、クイックリンク、ドキュメントライブラリ、Microsoft Lists、Microsoft Formsを組み合わせ、部署内で使用する業務ポータルを段階的に構築します。 このコースで身につくこと ポータルの目的・利用者・掲載情報を整理できる サイトマップとナビゲーションを設計できる SharePointページを編集し、基本Webパーツを配置できる ニュースとクイックリンクで情報への導線を作れる ドキュメントライブラリの列とビューを設定できる Microsoft Listsで案件進捗を管理できる Microsoft Formsで問い合わせや改善アイデアを受け付けられる リストビューを使って進行中・期限超過などを見える化できる 所有者・メンバー・閲覧者の役割を整理できる 更新担当・更新頻度・運用ルールを設計できる 最終的な完成物 設計部業務ポータルのトップページ ニュース クイックリンク 案件・業務進捗リストと各種ビュー 設計資料ライブラリと各種ビュー Lists入力フォームまたはForms受付フォーム 権限設計表 運用ルール 完成確認用チェックリスト">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge INFO">案内</span></div>
+      <h3>このコースについて</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>更新情報：第0章を追加しました</h2>
+<p>SharePointの実作業へ入る前に、研修用Microsoft 365アカウントへのログイン、サイト・URL・権限の確認、ページ・リスト・ライブラリの基本操作を行う<strong>第0章（1時間）</strong>を追加しています。</p>
+<ul>
+<li>講座内容：20時間</li>
+<li>運営上のバッファ：2時間</li>
+<li>全体スケジュール：22時間</li>
+</ul>
+<p>第0章を完了してから、第一章「ポータルの目的とサイト設計」へ進みます。</p>
+<hr />
+<h2>テーマ</h2>
+<p><strong>「必要な情報を一か所で確認できる仕組みを作る」</strong></p>
+<p>このコースでは、SharePointを中心に、ページ、ニュース、クイックリンク、ドキュメントライブラリ、Microsoft Lists、Microsoft Formsを組み合わせ、部署内で使用する業務ポータルを段階的に構築します。</p>
+<h2>このコースで身につくこと</h2>
+<ul>
+<li>ポータルの目的・利用者・掲載情報を整理できる</li>
+<li>サイトマップとナビゲーションを設計できる</li>
+<li>SharePointページを編集し、基本Webパーツを配置できる</li>
+<li>ニュースとクイックリンクで情報への導線を作れる</li>
+<li>ドキュメントライブラリの列とビューを設定できる</li>
+<li>Microsoft Listsで案件進捗を管理できる</li>
+<li>Microsoft Formsで問い合わせや改善アイデアを受け付けられる</li>
+<li>リストビューを使って進行中・期限超過などを見える化できる</li>
+<li>所有者・メンバー・閲覧者の役割を整理できる</li>
+<li>更新担当・更新頻度・運用ルールを設計できる</li>
+</ul>
+<h2>最終的な完成物</h2>
+<ul>
+<li>設計部業務ポータルのトップページ</li>
+<li>ニュース</li>
+<li>クイックリンク</li>
+<li>案件・業務進捗リストと各種ビュー</li>
+<li>設計資料ライブラリと各種ビュー</li>
+<li>Lists入力フォームまたはForms受付フォーム</li>
+<li>権限設計表</li>
+<li>運用ルール</li>
+<li>完成確認用チェックリスト</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u00-01"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="共通サンプルと構築の流れ 解説 共通サンプル 青葉エンジニアリング株式会社 設計部業務ポータル 構築前の状態 業務手順やテンプレートが複数のフォルダに分散している 最新資料が分かりにくい お知らせがメールやチャットに埋もれている 案件の進捗を担当者へ個別確認している 問い合わせや改善アイデアの受付方法が統一されていない 更新担当者や公開範囲が決まっていない 講座内で目指す状態 必要な情報をトップページから確認できる 重要なお知らせをニュースで共有できる よく使う手順や申請先へ短い操作で移動できる 設計資料を列・メタデータ・ビューで整理できる 案件進捗を一覧で確認できる 問い合わせや改善アイデアを決められた方法で受け付けられる 更新担当者と更新頻度を明確にできる 単元のつながり 単元 主な内容 成果物 01 目的・利用者・掲載情報 サイトマップ 02 SharePointページ トップページの土台 03 ニュース・リンク・資料管理 情報導線とライブラリ 04 Forms・Lists 進捗リストと受付フォーム 05 ビュー・ページ統合 情報を統合したポータル 06 権限・運用 権限設計表・運用ルール 07 総合演習 完成した業務ポータル">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>共通サンプルと構築の流れ</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>共通サンプル</h2>
+<p><strong>青葉エンジニアリング株式会社　設計部業務ポータル</strong></p>
+<h3>構築前の状態</h3>
+<ul>
+<li>業務手順やテンプレートが複数のフォルダに分散している</li>
+<li>最新資料が分かりにくい</li>
+<li>お知らせがメールやチャットに埋もれている</li>
+<li>案件の進捗を担当者へ個別確認している</li>
+<li>問い合わせや改善アイデアの受付方法が統一されていない</li>
+<li>更新担当者や公開範囲が決まっていない</li>
+</ul>
+<h3>講座内で目指す状態</h3>
+<ul>
+<li>必要な情報をトップページから確認できる</li>
+<li>重要なお知らせをニュースで共有できる</li>
+<li>よく使う手順や申請先へ短い操作で移動できる</li>
+<li>設計資料を列・メタデータ・ビューで整理できる</li>
+<li>案件進捗を一覧で確認できる</li>
+<li>問い合わせや改善アイデアを決められた方法で受け付けられる</li>
+<li>更新担当者と更新頻度を明確にできる</li>
+</ul>
+<h2>単元のつながり</h2>
+<table>
+<thead>
+<tr>
+  <th>単元</th>
+  <th>主な内容</th>
+  <th>成果物</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>01</td>
+  <td>目的・利用者・掲載情報</td>
+  <td>サイトマップ</td>
+</tr>
+<tr>
+  <td>02</td>
+  <td>SharePointページ</td>
+  <td>トップページの土台</td>
+</tr>
+<tr>
+  <td>03</td>
+  <td>ニュース・リンク・資料管理</td>
+  <td>情報導線とライブラリ</td>
+</tr>
+<tr>
+  <td>04</td>
+  <td>Forms・Lists</td>
+  <td>進捗リストと受付フォーム</td>
+</tr>
+<tr>
+  <td>05</td>
+  <td>ビュー・ページ統合</td>
+  <td>情報を統合したポータル</td>
+</tr>
+<tr>
+  <td>06</td>
+  <td>権限・運用</td>
+  <td>権限設計表・運用ルール</td>
+</tr>
+<tr>
+  <td>07</td>
+  <td>総合演習</td>
+  <td>完成した業務ポータル</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u00-02"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="研修時間と教材の進め方 解説 研修時間 区分 時間 : カリキュラム本編・6単元 17時間 総合演習 2時間 講座内容 19時間 運営上のバッファ 2時間 全体スケジュール 21時間 3週間の実施イメージ 週 実施内容 講座時間 : 1週目 単元01・02 6時間 2週目 単元03・04 6時間 3週目 単元05・06・総合演習 7時間 基本的な進め方 1. INFOで目的・完成物を確認する 2. WIKIで考え方と操作方法を学ぶ 3. 講師の操作デモを確認する 4. PRACTICEで成果物を作成する 5. 解答例・確認ポイントと比較する 6. CHECKへ回答し、成果物を提出する">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>研修時間と教材の進め方</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>研修時間</h2>
+<table>
+<thead>
+<tr>
+  <th>区分</th>
+  <th style="text-align:right">時間</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>カリキュラム本編・6単元</td>
+  <td style="text-align:right">17時間</td>
+</tr>
+<tr>
+  <td>総合演習</td>
+  <td style="text-align:right">2時間</td>
+</tr>
+<tr>
+  <td><strong>講座内容</strong></td>
+  <td style="text-align:right"><strong>19時間</strong></td>
+</tr>
+<tr>
+  <td>運営上のバッファ</td>
+  <td style="text-align:right">2時間</td>
+</tr>
+<tr>
+  <td><strong>全体スケジュール</strong></td>
+  <td style="text-align:right"><strong>21時間</strong></td>
+</tr>
+</tbody>
+</table>
+<h2>3週間の実施イメージ</h2>
+<table>
+<thead>
+<tr>
+  <th>週</th>
+  <th>実施内容</th>
+  <th style="text-align:right">講座時間</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>1週目</td>
+  <td>単元01・02</td>
+  <td style="text-align:right">6時間</td>
+</tr>
+<tr>
+  <td>2週目</td>
+  <td>単元03・04</td>
+  <td style="text-align:right">6時間</td>
+</tr>
+<tr>
+  <td>3週目</td>
+  <td>単元05・06・総合演習</td>
+  <td style="text-align:right">7時間</td>
+</tr>
+</tbody>
+</table>
+<h2>基本的な進め方</h2>
+<ol>
+<li>INFOで目的・完成物を確認する</li>
+<li>WIKIで考え方と操作方法を学ぶ</li>
+<li>講師の操作デモを確認する</li>
+<li>PRACTICEで成果物を作成する</li>
+<li>解答例・確認ポイントと比較する</li>
+<li>CHECKへ回答し、成果物を提出する</li>
+</ol>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u00-03"
+  data-type="INFO" data-answer="false"
+  data-track="true" data-search="操作環境と研修前確認 案内 必要な環境 SharePoint Onlineを利用できるMicrosoft 365組織環境 研修用SharePointサイト 受講者用Microsoft 365アカウント 対象サイトを編集できる権限 Microsoft ListsとMicrosoft Formsを利用できる状態 サンプル資料をアップロードできる環境 研修前確認 Microsoft 365へサインインできる 研修用SharePointサイトを開ける ページを編集できる リストとライブラリを開ける Microsoft Formsを開ける サンプルファイルをアップロードできる 自分の作業サイト・ページが分かる 注意 Microsoft 365の更新状況や組織設定によって、ボタン名や配置が教材と異なる場合があります。画面が異なる場合は、講師の操作デモと組織設定を優先してください。 SharePointを利用できない場合は、実構築演習ではなく、講師デモとポータル設計演習へ切り替える必要があります。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge INFO">案内</span></div>
+      <h3>操作環境と研修前確認</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>必要な環境</h2>
+<ul>
+<li>SharePoint Onlineを利用できるMicrosoft 365組織環境</li>
+<li>研修用SharePointサイト</li>
+<li>受講者用Microsoft 365アカウント</li>
+<li>対象サイトを編集できる権限</li>
+<li>Microsoft ListsとMicrosoft Formsを利用できる状態</li>
+<li>サンプル資料をアップロードできる環境</li>
+</ul>
+<h2>研修前確認</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>Microsoft 365へサインインできる</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>研修用SharePointサイトを開ける</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>ページを編集できる</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>リストとライブラリを開ける</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>Microsoft Formsを開ける</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>サンプルファイルをアップロードできる</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>自分の作業サイト・ページが分かる</li>
+</ul>
+<h2>注意</h2>
+<p>Microsoft 365の更新状況や組織設定によって、ボタン名や配置が教材と異なる場合があります。画面が異なる場合は、講師の操作デモと組織設定を優先してください。</p>
+<p>SharePointを利用できない場合は、実構築演習ではなく、講師デモとポータル設計演習へ切り替える必要があります。</p>
+</div>
+</details>
+</div>
+</details>
+
+<details class="unit-section" id="unit-u01">
+  <summary>
+    <span class="unit-num">00</span>
+    <div class="unit-heading">
+      <h2>研修環境へのログインとSharePoint基本操作</h2>
+      <small>4教材</small>
+    </div>
+    <span class="chevron">⌄</span>
+  </summary>
+  <div class="lesson-list">
+<details class="lesson-card" id="lesson-u01-00"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="解説：研修環境への入り方とSharePointの画面構成 解説 この教材の位置づけ 項目 内容 章 上級・第0章：研修環境へのログインとSharePoint基本操作（全1時間） この教材 01 / 03 解説（WIKI） 所要時間 約15分 前提 研修用Microsoft 365アカウントと研修サイトURLを受け取っていること 次 02 練習問題（35分）→ 03 確認問題（10分） この章のゴール 正しい研修用アカウントでログインできる 指定されたSharePointサイトを直接URLから開ける アカウント、サイト名、URL、作業権限を確認できる 閲覧画面と編集画面の違いを説明できる サイトコンテンツ、サイトページ、リスト、ライブラリを開ける ページを編集し、下書き保存して再度開ける 下書き、公開、再発行、変更破棄の違いを説明できる リスト項目とファイルの登録・編集・削除を安全に行える 操作できない場合に、アカウント・URL・権限を順番に確認できる 操作を始める前に、アカウント・サイト・権限・公開状態を確認する。 1．最初に受け取る情報 確認項目 記入例 研修用アカウント training user01@example.com Microsoft 365ログイン先 講師指定 研修サイト名 設計部ポータル研修サイト 研修サイトURL 講師指定の直接URL 作業権限 更新者 操作練習ページ 第0章 操作練習ページ 操作練習リスト 第0章 操作練習リスト 操作練習ライブラリ 第0章 操作練習ライブラリ 問い合わせ先 講師・管理者 公開操作 講師の指示があるまで行わない パスワードや認証コードは提出物へ記載しません。 2．サイトへの入り方 基本ルート 研修では講師指定の直接URLを使います。 text ブラウザを開く → 研修サイトURLを入力 → 研修用アカウントでログイン → 必要に応じて多要素認証 → 研修サイトを開く 開始画面からサイトを探すより、作業対象を間違えにくい方法です。 補助ルート text Microsoft 365ホーム → アプリ起動ツール → SharePoint、Sites、サイトのいずれか → 研修サイトを選択 表示名や位置は組織・更新状況で異なる場合があります。 複数アカウントを使っている場合 右上のプロフィールで現在のアカウントを確認する ブラウザプロファイルを研修用に分ける InPrivateまたはシークレットウィンドウを使う 別組織の画面が開いた場合はサインアウトして入り直す 3．サイトを開いた直後の4確認 text 1. 右上のログインアカウント 2. サイト名 3. ブラウザのURL 4. 自分の作業権限 更新者として演習する場合、ページの「編集」、リストの「新規」、ライブラリの「アップロード」が表示されるか確認します。 表示されない場合、自分で権限を変更せず講師へ連絡します。 4．主な画面と機能 画面・機能 用途 トップページ 利用者の入口 ナビゲーション ページ・リスト・資料への移動 検索 サイト内情報の検索 編集 現在のページを編集 新規 ページ・ニュース・リストなどを作成 サイトコンテンツ ページ、リスト、ライブラリを一覧確認 サイトページ ページとニュースの保存場所 ドキュメントライブラリ ファイルの保存・管理 Microsoft Lists 案件や申請の一覧管理 設定 サイト設定・権限などの確認 サイトの種類と権限によって表示は異なります。 5．閲覧画面と編集画面 閲覧画面 ページを読む リンクを開く ニュース、案件、資料を見る 編集画面 セクションを追加する Webパーツを追加・移動・削除する テキスト・画像・リンクを設定する 下書き保存、公開、再発行、変更破棄を行う ページ構造は次の順です。 text ページ └ セクション └ 列 └ Webパーツ 6．下書き・公開・再発行・変更破棄 操作 結果 下書きとして保存 変更を保存する。通常は一般閲覧者へまだ反映しない 公開 新しいページをサイト利用者へ表示する 再発行 公開済みページの変更をサイト利用者へ反映する 変更を破棄 現在の編集内容を保存せず戻す 講師の指示がない限り、第0章では公開・再発行を行いません。 7．リストとライブラリの基本操作 リスト text リストを開く → 新規 → 必須項目を入力 → 保存 → 一覧へ反映 → 編集 → 削除 ライブラリ text ライブラリを開く → アップロード → ファイルを選択 → 一覧へ反映 → ファイルと列情報を確認 → 削除 8．トラブル時の確認順 状態 最初に確認すること サイトが開かない URL、通信、ログインアカウント アクセス拒否 サイトへの閲覧権限 違う組織が開く ブラウザのアカウント・テナント 編集がない 更新権限、ページ種別、ログインアカウント 新規がない リストへの追加権限 アップロードできない 権限、形式、サイズ、必須列 保存できない 必須項目、ページタイトル、通信 一般利用者に見えない 下書き状態 他の人だけ開けない リンク先の閲覧権限 この章の完成物 1. 初回ログイン確認表 2. サイト名・URL・権限の確認結果 3. 主要画面11項目の確認結果 4. ページ編集・下書き・再オープン結果 5. リストの登録・編集・削除結果 6. ファイルのアップロード・確認・削除結果 7. エラー・問い合わせ事項 8. 第1章へ進める状態の判定 読み終わったら02 練習問題へ進んでください。 参考資料 SharePointにサインインする https://support.microsoft.com/ja jp/sharepoint/get started with sharepoint/sign in to sharepoint SharePointの使用を開始する https://support.microsoft.com/ja jp/sharepoint/get started with sharepoint/get started with sharepoint SharePointサイトのモダンページを作成して使用する https://support.microsoft.com/ja jp/sharepoint/pages in sharepoint/create and use modern pages on a sharepoint site ページを発行するとどうなるか https://support.microsoft.com/ja jp/sharepoint/sites pages/what happens when i publish a page">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>解説：研修環境への入り方とSharePointの画面構成</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>この教材の位置づけ</h2>
+<table>
+<thead>
+<tr>
+  <th>項目</th>
+  <th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>章</td>
+  <td>上級・第0章：研修環境へのログインとSharePoint基本操作（全1時間）</td>
+</tr>
+<tr>
+  <td>この教材</td>
+  <td>01 / 03　解説（WIKI）</td>
+</tr>
+<tr>
+  <td>所要時間</td>
+  <td>約15分</td>
+</tr>
+<tr>
+  <td>前提</td>
+  <td>研修用Microsoft 365アカウントと研修サイトURLを受け取っていること</td>
+</tr>
+<tr>
+  <td>次</td>
+  <td>02 練習問題（35分）→ 03 確認問題（10分）</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>この章のゴール</h2>
+<ul>
+<li>正しい研修用アカウントでログインできる</li>
+<li>指定されたSharePointサイトを直接URLから開ける</li>
+<li>アカウント、サイト名、URL、作業権限を確認できる</li>
+<li>閲覧画面と編集画面の違いを説明できる</li>
+<li>サイトコンテンツ、サイトページ、リスト、ライブラリを開ける</li>
+<li>ページを編集し、下書き保存して再度開ける</li>
+<li>下書き、公開、再発行、変更破棄の違いを説明できる</li>
+<li>リスト項目とファイルの登録・編集・削除を安全に行える</li>
+<li>操作できない場合に、アカウント・URL・権限を順番に確認できる</li>
+</ul>
+<blockquote>
+<p>操作を始める前に、アカウント・サイト・権限・公開状態を確認する。</p>
+</blockquote>
+<hr />
+<h2>1．最初に受け取る情報</h2>
+<table>
+<thead>
+<tr>
+  <th>確認項目</th>
+  <th>記入例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>研修用アカウント</td>
+  <td>training-user01@example.com</td>
+</tr>
+<tr>
+  <td>Microsoft 365ログイン先</td>
+  <td>講師指定</td>
+</tr>
+<tr>
+  <td>研修サイト名</td>
+  <td>設計部ポータル研修サイト</td>
+</tr>
+<tr>
+  <td>研修サイトURL</td>
+  <td>講師指定の直接URL</td>
+</tr>
+<tr>
+  <td>作業権限</td>
+  <td>更新者</td>
+</tr>
+<tr>
+  <td>操作練習ページ</td>
+  <td>第0章_操作練習ページ</td>
+</tr>
+<tr>
+  <td>操作練習リスト</td>
+  <td>第0章_操作練習リスト</td>
+</tr>
+<tr>
+  <td>操作練習ライブラリ</td>
+  <td>第0章_操作練習ライブラリ</td>
+</tr>
+<tr>
+  <td>問い合わせ先</td>
+  <td>講師・管理者</td>
+</tr>
+<tr>
+  <td>公開操作</td>
+  <td>講師の指示があるまで行わない</td>
+</tr>
+</tbody>
+</table>
+<p>パスワードや認証コードは提出物へ記載しません。</p>
+<hr />
+<h2>2．サイトへの入り方</h2>
+<h3>基本ルート</h3>
+<p>研修では講師指定の直接URLを使います。</p>
+<pre><code class="language-text">ブラウザを開く
+→ 研修サイトURLを入力
+→ 研修用アカウントでログイン
+→ 必要に応じて多要素認証
+→ 研修サイトを開く
+</code></pre>
+<p>開始画面からサイトを探すより、作業対象を間違えにくい方法です。</p>
+<h3>補助ルート</h3>
+<pre><code class="language-text">Microsoft 365ホーム
+→ アプリ起動ツール
+→ SharePoint、Sites、サイトのいずれか
+→ 研修サイトを選択
+</code></pre>
+<p>表示名や位置は組織・更新状況で異なる場合があります。</p>
+<h3>複数アカウントを使っている場合</h3>
+<ul>
+<li>右上のプロフィールで現在のアカウントを確認する</li>
+<li>ブラウザプロファイルを研修用に分ける</li>
+<li>InPrivateまたはシークレットウィンドウを使う</li>
+<li>別組織の画面が開いた場合はサインアウトして入り直す</li>
+</ul>
+<hr />
+<h2>3．サイトを開いた直後の4確認</h2>
+<pre><code class="language-text">1. 右上のログインアカウント
+2. サイト名
+3. ブラウザのURL
+4. 自分の作業権限
+</code></pre>
+<p>更新者として演習する場合、ページの「編集」、リストの「新規」、ライブラリの「アップロード」が表示されるか確認します。</p>
+<p>表示されない場合、自分で権限を変更せず講師へ連絡します。</p>
+<hr />
+<h2>4．主な画面と機能</h2>
+<table>
+<thead>
+<tr>
+  <th>画面・機能</th>
+  <th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>トップページ</td>
+  <td>利用者の入口</td>
+</tr>
+<tr>
+  <td>ナビゲーション</td>
+  <td>ページ・リスト・資料への移動</td>
+</tr>
+<tr>
+  <td>検索</td>
+  <td>サイト内情報の検索</td>
+</tr>
+<tr>
+  <td>編集</td>
+  <td>現在のページを編集</td>
+</tr>
+<tr>
+  <td>新規</td>
+  <td>ページ・ニュース・リストなどを作成</td>
+</tr>
+<tr>
+  <td>サイトコンテンツ</td>
+  <td>ページ、リスト、ライブラリを一覧確認</td>
+</tr>
+<tr>
+  <td>サイトページ</td>
+  <td>ページとニュースの保存場所</td>
+</tr>
+<tr>
+  <td>ドキュメントライブラリ</td>
+  <td>ファイルの保存・管理</td>
+</tr>
+<tr>
+  <td>Microsoft Lists</td>
+  <td>案件や申請の一覧管理</td>
+</tr>
+<tr>
+  <td>設定</td>
+  <td>サイト設定・権限などの確認</td>
+</tr>
+</tbody>
+</table>
+<p>サイトの種類と権限によって表示は異なります。</p>
+<hr />
+<h2>5．閲覧画面と編集画面</h2>
+<h3>閲覧画面</h3>
+<ul>
+<li>ページを読む</li>
+<li>リンクを開く</li>
+<li>ニュース、案件、資料を見る</li>
+</ul>
+<h3>編集画面</h3>
+<ul>
+<li>セクションを追加する</li>
+<li>Webパーツを追加・移動・削除する</li>
+<li>テキスト・画像・リンクを設定する</li>
+<li>下書き保存、公開、再発行、変更破棄を行う</li>
+</ul>
+<p>ページ構造は次の順です。</p>
+<pre><code class="language-text">ページ
+└ セクション
+   └ 列
+      └ Webパーツ
+</code></pre>
+<hr />
+<h2>6．下書き・公開・再発行・変更破棄</h2>
+<table>
+<thead>
+<tr>
+  <th>操作</th>
+  <th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>下書きとして保存</td>
+  <td>変更を保存する。通常は一般閲覧者へまだ反映しない</td>
+</tr>
+<tr>
+  <td>公開</td>
+  <td>新しいページをサイト利用者へ表示する</td>
+</tr>
+<tr>
+  <td>再発行</td>
+  <td>公開済みページの変更をサイト利用者へ反映する</td>
+</tr>
+<tr>
+  <td>変更を破棄</td>
+  <td>現在の編集内容を保存せず戻す</td>
+</tr>
+</tbody>
+</table>
+<p>講師の指示がない限り、第0章では公開・再発行を行いません。</p>
+<hr />
+<h2>7．リストとライブラリの基本操作</h2>
+<h3>リスト</h3>
+<pre><code class="language-text">リストを開く
+→ 新規
+→ 必須項目を入力
+→ 保存
+→ 一覧へ反映
+→ 編集
+→ 削除
+</code></pre>
+<h3>ライブラリ</h3>
+<pre><code class="language-text">ライブラリを開く
+→ アップロード
+→ ファイルを選択
+→ 一覧へ反映
+→ ファイルと列情報を確認
+→ 削除
+</code></pre>
+<hr />
+<h2>8．トラブル時の確認順</h2>
+<table>
+<thead>
+<tr>
+  <th>状態</th>
+  <th>最初に確認すること</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>サイトが開かない</td>
+  <td>URL、通信、ログインアカウント</td>
+</tr>
+<tr>
+  <td>アクセス拒否</td>
+  <td>サイトへの閲覧権限</td>
+</tr>
+<tr>
+  <td>違う組織が開く</td>
+  <td>ブラウザのアカウント・テナント</td>
+</tr>
+<tr>
+  <td>編集がない</td>
+  <td>更新権限、ページ種別、ログインアカウント</td>
+</tr>
+<tr>
+  <td>新規がない</td>
+  <td>リストへの追加権限</td>
+</tr>
+<tr>
+  <td>アップロードできない</td>
+  <td>権限、形式、サイズ、必須列</td>
+</tr>
+<tr>
+  <td>保存できない</td>
+  <td>必須項目、ページタイトル、通信</td>
+</tr>
+<tr>
+  <td>一般利用者に見えない</td>
+  <td>下書き状態</td>
+</tr>
+<tr>
+  <td>他の人だけ開けない</td>
+  <td>リンク先の閲覧権限</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>この章の完成物</h2>
+<ol>
+<li>初回ログイン確認表</li>
+<li>サイト名・URL・権限の確認結果</li>
+<li>主要画面11項目の確認結果</li>
+<li>ページ編集・下書き・再オープン結果</li>
+<li>リストの登録・編集・削除結果</li>
+<li>ファイルのアップロード・確認・削除結果</li>
+<li>エラー・問い合わせ事項</li>
+<li>第1章へ進める状態の判定</li>
+</ol>
+<p>読み終わったら02 練習問題へ進んでください。</p>
+<h2>参考資料</h2>
+<ul>
+<li><a target="_blank" rel="noopener noreferrer" href="https://support.microsoft.com/ja-jp/sharepoint/get-started-with-sharepoint/sign-in-to-sharepoint">SharePointにサインインする</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://support.microsoft.com/ja-jp/sharepoint/get-started-with-sharepoint/get-started-with-sharepoint">SharePointの使用を開始する</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://support.microsoft.com/ja-jp/sharepoint/pages-in-sharepoint/create-and-use-modern-pages-on-a-sharepoint-site">SharePointサイトのモダンページを作成して使用する</a></li>
+<li><a target="_blank" rel="noopener noreferrer" href="https://support.microsoft.com/ja-jp/sharepoint/sites-pages/what-happens-when-i-publish-a-page">ページを発行するとどうなるか</a></li>
+</ul>
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u01-01"
+  data-type="PRACTICE" data-answer="false"
+  data-track="true" data-search="練習問題：ログインからページ・リスト・ライブラリの基本操作を行う 練習・提出 この教材の位置づけ 項目 内容 章 上級・第0章：研修環境へのログインとSharePoint基本操作 この教材 02 / 03 練習問題（PRACTICE） 所要時間 約35分 前提 研修用アカウント、研修サイトURL、練習ページ・リスト・ライブラリが準備されていること 次 03 確認問題（約10分） 課題 研修用SharePointサイトへログインし、ページ・リスト・ライブラリの基本操作を行ってください。 講師の指示がない限り、トップページの編集、ページの公開・再発行、サイト権限の変更は行いません。 演習1：ログインとサイト確認（5分） 開始地点 ブラウザを開いた状態です。 操作 1. 講師指定の研修サイトURLを入力する 2. 研修用Microsoft 365アカウントでログインする 3. 多要素認証がある場合は講師の指示に従う 4. 右上のプロフィールを開き、アカウントを確認する 5. サイト名とURLを確認する 6. トップページのタイトルとナビゲーションを確認する 初回ログイン確認表 text 受講者名： 使用ブラウザ： ログイン日時： ログインアカウント： 研修サイト名： 研修サイトURL： 表示された組織名： 多要素認証：あり／なし ログイン結果：成功／要確認 問い合わせの有無： 完了状態 研修用アカウントでログインしている 指定サイトを開いている サイト名とURLを記録している 演習2：主要画面を確認する（4分） No. 確認対象 実際の表示名・場所 結果 : 1 サイト名 2 ナビゲーション 3 検索 4 編集 5 新規 6 設定 7 サイトコンテンツ 8 サイトページ 9 ドキュメントライブラリ 10 リスト 11 アカウント 表示名が教材と異なる場合は、実際の表示名を記録します。 演習3：操作練習ページを編集する（13分） 開始地点 研修サイトのトップページです。 操作 1. サイトコンテンツを開く 2. サイトページまたはSite Pagesを開く 3. 第0章 操作練習ページ を開く 4. ページ名とURLを確認する 5. 編集を選択する 6. 講師指定のテキストWebパーツへ次を入力する text 受講者名： 操作日： 第0章の操作練習中です。 7. 講師指定位置へ1列セクションを追加する 8. 追加したセクションへテキストWebパーツを追加する 9. 次を入力する text ページ → セクション → 列 → Webパーツ 10. Webパーツを一度移動し、元の位置へ戻す 11. 編集・移動・削除の操作位置を確認する 12. 下書きとして保存する 13. ページを閉じる 14. 同じページを再度開く 15. 入力内容が残っていることを確認する 16. 講師の指示に従い、練習内容を残す、削除して保存する、変更を破棄する、のいずれかを行う 操作結果 確認項目 期待結果 実際の結果 判定 補足 操作練習ページ 指定ページ 編集 表示 編集モード 開始 テキスト入力 反映 セクション追加 1列 Webパーツ追加 テキスト Webパーツ移動 操作確認 下書き保存 成功 再オープン 内容保持 公開・再発行 未実施 うまくいかない場合 状態 確認すること 編集がない アカウント、サイト、更新権限、ページ種別 ＋がない 編集モードか 保存できない タイトル、必須情報、通信 内容が消えた 保存方法、同じページか 公開してしまった すぐ講師へ報告する 演習4：リストを操作する（6分） 操作 1. 第0章 操作練習リスト を開く 2. 新規または新しい項目を選ぶ 3. 次を入力する text タイトル：受講者名 操作テスト 状態：未着手 操作日：研修実施日 備考：第0章の登録テスト 4. 保存し、一覧へ1件追加されたことを確認する 5. 登録した項目を開く 6. 状態を確認済みへ変更して保存する 7. 一覧へ変更が反映されたことを確認する 8. 自分のテスト項目だけを削除する 操作結果 確認項目 期待結果 実際の結果 判定 リストを開く 成功 新規登録 1件 一覧への反映 表示 編集 状態変更 削除 自分の項目のみ 削除後 一覧から消える 演習5：ライブラリを操作する（6分） 操作 1. 第0章 操作練習ライブラリ を開く 2. 講師指定の練習ファイルを準備する 3. ファイル名を 受講者名 アップロードテスト.txt にする 4. アップロードからファイルを選ぶ 5. 一覧へ表示されたことを確認する 6. ファイルを開いて内容を確認する 7. 詳細またはプロパティを開く 8. 講師指定列がある場合は値を入力する 9. 自分の練習ファイルだけを削除する 操作結果 確認項目 期待結果 実際の結果 判定 ライブラリを開く 成功 アップロード 1件 一覧への反映 表示 ファイルを開く 内容表示 詳細・列情報 確認 削除 自分のファイルのみ 削除後 一覧から消える 演習6：操作記録（1分） text ログイン：成功／要確認 研修サイト確認：成功／要確認 主要画面確認数： ページ編集：成功／要確認 下書き保存：成功／要確認 再オープン：成功／要確認 公開・再発行：未実施／実施してしまった リスト登録・編集・削除： ファイル登録・確認・削除： 権限エラー数： 操作エラー数： 講師への確認事項： 完成条件 研修用アカウント・サイト・URL・権限を確認した 主要画面11項目を確認した 指定ページを編集した 1列セクションとテキストWebパーツを追加した 下書き保存し、再度開いた 公開・再発行を行っていない リストへ登録・編集・削除した ファイルを登録・確認・削除した 他の受講者のデータを変更していない エラーと確認事項を記録した 提出物 1. 初回ログイン確認表 2. サイト名・URLの確認結果 3. 主要画面11項目の確認表 4. ページ操作結果 5. リスト操作結果 6. ライブラリ操作結果 7. エラー・確認事項 8. 第1章へ進める状態の自己判定">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge PRACTICE">練習・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>練習問題：ログインからページ・リスト・ライブラリの基本操作を行う</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>この教材の位置づけ</h2>
+<table>
+<thead>
+<tr>
+  <th>項目</th>
+  <th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>章</td>
+  <td>上級・第0章：研修環境へのログインとSharePoint基本操作</td>
+</tr>
+<tr>
+  <td>この教材</td>
+  <td>02 / 03　練習問題（PRACTICE）</td>
+</tr>
+<tr>
+  <td>所要時間</td>
+  <td>約35分</td>
+</tr>
+<tr>
+  <td>前提</td>
+  <td>研修用アカウント、研修サイトURL、練習ページ・リスト・ライブラリが準備されていること</td>
+</tr>
+<tr>
+  <td>次</td>
+  <td>03 確認問題（約10分）</td>
+</tr>
+</tbody>
+</table>
+<h1>課題</h1>
+<p>研修用SharePointサイトへログインし、ページ・リスト・ライブラリの基本操作を行ってください。</p>
+<p>講師の指示がない限り、トップページの編集、ページの公開・再発行、サイト権限の変更は行いません。</p>
+<hr />
+<h2>演習1：ログインとサイト確認（5分）</h2>
+<h3>開始地点</h3>
+<p>ブラウザを開いた状態です。</p>
+<h3>操作</h3>
+<ol>
+<li>講師指定の研修サイトURLを入力する</li>
+<li>研修用Microsoft 365アカウントでログインする</li>
+<li>多要素認証がある場合は講師の指示に従う</li>
+<li>右上のプロフィールを開き、アカウントを確認する</li>
+<li>サイト名とURLを確認する</li>
+<li>トップページのタイトルとナビゲーションを確認する</li>
+</ol>
+<h3>初回ログイン確認表</h3>
+<pre><code class="language-text">受講者名：
+使用ブラウザ：
+ログイン日時：
+ログインアカウント：
+研修サイト名：
+研修サイトURL：
+表示された組織名：
+多要素認証：あり／なし
+ログイン結果：成功／要確認
+問い合わせの有無：
+</code></pre>
+<h3>完了状態</h3>
+<ul>
+<li>研修用アカウントでログインしている</li>
+<li>指定サイトを開いている</li>
+<li>サイト名とURLを記録している</li>
+</ul>
+<hr />
+<h2>演習2：主要画面を確認する（4分）</h2>
+<table>
+<thead>
+<tr>
+  <th style="text-align:right">No.</th>
+  <th>確認対象</th>
+  <th>実際の表示名・場所</th>
+  <th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:right">1</td>
+  <td>サイト名</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td style="text-align:right">2</td>
+  <td>ナビゲーション</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td style="text-align:right">3</td>
+  <td>検索</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td style="text-align:right">4</td>
+  <td>編集</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td style="text-align:right">5</td>
+  <td>新規</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td style="text-align:right">6</td>
+  <td>設定</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td style="text-align:right">7</td>
+  <td>サイトコンテンツ</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td style="text-align:right">8</td>
+  <td>サイトページ</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td style="text-align:right">9</td>
+  <td>ドキュメントライブラリ</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td style="text-align:right">10</td>
+  <td>リスト</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td style="text-align:right">11</td>
+  <td>アカウント</td>
+  <td></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<p>表示名が教材と異なる場合は、実際の表示名を記録します。</p>
+<hr />
+<h2>演習3：操作練習ページを編集する（13分）</h2>
+<h3>開始地点</h3>
+<p>研修サイトのトップページです。</p>
+<h3>操作</h3>
+<ol>
+<li>サイトコンテンツを開く</li>
+<li>サイトページまたはSite Pagesを開く</li>
+<li><code>第0章_操作練習ページ</code>を開く</li>
+<li>ページ名とURLを確認する</li>
+<li>編集を選択する</li>
+<li>講師指定のテキストWebパーツへ次を入力する</li>
+</ol>
+<pre><code class="language-text">受講者名：
+操作日：
+第0章の操作練習中です。
+</code></pre>
+<ol start="7">
+<li>講師指定位置へ1列セクションを追加する</li>
+<li>追加したセクションへテキストWebパーツを追加する</li>
+<li>次を入力する</li>
+</ol>
+<pre><code class="language-text">ページ → セクション → 列 → Webパーツ
+</code></pre>
+<ol start="10">
+<li>Webパーツを一度移動し、元の位置へ戻す</li>
+<li>編集・移動・削除の操作位置を確認する</li>
+<li>下書きとして保存する</li>
+<li>ページを閉じる</li>
+<li>同じページを再度開く</li>
+<li>入力内容が残っていることを確認する</li>
+<li>講師の指示に従い、練習内容を残す、削除して保存する、変更を破棄する、のいずれかを行う</li>
+</ol>
+<h3>操作結果</h3>
+<table>
+<thead>
+<tr>
+  <th>確認項目</th>
+  <th>期待結果</th>
+  <th>実際の結果</th>
+  <th>判定</th>
+  <th>補足</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>操作練習ページ</td>
+  <td>指定ページ</td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>編集</td>
+  <td>表示</td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>編集モード</td>
+  <td>開始</td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>テキスト入力</td>
+  <td>反映</td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>セクション追加</td>
+  <td>1列</td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>Webパーツ追加</td>
+  <td>テキスト</td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>Webパーツ移動</td>
+  <td>操作確認</td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>下書き保存</td>
+  <td>成功</td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>再オープン</td>
+  <td>内容保持</td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>公開・再発行</td>
+  <td>未実施</td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<h3>うまくいかない場合</h3>
+<table>
+<thead>
+<tr>
+  <th>状態</th>
+  <th>確認すること</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>編集がない</td>
+  <td>アカウント、サイト、更新権限、ページ種別</td>
+</tr>
+<tr>
+  <td>＋がない</td>
+  <td>編集モードか</td>
+</tr>
+<tr>
+  <td>保存できない</td>
+  <td>タイトル、必須情報、通信</td>
+</tr>
+<tr>
+  <td>内容が消えた</td>
+  <td>保存方法、同じページか</td>
+</tr>
+<tr>
+  <td>公開してしまった</td>
+  <td>すぐ講師へ報告する</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>演習4：リストを操作する（6分）</h2>
+<h3>操作</h3>
+<ol>
+<li><code>第0章_操作練習リスト</code>を開く</li>
+<li>新規または新しい項目を選ぶ</li>
+<li>次を入力する</li>
+</ol>
+<pre><code class="language-text">タイトル：受講者名_操作テスト
+状態：未着手
+操作日：研修実施日
+備考：第0章の登録テスト
+</code></pre>
+<ol start="4">
+<li>保存し、一覧へ1件追加されたことを確認する</li>
+<li>登録した項目を開く</li>
+<li>状態を確認済みへ変更して保存する</li>
+<li>一覧へ変更が反映されたことを確認する</li>
+<li>自分のテスト項目だけを削除する</li>
+</ol>
+<h3>操作結果</h3>
+<table>
+<thead>
+<tr>
+  <th>確認項目</th>
+  <th>期待結果</th>
+  <th>実際の結果</th>
+  <th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>リストを開く</td>
+  <td>成功</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>新規登録</td>
+  <td>1件</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>一覧への反映</td>
+  <td>表示</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>編集</td>
+  <td>状態変更</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>削除</td>
+  <td>自分の項目のみ</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>削除後</td>
+  <td>一覧から消える</td>
+  <td></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>演習5：ライブラリを操作する（6分）</h2>
+<h3>操作</h3>
+<ol>
+<li><code>第0章_操作練習ライブラリ</code>を開く</li>
+<li>講師指定の練習ファイルを準備する</li>
+<li>ファイル名を<code>受講者名_アップロードテスト.txt</code>にする</li>
+<li>アップロードからファイルを選ぶ</li>
+<li>一覧へ表示されたことを確認する</li>
+<li>ファイルを開いて内容を確認する</li>
+<li>詳細またはプロパティを開く</li>
+<li>講師指定列がある場合は値を入力する</li>
+<li>自分の練習ファイルだけを削除する</li>
+</ol>
+<h3>操作結果</h3>
+<table>
+<thead>
+<tr>
+  <th>確認項目</th>
+  <th>期待結果</th>
+  <th>実際の結果</th>
+  <th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>ライブラリを開く</td>
+  <td>成功</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>アップロード</td>
+  <td>1件</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>一覧への反映</td>
+  <td>表示</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>ファイルを開く</td>
+  <td>内容表示</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>詳細・列情報</td>
+  <td>確認</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>削除</td>
+  <td>自分のファイルのみ</td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td>削除後</td>
+  <td>一覧から消える</td>
+  <td></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>演習6：操作記録（1分）</h2>
+<pre><code class="language-text">ログイン：成功／要確認
+研修サイト確認：成功／要確認
+主要画面確認数：
+ページ編集：成功／要確認
+下書き保存：成功／要確認
+再オープン：成功／要確認
+公開・再発行：未実施／実施してしまった
+リスト登録・編集・削除：
+ファイル登録・確認・削除：
+権限エラー数：
+操作エラー数：
+講師への確認事項：
+</code></pre>
+<hr />
+<h2>完成条件</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>研修用アカウント・サイト・URL・権限を確認した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>主要画面11項目を確認した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>指定ページを編集した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>1列セクションとテキストWebパーツを追加した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>下書き保存し、再度開いた</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>公開・再発行を行っていない</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>リストへ登録・編集・削除した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>ファイルを登録・確認・削除した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>他の受講者のデータを変更していない</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>エラーと確認事項を記録した</li>
+</ul>
+<h2>提出物</h2>
+<ol>
+<li>初回ログイン確認表</li>
+<li>サイト名・URLの確認結果</li>
+<li>主要画面11項目の確認表</li>
+<li>ページ操作結果</li>
+<li>リスト操作結果</li>
+<li>ライブラリ操作結果</li>
+<li>エラー・確認事項</li>
+<li>第1章へ進める状態の自己判定</li>
+</ol>
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u01-02"
+  data-type="CHECK" data-answer="false"
+  data-track="true" data-search="確認問題：ログイン・基本操作・作業開始準備 確認・提出 この教材の位置づけ 項目 内容 章 上級・第0章：研修環境へのログインとSharePoint基本操作 この教材 03 / 03 確認問題（CHECK） 所要時間 約10分 前提 01 解説・02 練習問題を完了していること 提出1：理解確認 1. 研修サイトを開いた直後に確認する4項目を書いてください。 2. 研修では直接URLを基本ルートにする理由を説明してください。 3. 閲覧画面と編集画面の違いを説明してください。 4. ページ、セクション、列、Webパーツの関係を説明してください。 5. 下書き保存と公開・再発行の違いを説明してください。 6. 編集が表示されない場合に確認することを3つ書いてください。 7. リスト項目が一覧へ表示されない場合に確認することを書いてください。 8. ファイル登録でエラーが出る場合に確認することを書いてください。 9. 他の利用者だけリンク先を開けない場合に確認することを書いてください。 10. 第1章へ進める完成条件を説明してください。 提出2：操作結果確認 text 研修用アカウント： 研修サイト名： 研修サイトURL： 作業権限： 主要画面確認数： ページ編集結果： 下書き保存結果： ページ再オープン結果： 公開・再発行の実施数： リスト登録結果： リスト編集結果： リスト削除結果： ファイルアップロード結果： ファイル確認結果： ファイル削除結果： 権限エラー数： 操作エラー数： 未解決事項数： 第1章へ進める状態：はい／いいえ 提出3：エラー・確認事項 No. 発生場所 状態・エラー 確認したこと 対応 結果 : 1 2 3 問題がなかった場合も、 問題なし・確認済み と記載してください。 提出前チェック ログイン・環境 研修用アカウント、サイト名、URL、作業権限を確認した 問い合わせ先を確認した ページ 操作練習ページを編集した セクションとWebパーツを追加した 下書き保存と再オープンを確認した 公開・再発行を無断で行っていない リスト・ライブラリ リストを登録・編集・削除した ファイルを登録・確認・削除した 自分のデータだけを操作した 開始準備 未解決の権限エラーがない 講師への確認事項を整理した 第1章へ進める状態を判断した 提出できたら、第0章は完了です。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge CHECK">確認・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>確認問題：ログイン・基本操作・作業開始準備</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>この教材の位置づけ</h2>
+<table>
+<thead>
+<tr>
+  <th>項目</th>
+  <th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>章</td>
+  <td>上級・第0章：研修環境へのログインとSharePoint基本操作</td>
+</tr>
+<tr>
+  <td>この教材</td>
+  <td>03 / 03　確認問題（CHECK）</td>
+</tr>
+<tr>
+  <td>所要時間</td>
+  <td>約10分</td>
+</tr>
+<tr>
+  <td>前提</td>
+  <td>01 解説・02 練習問題を完了していること</td>
+</tr>
+</tbody>
+</table>
+<h1>提出1：理解確認</h1>
+<ol>
+<li>研修サイトを開いた直後に確認する4項目を書いてください。</li>
+<li>研修では直接URLを基本ルートにする理由を説明してください。</li>
+<li>閲覧画面と編集画面の違いを説明してください。</li>
+<li>ページ、セクション、列、Webパーツの関係を説明してください。</li>
+<li>下書き保存と公開・再発行の違いを説明してください。</li>
+<li>編集が表示されない場合に確認することを3つ書いてください。</li>
+<li>リスト項目が一覧へ表示されない場合に確認することを書いてください。</li>
+<li>ファイル登録でエラーが出る場合に確認することを書いてください。</li>
+<li>他の利用者だけリンク先を開けない場合に確認することを書いてください。</li>
+<li>第1章へ進める完成条件を説明してください。</li>
+</ol>
+<hr />
+<h1>提出2：操作結果確認</h1>
+<pre><code class="language-text">研修用アカウント：
+研修サイト名：
+研修サイトURL：
+作業権限：
+主要画面確認数：
+ページ編集結果：
+下書き保存結果：
+ページ再オープン結果：
+公開・再発行の実施数：
+リスト登録結果：
+リスト編集結果：
+リスト削除結果：
+ファイルアップロード結果：
+ファイル確認結果：
+ファイル削除結果：
+権限エラー数：
+操作エラー数：
+未解決事項数：
+第1章へ進める状態：はい／いいえ
+</code></pre>
+<hr />
+<h1>提出3：エラー・確認事項</h1>
+<table>
+<thead>
+<tr>
+  <th style="text-align:right">No.</th>
+  <th>発生場所</th>
+  <th>状態・エラー</th>
+  <th>確認したこと</th>
+  <th>対応</th>
+  <th>結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:right">1</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td style="text-align:right">2</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+<tr>
+  <td style="text-align:right">3</td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+</tr>
+</tbody>
+</table>
+<p>問題がなかった場合も、<code>問題なし・確認済み</code>と記載してください。</p>
+<hr />
+<h2>提出前チェック</h2>
+<h3>ログイン・環境</h3>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>研修用アカウント、サイト名、URL、作業権限を確認した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>問い合わせ先を確認した</li>
+</ul>
+<h3>ページ</h3>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>操作練習ページを編集した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>セクションとWebパーツを追加した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>下書き保存と再オープンを確認した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>公開・再発行を無断で行っていない</li>
+</ul>
+<h3>リスト・ライブラリ</h3>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>リストを登録・編集・削除した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>ファイルを登録・確認・削除した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>自分のデータだけを操作した</li>
+</ul>
+<h3>開始準備</h3>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>未解決の権限エラーがない</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>講師への確認事項を整理した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>第1章へ進める状態を判断した</li>
+</ul>
+<p>提出できたら、第0章は完了です。</p>
+</div>
+</details>
+
+<details class="lesson-card answer-card" id="lesson-u01-03"
+  data-type="WIKI" data-answer="true"
+  data-track="false" data-search="解答例：上級・第0章の課題 解説 この教材の位置づけ 項目 内容 章 上級・第0章：研修環境へのログインとSharePoint基本操作 この教材 練習問題・確認問題の解答例 使い方 提出後の自己確認、講師の採点目安 ※サイト名、URL、アカウント、表示名は研修環境に合わせます。パスワードや認証コードは記載しません。 操作結果例 text ログイン：成功 研修サイト：指定サイトを確認 主要画面確認数：11 ページ編集：成功 下書き保存：成功 再オープン：成功 公開・再発行：0回 リスト登録・編集・削除：成功 ファイル登録・確認・削除：成功 権限エラー：0 未解決事項：0 第1章へ進める状態：はい 確認問題の解答例 1 ログインアカウント、サイト名、サイトURL、作業権限です。 2 SharePointの開始画面や表示名は組織・更新状況によって異なるためです。直接URLを使うと、指定された作業場所へ確実に移動できます。 3 閲覧画面は情報を読む状態です。編集画面はセクションやWebパーツを変更し、保存・公開を行う状態です。 4 ページの中にセクションを作り、セクションを列に分け、列の中へWebパーツを配置します。 5 下書き保存は変更を保存しますが、通常は一般閲覧者へまだ反映しません。公開・再発行するとサイト利用者へ変更が表示されます。 6 研修用アカウントか、指定サイトか、編集権限があるかを確認します。ページ種別・状態も確認対象です。 7 保存完了、必須項目、ビューのフィルター、開いているリストが正しいかを確認します。 8 追加権限、ファイル形式、サイズ、名前、通信、必須列を確認します。 9 リンクURL、リンク先の閲覧権限、相手のログインアカウントを確認します。 10 正しいアカウントとサイトで、ページの編集・下書き・再オープン、リスト操作、ファイル操作が行え、未解決の権限エラーがなく、公開操作の扱いを理解している状態です。 採点の目安 アカウント・サイト・URL・権限を確認している 主要画面11項目を確認している 指定された練習ページだけを編集している セクション・Webパーツ・下書き・再オープンを確認している 公開・再発行を無断で行っていない リスト・ライブラリの基本操作を完了している 他の受講者のデータを変更していない エラーと確認事項を記録している 要修正例 個人用アカウントや別組織で作業する 本番トップページで練習する 他の受講者の項目・ファイルを削除する 講師の指示なく公開・再発行・権限変更を行う 未解決のアクセスエラーを残したまま第1章へ進む">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span><span class="badge answer">解答例</span></div>
+      <h3>解答例：上級・第0章の課題</h3>
+    </div>
+    
+  </summary>
+  <div class="lesson-body"><h2>この教材の位置づけ</h2>
+<table>
+<thead>
+<tr>
+  <th>項目</th>
+  <th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>章</td>
+  <td>上級・第0章：研修環境へのログインとSharePoint基本操作</td>
+</tr>
+<tr>
+  <td>この教材</td>
+  <td>練習問題・確認問題の解答例</td>
+</tr>
+<tr>
+  <td>使い方</td>
+  <td>提出後の自己確認、講師の採点目安</td>
+</tr>
+</tbody>
+</table>
+<p>※サイト名、URL、アカウント、表示名は研修環境に合わせます。パスワードや認証コードは記載しません。</p>
+<hr />
+<h2>操作結果例</h2>
+<pre><code class="language-text">ログイン：成功
+研修サイト：指定サイトを確認
+主要画面確認数：11
+ページ編集：成功
+下書き保存：成功
+再オープン：成功
+公開・再発行：0回
+リスト登録・編集・削除：成功
+ファイル登録・確認・削除：成功
+権限エラー：0
+未解決事項：0
+第1章へ進める状態：はい
+</code></pre>
+<hr />
+<h2>確認問題の解答例</h2>
+<h3>1</h3>
+<p>ログインアカウント、サイト名、サイトURL、作業権限です。</p>
+<h3>2</h3>
+<p>SharePointの開始画面や表示名は組織・更新状況によって異なるためです。直接URLを使うと、指定された作業場所へ確実に移動できます。</p>
+<h3>3</h3>
+<p>閲覧画面は情報を読む状態です。編集画面はセクションやWebパーツを変更し、保存・公開を行う状態です。</p>
+<h3>4</h3>
+<p>ページの中にセクションを作り、セクションを列に分け、列の中へWebパーツを配置します。</p>
+<h3>5</h3>
+<p>下書き保存は変更を保存しますが、通常は一般閲覧者へまだ反映しません。公開・再発行するとサイト利用者へ変更が表示されます。</p>
+<h3>6</h3>
+<p>研修用アカウントか、指定サイトか、編集権限があるかを確認します。ページ種別・状態も確認対象です。</p>
+<h3>7</h3>
+<p>保存完了、必須項目、ビューのフィルター、開いているリストが正しいかを確認します。</p>
+<h3>8</h3>
+<p>追加権限、ファイル形式、サイズ、名前、通信、必須列を確認します。</p>
+<h3>9</h3>
+<p>リンクURL、リンク先の閲覧権限、相手のログインアカウントを確認します。</p>
+<h3>10</h3>
+<p>正しいアカウントとサイトで、ページの編集・下書き・再オープン、リスト操作、ファイル操作が行え、未解決の権限エラーがなく、公開操作の扱いを理解している状態です。</p>
+<hr />
+<h2>採点の目安</h2>
+<ul>
+<li>アカウント・サイト・URL・権限を確認している</li>
+<li>主要画面11項目を確認している</li>
+<li>指定された練習ページだけを編集している</li>
+<li>セクション・Webパーツ・下書き・再オープンを確認している</li>
+<li>公開・再発行を無断で行っていない</li>
+<li>リスト・ライブラリの基本操作を完了している</li>
+<li>他の受講者のデータを変更していない</li>
+<li>エラーと確認事項を記録している</li>
+</ul>
+<h2>要修正例</h2>
+<ul>
+<li>個人用アカウントや別組織で作業する</li>
+<li>本番トップページで練習する</li>
+<li>他の受講者の項目・ファイルを削除する</li>
+<li>講師の指示なく公開・再発行・権限変更を行う</li>
+<li>未解決のアクセスエラーを残したまま第1章へ進む</li>
+</ul>
+</div>
+</details>
+</div>
+</details>
+
+<details class="unit-section" id="unit-u02">
+  <summary>
+    <span class="unit-num">01</span>
+    <div class="unit-heading">
+      <h2>ポータルの目的とサイト設計</h2>
+      <small>7教材</small>
+    </div>
+    <span class="chevron">⌄</span>
+  </summary>
+  <div class="lesson-list">
+<details class="lesson-card" id="lesson-u02-00"
+  data-type="INFO" data-answer="false"
+  data-track="true" data-search="この単元について 案内 所要時間の目安 約3時間 この単元で学ぶこと 業務ポータルを作る目的を説明できる 主な利用者と利用場面を整理できる 掲載する情報と掲載しない情報を分けられる 情報の種類に適したSharePoint機能を選べる サイトマップとナビゲーションを設計できる この単元の完成物 ポータル目的整理シート 利用者・利用場面整理表 掲載情報分類表 サイトマップ ナビゲーション設計案">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge INFO">案内</span></div>
+      <h3>この単元について</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>所要時間の目安</h2>
+<p><strong>約3時間</strong></p>
+<h2>この単元で学ぶこと</h2>
+<ul>
+<li>業務ポータルを作る目的を説明できる</li>
+<li>主な利用者と利用場面を整理できる</li>
+<li>掲載する情報と掲載しない情報を分けられる</li>
+<li>情報の種類に適したSharePoint機能を選べる</li>
+<li>サイトマップとナビゲーションを設計できる</li>
+</ul>
+<h2>この単元の完成物</h2>
+<ul>
+<li>ポータル目的整理シート</li>
+<li>利用者・利用場面整理表</li>
+<li>掲載情報分類表</li>
+<li>サイトマップ</li>
+<li>ナビゲーション設計案</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u02-01"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="ポータル設計を始める前に 解説 業務ポータルとは 業務ポータルは、業務で必要な情報や機能へ移動するための入口です。すべてをトップページへ載せるのではなく、利用者が必要な情報を見つけ、次の操作へ移れる状態を作ります。 目的の書き方 避けたい例： SharePoint、Lists、Formsを使ったサイトを作る。 分かりやすい例： 設計部のメンバーが、案件進捗、最新資料、業務手順、申請先を一か所から確認できるようにする。 利用者と利用場面 利用者 利用場面 必要な情報 設計担当者 日常業務 案件進捗、設計資料、手順 管理者 進捗確認 期限超過、担当者別状況 新任担当者 配属時 マニュアル、問い合わせ先 ポータル管理者 更新時 更新対象、権限、運用ルール ポータルで解決する課題 資料の保存場所が分からない お知らせがメールに埋もれる 申請先や手順を探すのに時間がかかる 案件状況を個別確認している 更新担当者が決まっていない">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>ポータル設計を始める前に</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>業務ポータルとは</h2>
+<p>業務ポータルは、業務で必要な情報や機能へ移動するための入口です。すべてをトップページへ載せるのではなく、利用者が必要な情報を見つけ、次の操作へ移れる状態を作ります。</p>
+<h2>目的の書き方</h2>
+<p>避けたい例：</p>
+<blockquote>
+<p>SharePoint、Lists、Formsを使ったサイトを作る。</p>
+</blockquote>
+<p>分かりやすい例：</p>
+<blockquote>
+<p>設計部のメンバーが、案件進捗、最新資料、業務手順、申請先を一か所から確認できるようにする。</p>
+</blockquote>
+<h2>利用者と利用場面</h2>
+<table>
+<thead>
+<tr>
+  <th>利用者</th>
+  <th>利用場面</th>
+  <th>必要な情報</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>設計担当者</td>
+  <td>日常業務</td>
+  <td>案件進捗、設計資料、手順</td>
+</tr>
+<tr>
+  <td>管理者</td>
+  <td>進捗確認</td>
+  <td>期限超過、担当者別状況</td>
+</tr>
+<tr>
+  <td>新任担当者</td>
+  <td>配属時</td>
+  <td>マニュアル、問い合わせ先</td>
+</tr>
+<tr>
+  <td>ポータル管理者</td>
+  <td>更新時</td>
+  <td>更新対象、権限、運用ルール</td>
+</tr>
+</tbody>
+</table>
+<h2>ポータルで解決する課題</h2>
+<ul>
+<li>資料の保存場所が分からない</li>
+<li>お知らせがメールに埋もれる</li>
+<li>申請先や手順を探すのに時間がかかる</li>
+<li>案件状況を個別確認している</li>
+<li>更新担当者が決まっていない</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u02-02"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="掲載情報とサイトマップの設計 解説 掲載情報の分類 情報の種類 掲載方法 重要なお知らせ ニュース よく使う業務手順・申請先 クイックリンク 設計資料・テンプレート ドキュメントライブラリ 案件進捗 Microsoft Lists 問い合わせ・改善アイデア FormsまたはLists入力フォーム 更新方法・管理者情報 運用ページ 掲載しない情報 個人情報 機密性の高い顧客情報 公開範囲を限定すべき資料 更新担当者が決まっていない情報 別システムで正式管理している情報 サイトマップ例 text トップページ ├ お知らせ ├ 案件進捗 ├ 設計資料 ├ 業務マニュアル ├ 申請・問い合わせ └ ポータルの利用方法 ナビゲーション設計 利用者が理解できる業務名を使う 同じ意味の項目を重複させない 階層を深くしすぎない 頻繁に使う項目を見つけやすくする ページ名とナビゲーション名をできるだけ一致させる">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>掲載情報とサイトマップの設計</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>掲載情報の分類</h2>
+<table>
+<thead>
+<tr>
+  <th>情報の種類</th>
+  <th>掲載方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>重要なお知らせ</td>
+  <td>ニュース</td>
+</tr>
+<tr>
+  <td>よく使う業務手順・申請先</td>
+  <td>クイックリンク</td>
+</tr>
+<tr>
+  <td>設計資料・テンプレート</td>
+  <td>ドキュメントライブラリ</td>
+</tr>
+<tr>
+  <td>案件進捗</td>
+  <td>Microsoft Lists</td>
+</tr>
+<tr>
+  <td>問い合わせ・改善アイデア</td>
+  <td>FormsまたはLists入力フォーム</td>
+</tr>
+<tr>
+  <td>更新方法・管理者情報</td>
+  <td>運用ページ</td>
+</tr>
+</tbody>
+</table>
+<h2>掲載しない情報</h2>
+<ul>
+<li>個人情報</li>
+<li>機密性の高い顧客情報</li>
+<li>公開範囲を限定すべき資料</li>
+<li>更新担当者が決まっていない情報</li>
+<li>別システムで正式管理している情報</li>
+</ul>
+<h2>サイトマップ例</h2>
+<pre><code class="language-text">トップページ
+├ お知らせ
+├ 案件進捗
+├ 設計資料
+├ 業務マニュアル
+├ 申請・問い合わせ
+└ ポータルの利用方法
+</code></pre>
+<h2>ナビゲーション設計</h2>
+<ul>
+<li>利用者が理解できる業務名を使う</li>
+<li>同じ意味の項目を重複させない</li>
+<li>階層を深くしすぎない</li>
+<li>頻繁に使う項目を見つけやすくする</li>
+<li>ページ名とナビゲーション名をできるだけ一致させる</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u02-03"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="サンプルポータルの設計例 解説 ポータルの目的 設計部のメンバーが、案件進捗、設計資料、業務手順、申請先を一か所から確認できるようにします。 トップページに表示する情報 1. ポータルの概要 2. 重要なお知らせ 3. よく使うリンク 4. 進行中案件 5. 最新資料 6. 改善アイデア投稿 7. 利用方法・問い合わせ先 詳細ページへ分ける情報 すべての案件 完了案件 設計資料一覧 業務マニュアル一覧 ポータル運用ルール 掲載情報分類例 掲載候補 掲載方法 更新担当 CADテンプレート更新 ニュース 資料管理担当 案件進捗 Lists 各案件担当者 設計図面 ライブラリ 資料作成者 備品購入申請 クイックリンク 総務担当 改善アイデア Forms 改善担当">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>サンプルポータルの設計例</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>ポータルの目的</h2>
+<p>設計部のメンバーが、案件進捗、設計資料、業務手順、申請先を一か所から確認できるようにします。</p>
+<h2>トップページに表示する情報</h2>
+<ol>
+<li>ポータルの概要</li>
+<li>重要なお知らせ</li>
+<li>よく使うリンク</li>
+<li>進行中案件</li>
+<li>最新資料</li>
+<li>改善アイデア投稿</li>
+<li>利用方法・問い合わせ先</li>
+</ol>
+<h2>詳細ページへ分ける情報</h2>
+<ul>
+<li>すべての案件</li>
+<li>完了案件</li>
+<li>設計資料一覧</li>
+<li>業務マニュアル一覧</li>
+<li>ポータル運用ルール</li>
+</ul>
+<h2>掲載情報分類例</h2>
+<table>
+<thead>
+<tr>
+  <th>掲載候補</th>
+  <th>掲載方法</th>
+  <th>更新担当</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>CADテンプレート更新</td>
+  <td>ニュース</td>
+  <td>資料管理担当</td>
+</tr>
+<tr>
+  <td>案件進捗</td>
+  <td>Lists</td>
+  <td>各案件担当者</td>
+</tr>
+<tr>
+  <td>設計図面</td>
+  <td>ライブラリ</td>
+  <td>資料作成者</td>
+</tr>
+<tr>
+  <td>備品購入申請</td>
+  <td>クイックリンク</td>
+  <td>総務担当</td>
+</tr>
+<tr>
+  <td>改善アイデア</td>
+  <td>Forms</td>
+  <td>改善担当</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u02-04"
+  data-type="PRACTICE" data-answer="false"
+  data-track="true" data-search="演習：ポータル設計とサイトマップを作成する 練習・提出 課題 講師が提示した完成見本と作成条件に沿って、指定された成果物を作成してください。 手順 1. ポータルの目的を一文で書く 2. 利用者と利用場面を整理する 3. 掲載候補をニュース・リンク・ページ・リスト・ライブラリ・フォームへ分類する 4. 掲載しない情報を決める 5. トップページに表示する情報を決める 6. サイトマップを作成する 7. ナビゲーション名と並び順を決める 完成条件 目的が利用者目線で書かれている 利用者と利用場面が対応している 掲載情報と使用機能が対応している 掲載しない情報が明確 サイトマップとナビゲーションが一致している 提出物 ポータル目的整理シート 利用者・利用場面整理表 掲載情報分類表 サイトマップ ナビゲーション設計案">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge PRACTICE">練習・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>演習：ポータル設計とサイトマップを作成する</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>課題</h1>
+<p>講師が提示した完成見本と作成条件に沿って、指定された成果物を作成してください。</p>
+<h2>手順</h2>
+<ol>
+<li>ポータルの目的を一文で書く</li>
+<li>利用者と利用場面を整理する</li>
+<li>掲載候補をニュース・リンク・ページ・リスト・ライブラリ・フォームへ分類する</li>
+<li>掲載しない情報を決める</li>
+<li>トップページに表示する情報を決める</li>
+<li>サイトマップを作成する</li>
+<li>ナビゲーション名と並び順を決める</li>
+</ol>
+<h2>完成条件</h2>
+<ul>
+<li>目的が利用者目線で書かれている</li>
+<li>利用者と利用場面が対応している</li>
+<li>掲載情報と使用機能が対応している</li>
+<li>掲載しない情報が明確</li>
+<li>サイトマップとナビゲーションが一致している</li>
+</ul>
+<h2>提出物</h2>
+<ul>
+<li>ポータル目的整理シート</li>
+<li>利用者・利用場面整理表</li>
+<li>掲載情報分類表</li>
+<li>サイトマップ</li>
+<li>ナビゲーション設計案</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card answer-card" id="lesson-u02-05"
+  data-type="WIKI" data-answer="true"
+  data-track="false" data-search="解答例と確認ポイント 解説 目的整理例 設計部のメンバーが、案件進捗、最新資料、業務手順、申請先を一か所から確認できるようにする。 確認ポイント SharePointを使うこと自体が目的になっていない 情報の管理先が明確 トップページが入口として設計されている 更新担当者を想定できる よくある修正 状態 修正方法 全資料をトップへ表示 最新資料だけ表示し一覧へリンク 利用者が「社員」だけ 設計担当者・管理者などへ分ける ページ名が専門用語 利用者が理解できる業務名へ変更">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span><span class="badge answer">解答例</span></div>
+      <h3>解答例と確認ポイント</h3>
+    </div>
+    
+  </summary>
+  <div class="lesson-body"><h2>目的整理例</h2>
+<blockquote>
+<p>設計部のメンバーが、案件進捗、最新資料、業務手順、申請先を一か所から確認できるようにする。</p>
+</blockquote>
+<h2>確認ポイント</h2>
+<ul>
+<li>SharePointを使うこと自体が目的になっていない</li>
+<li>情報の管理先が明確</li>
+<li>トップページが入口として設計されている</li>
+<li>更新担当者を想定できる</li>
+</ul>
+<h2>よくある修正</h2>
+<table>
+<thead>
+<tr>
+  <th>状態</th>
+  <th>修正方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>全資料をトップへ表示</td>
+  <td>最新資料だけ表示し一覧へリンク</td>
+</tr>
+<tr>
+  <td>利用者が「社員」だけ</td>
+  <td>設計担当者・管理者などへ分ける</td>
+</tr>
+<tr>
+  <td>ページ名が専門用語</td>
+  <td>利用者が理解できる業務名へ変更</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u02-06"
+  data-type="CHECK" data-answer="false"
+  data-track="true" data-search="確認問題：ポータルの目的とサイト設計 確認・提出 確認問題 問題1 業務ポータルの目的を利用者の状態で書く理由を説明してください。 問題2 重要なお知らせに適した機能を答えてください。 問題3 トップページと詳細ページを分ける理由を説明してください。 問題4 掲載前に公開範囲を確認すべき情報を1つ挙げてください。 問題5 サイトマップとナビゲーションを一致させる理由を説明してください。 提出前の確認 すべての問題へ回答した 教材の内容に基づいて回答した 指定された成果物を確認した">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge CHECK">確認・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>確認問題：ポータルの目的とサイト設計</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>確認問題</h1>
+<h2>問題1</h2>
+<p>業務ポータルの目的を利用者の状態で書く理由を説明してください。</p>
+<h2>問題2</h2>
+<p>重要なお知らせに適した機能を答えてください。</p>
+<h2>問題3</h2>
+<p>トップページと詳細ページを分ける理由を説明してください。</p>
+<h2>問題4</h2>
+<p>掲載前に公開範囲を確認すべき情報を1つ挙げてください。</p>
+<h2>問題5</h2>
+<p>サイトマップとナビゲーションを一致させる理由を説明してください。</p>
+<h2>提出前の確認</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>すべての問題へ回答した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>教材の内容に基づいて回答した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>指定された成果物を確認した</li>
+</ul>
+</div>
+</details>
+</div>
+</details>
+
+<details class="unit-section" id="unit-u03">
+  <summary>
+    <span class="unit-num">02</span>
+    <div class="unit-heading">
+      <h2>SharePointページの基本作成</h2>
+      <small>7教材</small>
+    </div>
+    <span class="chevron">⌄</span>
+  </summary>
+  <div class="lesson-list">
+<details class="lesson-card" id="lesson-u03-00"
+  data-type="INFO" data-answer="false"
+  data-track="true" data-search="この単元について 案内 所要時間の目安 約3時間 この単元で学ぶこと ページ・セクション・Webパーツの関係を説明できる ページを編集できる 1列・2列・3列レイアウトを設定できる テキスト・画像・ボタンを配置できる 下書き保存と公開の違いを理解できる この単元の完成物 SharePointトップページの基本レイアウト ページ構成メモ Webパーツ配置案 下書き状態のトップページ">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge INFO">案内</span></div>
+      <h3>この単元について</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>所要時間の目安</h2>
+<p><strong>約3時間</strong></p>
+<h2>この単元で学ぶこと</h2>
+<ul>
+<li>ページ・セクション・Webパーツの関係を説明できる</li>
+<li>ページを編集できる</li>
+<li>1列・2列・3列レイアウトを設定できる</li>
+<li>テキスト・画像・ボタンを配置できる</li>
+<li>下書き保存と公開の違いを理解できる</li>
+</ul>
+<h2>この単元の完成物</h2>
+<ul>
+<li>SharePointトップページの基本レイアウト</li>
+<li>ページ構成メモ</li>
+<li>Webパーツ配置案</li>
+<li>下書き状態のトップページ</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u03-01"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="ページ・セクション・Webパーツ 解説 ページの基本構造 text ページ ├ タイトル領域 ├ セクション │ ├ 列 │ └ Webパーツ └ セクション ├ 列 └ Webパーツ セクションの使い分け 1列：タイトル、重要なお知らせ 2列：主要情報と補助情報 3列：同じ重要度のリンク 縦方向セクション：補助情報を横へ置く場合 この単元で使うWebパーツ テキスト 画像 ボタン 区切り線 スペーサー クイックリンクの仮配置 リスト・ライブラリの表示予定位置 下書きと公開 下書き保存：編集権限を持つ人が確認する段階 公開：閲覧権限を持つ利用者へ表示する段階">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>ページ・セクション・Webパーツ</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>ページの基本構造</h2>
+<pre><code class="language-text">ページ
+├ タイトル領域
+├ セクション
+│  ├ 列
+│  └ Webパーツ
+└ セクション
+   ├ 列
+   └ Webパーツ
+</code></pre>
+<h2>セクションの使い分け</h2>
+<ul>
+<li>1列：タイトル、重要なお知らせ</li>
+<li>2列：主要情報と補助情報</li>
+<li>3列：同じ重要度のリンク</li>
+<li>縦方向セクション：補助情報を横へ置く場合</li>
+</ul>
+<h2>この単元で使うWebパーツ</h2>
+<ul>
+<li>テキスト</li>
+<li>画像</li>
+<li>ボタン</li>
+<li>区切り線</li>
+<li>スペーサー</li>
+<li>クイックリンクの仮配置</li>
+<li>リスト・ライブラリの表示予定位置</li>
+</ul>
+<h2>下書きと公開</h2>
+<ul>
+<li>下書き保存：編集権限を持つ人が確認する段階</li>
+<li>公開：閲覧権限を持つ利用者へ表示する段階</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u03-02"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="見やすいトップページの作り方 解説 情報の優先順位 上部 ポータル名 目的 重要なお知らせ よく使うリンク 中部 進行中案件 最新資料 申請・問い合わせ 下部 利用方法 更新情報 問い合わせ先 視線の流れ 1. 何のページか分かる 2. 重要なお知らせに気付く 3. よく使う機能へ移動できる 4. 業務状況を確認できる 5. 問い合わせ先が分かる 注意 長い説明は詳細ページへ分ける 「リンク集」「その他」など曖昧な見出しを避ける 色だけで状態を区別しない 装飾より業務上の分かりやすさを優先する">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>見やすいトップページの作り方</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>情報の優先順位</h2>
+<h3>上部</h3>
+<ul>
+<li>ポータル名</li>
+<li>目的</li>
+<li>重要なお知らせ</li>
+<li>よく使うリンク</li>
+</ul>
+<h3>中部</h3>
+<ul>
+<li>進行中案件</li>
+<li>最新資料</li>
+<li>申請・問い合わせ</li>
+</ul>
+<h3>下部</h3>
+<ul>
+<li>利用方法</li>
+<li>更新情報</li>
+<li>問い合わせ先</li>
+</ul>
+<h2>視線の流れ</h2>
+<ol>
+<li>何のページか分かる</li>
+<li>重要なお知らせに気付く</li>
+<li>よく使う機能へ移動できる</li>
+<li>業務状況を確認できる</li>
+<li>問い合わせ先が分かる</li>
+</ol>
+<h2>注意</h2>
+<ul>
+<li>長い説明は詳細ページへ分ける</li>
+<li>「リンク集」「その他」など曖昧な見出しを避ける</li>
+<li>色だけで状態を区別しない</li>
+<li>装飾より業務上の分かりやすさを優先する</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u03-03"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="トップページ土台の作成手順 解説 作成する構成 1. ページタイトルと概要 2. 重要なお知らせの表示予定位置 3. よく使うリンクの表示予定位置 4. 案件進捗の表示予定位置 5. 最新資料の表示予定位置 6. 問い合わせ・改善アイデアへの導線 7. ポータルの利用方法 基本手順 1. 研修用サイトを開く 2. 対象ページを編集モードにする 3. タイトルと概要を設定する 4. セクションを追加する 5. 基本Webパーツを配置する 6. 後の単元で設定する領域を確保する 7. 下書き保存する 8. 開き直して配置を確認する">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>トップページ土台の作成手順</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>作成する構成</h2>
+<ol>
+<li>ページタイトルと概要</li>
+<li>重要なお知らせの表示予定位置</li>
+<li>よく使うリンクの表示予定位置</li>
+<li>案件進捗の表示予定位置</li>
+<li>最新資料の表示予定位置</li>
+<li>問い合わせ・改善アイデアへの導線</li>
+<li>ポータルの利用方法</li>
+</ol>
+<h2>基本手順</h2>
+<ol>
+<li>研修用サイトを開く</li>
+<li>対象ページを編集モードにする</li>
+<li>タイトルと概要を設定する</li>
+<li>セクションを追加する</li>
+<li>基本Webパーツを配置する</li>
+<li>後の単元で設定する領域を確保する</li>
+<li>下書き保存する</li>
+<li>開き直して配置を確認する</li>
+</ol>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u03-04"
+  data-type="PRACTICE" data-answer="false"
+  data-track="true" data-search="演習：トップページの土台を作成する 練習・提出 課題 講師が提示した完成見本と作成条件に沿って、指定された成果物を作成してください。 手順 1. 研修用サイトと作業ページを確認する 2. タイトルと概要を設定する 3. セクションと列レイアウトを設定する 4. テキスト・画像またはアイコン・ボタンを配置する 5. ニュース・リンク・リスト・ライブラリの予定位置を作る 6. 利用方法・問い合わせ先の領域を作る 7. 下書き保存して開き直す 完成条件 ページタイトルと目的が表示されている 重要情報がページ上部にある 情報の種類ごとに領域が分かれている 過剰な空白や装飾がない 下書き保存できている 提出物 SharePointトップページの基本レイアウト ページ構成メモ Webパーツ配置案 下書き状態のトップページ">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge PRACTICE">練習・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>演習：トップページの土台を作成する</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>課題</h1>
+<p>講師が提示した完成見本と作成条件に沿って、指定された成果物を作成してください。</p>
+<h2>手順</h2>
+<ol>
+<li>研修用サイトと作業ページを確認する</li>
+<li>タイトルと概要を設定する</li>
+<li>セクションと列レイアウトを設定する</li>
+<li>テキスト・画像またはアイコン・ボタンを配置する</li>
+<li>ニュース・リンク・リスト・ライブラリの予定位置を作る</li>
+<li>利用方法・問い合わせ先の領域を作る</li>
+<li>下書き保存して開き直す</li>
+</ol>
+<h2>完成条件</h2>
+<ul>
+<li>ページタイトルと目的が表示されている</li>
+<li>重要情報がページ上部にある</li>
+<li>情報の種類ごとに領域が分かれている</li>
+<li>過剰な空白や装飾がない</li>
+<li>下書き保存できている</li>
+</ul>
+<h2>提出物</h2>
+<ul>
+<li>SharePointトップページの基本レイアウト</li>
+<li>ページ構成メモ</li>
+<li>Webパーツ配置案</li>
+<li>下書き状態のトップページ</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card answer-card" id="lesson-u03-05"
+  data-type="WIKI" data-answer="true"
+  data-track="false" data-search="解答例と確認ポイント 解説 ページ構成例 text タイトル：設計部業務ポータル 上部：重要なお知らせ／よく使う業務メニュー 中部：進行中案件／最新の設計資料 下部：改善アイデア投稿／利用方法・問い合わせ先 よくある修正 状態 修正方法 すべて1列で長い 2列・3列を組み合わせる 画像が大きすぎる 画像サイズを調整する 見出しが「リンク」 業務目的が分かる名称にする 演習途中で公開 下書き保存へ戻し講師へ確認">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span><span class="badge answer">解答例</span></div>
+      <h3>解答例と確認ポイント</h3>
+    </div>
+    
+  </summary>
+  <div class="lesson-body"><h2>ページ構成例</h2>
+<pre><code class="language-text">タイトル：設計部業務ポータル
+上部：重要なお知らせ／よく使う業務メニュー
+中部：進行中案件／最新の設計資料
+下部：改善アイデア投稿／利用方法・問い合わせ先
+</code></pre>
+<h2>よくある修正</h2>
+<table>
+<thead>
+<tr>
+  <th>状態</th>
+  <th>修正方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>すべて1列で長い</td>
+  <td>2列・3列を組み合わせる</td>
+</tr>
+<tr>
+  <td>画像が大きすぎる</td>
+  <td>画像サイズを調整する</td>
+</tr>
+<tr>
+  <td>見出しが「リンク」</td>
+  <td>業務目的が分かる名称にする</td>
+</tr>
+<tr>
+  <td>演習途中で公開</td>
+  <td>下書き保存へ戻し講師へ確認</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u03-06"
+  data-type="CHECK" data-answer="false"
+  data-track="true" data-search="確認問題：SharePointページの基本作成 確認・提出 確認問題 問題1 セクションとWebパーツの違いを説明してください。 問題2 重要情報を上部へ配置する理由を説明してください。 問題3 下書き保存を使用する理由を説明してください。 問題4 トップページに詳細を詰め込みすぎない理由を説明してください。 問題5 色だけで状態を区別しない理由を説明してください。 提出前の確認 すべての問題へ回答した 教材の内容に基づいて回答した 指定された成果物を確認した">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge CHECK">確認・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>確認問題：SharePointページの基本作成</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>確認問題</h1>
+<h2>問題1</h2>
+<p>セクションとWebパーツの違いを説明してください。</p>
+<h2>問題2</h2>
+<p>重要情報を上部へ配置する理由を説明してください。</p>
+<h2>問題3</h2>
+<p>下書き保存を使用する理由を説明してください。</p>
+<h2>問題4</h2>
+<p>トップページに詳細を詰め込みすぎない理由を説明してください。</p>
+<h2>問題5</h2>
+<p>色だけで状態を区別しない理由を説明してください。</p>
+<h2>提出前の確認</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>すべての問題へ回答した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>教材の内容に基づいて回答した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>指定された成果物を確認した</li>
+</ul>
+</div>
+</details>
+</div>
+</details>
+
+<details class="unit-section" id="unit-u04">
+  <summary>
+    <span class="unit-num">03</span>
+    <div class="unit-heading">
+      <h2>情報への導線と資料管理</h2>
+      <small>7教材</small>
+    </div>
+    <span class="chevron">⌄</span>
+  </summary>
+  <div class="lesson-list">
+<details class="lesson-card" id="lesson-u04-00"
+  data-type="INFO" data-answer="false"
+  data-track="true" data-search="この単元について 案内 所要時間の目安 約3時間 この単元で学ぶこと ニュースと常設情報を使い分けられる ニュース投稿を作成できる クイックリンクを設計できる ライブラリへ列を追加できる フォルダとメタデータの違いを理解できる 用途別ビューを作成できる この単元の完成物 ニュース投稿 クイックリンク 資料管理用ドキュメントライブラリ 資料管理用の列 用途別ビュー 情報導線を追加したトップページ">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge INFO">案内</span></div>
+      <h3>この単元について</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>所要時間の目安</h2>
+<p><strong>約3時間</strong></p>
+<h2>この単元で学ぶこと</h2>
+<ul>
+<li>ニュースと常設情報を使い分けられる</li>
+<li>ニュース投稿を作成できる</li>
+<li>クイックリンクを設計できる</li>
+<li>ライブラリへ列を追加できる</li>
+<li>フォルダとメタデータの違いを理解できる</li>
+<li>用途別ビューを作成できる</li>
+</ul>
+<h2>この単元の完成物</h2>
+<ul>
+<li>ニュース投稿</li>
+<li>クイックリンク</li>
+<li>資料管理用ドキュメントライブラリ</li>
+<li>資料管理用の列</li>
+<li>用途別ビュー</li>
+<li>情報導線を追加したトップページ</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u04-01"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="ニュースとクイックリンク 解説 ニュース 期限や発生時点があるお知らせに使用します。 管理ルール変更 研修実施 テンプレート更新 システム停止予定 ニュースには、対象者、日付、変更内容、利用者が行うこと、問い合わせ先を記載します。 クイックリンク 利用頻度が高いページ、資料、申請先への導線です。 避けたい表示名： manual v3 こちら form final 分かりやすい表示名： 業務マニュアルを確認する 備品購入を申請する 案件進捗を見る 改善アイデアを投稿する 公開前確認 リンク先が存在する 閲覧権限がある 対象者と日付が正しい 機密情報が含まれていない">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>ニュースとクイックリンク</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>ニュース</h2>
+<p>期限や発生時点があるお知らせに使用します。</p>
+<ul>
+<li>管理ルール変更</li>
+<li>研修実施</li>
+<li>テンプレート更新</li>
+<li>システム停止予定</li>
+</ul>
+<p>ニュースには、対象者、日付、変更内容、利用者が行うこと、問い合わせ先を記載します。</p>
+<h2>クイックリンク</h2>
+<p>利用頻度が高いページ、資料、申請先への導線です。</p>
+<p>避けたい表示名：</p>
+<ul>
+<li><code>manual_v3</code></li>
+<li><code>こちら</code></li>
+<li><code>form_final</code></li>
+</ul>
+<p>分かりやすい表示名：</p>
+<ul>
+<li>業務マニュアルを確認する</li>
+<li>備品購入を申請する</li>
+<li>案件進捗を見る</li>
+<li>改善アイデアを投稿する</li>
+</ul>
+<h2>公開前確認</h2>
+<ul>
+<li>リンク先が存在する</li>
+<li>閲覧権限がある</li>
+<li>対象者と日付が正しい</li>
+<li>機密情報が含まれていない</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u04-02"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="ライブラリ・列・ビュー 解説 ドキュメントライブラリ ファイルを保存するだけでなく、列・ビューを使って資料を整理します。 フォルダとメタデータ 方法 特徴 フォルダ 見慣れているが階層が深くなりやすい メタデータ 複数の観点で絞り込み・並べ替えできる 設計資料ライブラリの列 案件番号 案件名 資料種別 図面番号 改訂番号 承認状態 担当者 ビュー例 すべての資料 案件別 レビュー対象 承認済み資料 最近更新された資料">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>ライブラリ・列・ビュー</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>ドキュメントライブラリ</h2>
+<p>ファイルを保存するだけでなく、列・ビューを使って資料を整理します。</p>
+<h2>フォルダとメタデータ</h2>
+<table>
+<thead>
+<tr>
+  <th>方法</th>
+  <th>特徴</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>フォルダ</td>
+  <td>見慣れているが階層が深くなりやすい</td>
+</tr>
+<tr>
+  <td>メタデータ</td>
+  <td>複数の観点で絞り込み・並べ替えできる</td>
+</tr>
+</tbody>
+</table>
+<h2>設計資料ライブラリの列</h2>
+<ul>
+<li>案件番号</li>
+<li>案件名</li>
+<li>資料種別</li>
+<li>図面番号</li>
+<li>改訂番号</li>
+<li>承認状態</li>
+<li>担当者</li>
+</ul>
+<h2>ビュー例</h2>
+<ul>
+<li>すべての資料</li>
+<li>案件別</li>
+<li>レビュー対象</li>
+<li>承認済み資料</li>
+<li>最近更新された資料</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u04-03"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="サンプルの導線と資料管理 解説 ニュース例 CADテンプレートを更新しました 対象：設計部メンバー 更新日 主な変更内容 新しいテンプレートの保存場所 旧版の扱い 問い合わせ先 クイックリンク例 案件進捗 設計資料 業務マニュアル 備品購入申請 改善アイデア投稿 ライブラリ設定手順 1. 列を追加する 2. サンプル資料を登録する 3. 列情報を入力する 4. 案件別・レビュー対象・承認済みビューを作る 5. トップページへライブラリWebパーツを表示する">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>サンプルの導線と資料管理</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>ニュース例</h2>
+<p><strong>CADテンプレートを更新しました</strong></p>
+<ul>
+<li>対象：設計部メンバー</li>
+<li>更新日</li>
+<li>主な変更内容</li>
+<li>新しいテンプレートの保存場所</li>
+<li>旧版の扱い</li>
+<li>問い合わせ先</li>
+</ul>
+<h2>クイックリンク例</h2>
+<ul>
+<li>案件進捗</li>
+<li>設計資料</li>
+<li>業務マニュアル</li>
+<li>備品購入申請</li>
+<li>改善アイデア投稿</li>
+</ul>
+<h2>ライブラリ設定手順</h2>
+<ol>
+<li>列を追加する</li>
+<li>サンプル資料を登録する</li>
+<li>列情報を入力する</li>
+<li>案件別・レビュー対象・承認済みビューを作る</li>
+<li>トップページへライブラリWebパーツを表示する</li>
+</ol>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u04-04"
+  data-type="PRACTICE" data-answer="false"
+  data-track="true" data-search="演習：導線と資料管理を設定する 練習・提出 課題 講師が提示した完成見本と作成条件に沿って、指定された成果物を作成してください。 手順 1. ニュースを1件作成する 2. 対象者・日付・内容・問い合わせ先を記載する 3. クイックリンクを設定する 4. 設計資料ライブラリへ列を追加する 5. サンプル資料と列情報を登録する 6. 案件別・レビュー対象・承認済み資料ビューを作る 7. トップページへニュース・リンク・ライブラリを表示する 8. 一般利用者の立場で遷移を確認する 完成条件 ニュース内容と対象者が分かる クイックリンクの表示名と遷移先が正しい ライブラリに必要な列がある 指定ビューを切り替えられる トップページから資料一覧へ移動できる 提出物 ニュース投稿 クイックリンク 資料管理用ドキュメントライブラリ 資料管理用の列 用途別ビュー 情報導線を追加したトップページ">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge PRACTICE">練習・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>演習：導線と資料管理を設定する</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>課題</h1>
+<p>講師が提示した完成見本と作成条件に沿って、指定された成果物を作成してください。</p>
+<h2>手順</h2>
+<ol>
+<li>ニュースを1件作成する</li>
+<li>対象者・日付・内容・問い合わせ先を記載する</li>
+<li>クイックリンクを設定する</li>
+<li>設計資料ライブラリへ列を追加する</li>
+<li>サンプル資料と列情報を登録する</li>
+<li>案件別・レビュー対象・承認済み資料ビューを作る</li>
+<li>トップページへニュース・リンク・ライブラリを表示する</li>
+<li>一般利用者の立場で遷移を確認する</li>
+</ol>
+<h2>完成条件</h2>
+<ul>
+<li>ニュース内容と対象者が分かる</li>
+<li>クイックリンクの表示名と遷移先が正しい</li>
+<li>ライブラリに必要な列がある</li>
+<li>指定ビューを切り替えられる</li>
+<li>トップページから資料一覧へ移動できる</li>
+</ul>
+<h2>提出物</h2>
+<ul>
+<li>ニュース投稿</li>
+<li>クイックリンク</li>
+<li>資料管理用ドキュメントライブラリ</li>
+<li>資料管理用の列</li>
+<li>用途別ビュー</li>
+<li>情報導線を追加したトップページ</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card answer-card" id="lesson-u04-05"
+  data-type="WIKI" data-answer="true"
+  data-track="false" data-search="解答例と確認ポイント 解説 確認例 表示名 遷移先 案件進捗を見る 案件・業務進捗リスト 設計資料を探す 設計資料ライブラリ 改善アイデアを投稿する 受付フォーム よくある修正 状態 修正方法 ニュースに日付がない 適用日を追加 リンク名がファイル名 利用者の操作名へ変更 資料種別が自由入力 選択肢列を検討 ビューの列が多すぎる 目的に必要な列だけ表示">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span><span class="badge answer">解答例</span></div>
+      <h3>解答例と確認ポイント</h3>
+    </div>
+    
+  </summary>
+  <div class="lesson-body"><h2>確認例</h2>
+<table>
+<thead>
+<tr>
+  <th>表示名</th>
+  <th>遷移先</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>案件進捗を見る</td>
+  <td>案件・業務進捗リスト</td>
+</tr>
+<tr>
+  <td>設計資料を探す</td>
+  <td>設計資料ライブラリ</td>
+</tr>
+<tr>
+  <td>改善アイデアを投稿する</td>
+  <td>受付フォーム</td>
+</tr>
+</tbody>
+</table>
+<h2>よくある修正</h2>
+<table>
+<thead>
+<tr>
+  <th>状態</th>
+  <th>修正方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>ニュースに日付がない</td>
+  <td>適用日を追加</td>
+</tr>
+<tr>
+  <td>リンク名がファイル名</td>
+  <td>利用者の操作名へ変更</td>
+</tr>
+<tr>
+  <td>資料種別が自由入力</td>
+  <td>選択肢列を検討</td>
+</tr>
+<tr>
+  <td>ビューの列が多すぎる</td>
+  <td>目的に必要な列だけ表示</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u04-06"
+  data-type="CHECK" data-answer="false"
+  data-track="true" data-search="確認問題：情報への導線と資料管理 確認・提出 確認問題 問題1 ニュースと常設ページを使い分ける基準を説明してください。 問題2 クイックリンクを利用者の操作名で書く理由を説明してください。 問題3 メタデータを使用するメリットを2つ答えてください。 問題4 レビュー対象ビューに使う列の例を答えてください。 問題5 トップページへ全資料を表示しない理由を説明してください。 提出前の確認 すべての問題へ回答した 教材の内容に基づいて回答した 指定された成果物を確認した">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge CHECK">確認・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>確認問題：情報への導線と資料管理</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>確認問題</h1>
+<h2>問題1</h2>
+<p>ニュースと常設ページを使い分ける基準を説明してください。</p>
+<h2>問題2</h2>
+<p>クイックリンクを利用者の操作名で書く理由を説明してください。</p>
+<h2>問題3</h2>
+<p>メタデータを使用するメリットを2つ答えてください。</p>
+<h2>問題4</h2>
+<p>レビュー対象ビューに使う列の例を答えてください。</p>
+<h2>問題5</h2>
+<p>トップページへ全資料を表示しない理由を説明してください。</p>
+<h2>提出前の確認</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>すべての問題へ回答した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>教材の内容に基づいて回答した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>指定された成果物を確認した</li>
+</ul>
+</div>
+</details>
+</div>
+</details>
+
+<details class="unit-section" id="unit-u05">
+  <summary>
+    <span class="unit-num">04</span>
+    <div class="unit-heading">
+      <h2>FormsとListsによるデータ収集・管理</h2>
+      <small>7教材</small>
+    </div>
+    <span class="chevron">⌄</span>
+  </summary>
+  <div class="lesson-list">
+<details class="lesson-card" id="lesson-u05-00"
+  data-type="INFO" data-answer="false"
+  data-track="true" data-search="この単元について 案内 所要時間の目安 約3時間 この単元で学ぶこと FormsとListsの役割を説明できる 受付と一覧管理で使い分けられる 入力項目と管理項目を分けられる Listsへ列を設定できる 進捗リストを作成できる Formsで受付フォームを作成できる 回答結果を確認できる この単元の完成物 案件・業務進捗リスト リスト入力フォーム 改善アイデア受付フォーム 入力項目・管理項目設計表 FormsとListsの使い分け整理表">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge INFO">案内</span></div>
+      <h3>この単元について</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>所要時間の目安</h2>
+<p><strong>約3時間</strong></p>
+<h2>この単元で学ぶこと</h2>
+<ul>
+<li>FormsとListsの役割を説明できる</li>
+<li>受付と一覧管理で使い分けられる</li>
+<li>入力項目と管理項目を分けられる</li>
+<li>Listsへ列を設定できる</li>
+<li>進捗リストを作成できる</li>
+<li>Formsで受付フォームを作成できる</li>
+<li>回答結果を確認できる</li>
+</ul>
+<h2>この単元の完成物</h2>
+<ul>
+<li>案件・業務進捗リスト</li>
+<li>リスト入力フォーム</li>
+<li>改善アイデア受付フォーム</li>
+<li>入力項目・管理項目設計表</li>
+<li>FormsとListsの使い分け整理表</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u05-01"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="FormsとListsの使い分け 解説 Microsoft Forms 回答者から情報を受け付けることに向いています。 問い合わせ アンケート 改善アイデア 研修申込 簡易申請 Microsoft Lists 登録後の情報を継続管理することに向いています。 案件進捗 問い合わせ対応 申請状況 備品管理 課題管理 使い分け 要件 適した方法 回答者へ簡単な画面を見せる Forms 担当者・期限・ステータスを更新する Lists 入力と一覧管理を同じ場所で行う Lists入力フォーム 回答結果を確認する FormsまたはExcel Forms回答をListsへ自動登録する連携は、Power Automate等を使う発展例とし、必須演習には含めません。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>FormsとListsの使い分け</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>Microsoft Forms</h2>
+<p>回答者から情報を受け付けることに向いています。</p>
+<ul>
+<li>問い合わせ</li>
+<li>アンケート</li>
+<li>改善アイデア</li>
+<li>研修申込</li>
+<li>簡易申請</li>
+</ul>
+<h2>Microsoft Lists</h2>
+<p>登録後の情報を継続管理することに向いています。</p>
+<ul>
+<li>案件進捗</li>
+<li>問い合わせ対応</li>
+<li>申請状況</li>
+<li>備品管理</li>
+<li>課題管理</li>
+</ul>
+<h2>使い分け</h2>
+<table>
+<thead>
+<tr>
+  <th>要件</th>
+  <th>適した方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>回答者へ簡単な画面を見せる</td>
+  <td>Forms</td>
+</tr>
+<tr>
+  <td>担当者・期限・ステータスを更新する</td>
+  <td>Lists</td>
+</tr>
+<tr>
+  <td>入力と一覧管理を同じ場所で行う</td>
+  <td>Lists入力フォーム</td>
+</tr>
+<tr>
+  <td>回答結果を確認する</td>
+  <td>FormsまたはExcel</td>
+</tr>
+</tbody>
+</table>
+<p>Forms回答をListsへ自動登録する連携は、Power Automate等を使う発展例とし、必須演習には含めません。</p>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u05-02"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="入力項目と管理項目の設計 解説 入力項目 入力者が回答する項目です。 投稿者名 対象業務 困っていること 改善案 期待する効果 参考資料 管理項目 受付後に管理者が更新する項目です。 受付番号 受付日 ステータス 対応担当者 対応期限 対応結果 管理者メモ 列の例 項目 列の種類 案件番号 1行テキスト 担当者 ユーザーまたはグループ 期限 日付 ステータス 選択肢 進捗率 数値 備考 複数行テキスト 必須項目は、管理や対応に必要で、入力者が回答できるものに限定します。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>入力項目と管理項目の設計</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>入力項目</h2>
+<p>入力者が回答する項目です。</p>
+<ul>
+<li>投稿者名</li>
+<li>対象業務</li>
+<li>困っていること</li>
+<li>改善案</li>
+<li>期待する効果</li>
+<li>参考資料</li>
+</ul>
+<h2>管理項目</h2>
+<p>受付後に管理者が更新する項目です。</p>
+<ul>
+<li>受付番号</li>
+<li>受付日</li>
+<li>ステータス</li>
+<li>対応担当者</li>
+<li>対応期限</li>
+<li>対応結果</li>
+<li>管理者メモ</li>
+</ul>
+<h2>列の例</h2>
+<table>
+<thead>
+<tr>
+  <th>項目</th>
+  <th>列の種類</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>案件番号</td>
+  <td>1行テキスト</td>
+</tr>
+<tr>
+  <td>担当者</td>
+  <td>ユーザーまたはグループ</td>
+</tr>
+<tr>
+  <td>期限</td>
+  <td>日付</td>
+</tr>
+<tr>
+  <td>ステータス</td>
+  <td>選択肢</td>
+</tr>
+<tr>
+  <td>進捗率</td>
+  <td>数値</td>
+</tr>
+<tr>
+  <td>備考</td>
+  <td>複数行テキスト</td>
+</tr>
+</tbody>
+</table>
+<p>必須項目は、管理や対応に必要で、入力者が回答できるものに限定します。</p>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u05-03"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="進捗リストと受付フォームの作成例 解説 案件・業務進捗リスト 案件番号 案件名 顧客名 担当者 開始日 期限 ステータス 進捗率 優先度 関連資料 備考 作成手順 1. リストを作成する 2. 必要な列を追加する 3. 選択肢を設定する 4. サンプルデータを登録する 5. 入力フォームから新規登録する 6. 一覧へ反映されたことを確認する 改善アイデア受付フォーム 投稿者名 対象業務 現在困っていること 改善案 期待する効果 参考資料">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>進捗リストと受付フォームの作成例</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>案件・業務進捗リスト</h2>
+<ul>
+<li>案件番号</li>
+<li>案件名</li>
+<li>顧客名</li>
+<li>担当者</li>
+<li>開始日</li>
+<li>期限</li>
+<li>ステータス</li>
+<li>進捗率</li>
+<li>優先度</li>
+<li>関連資料</li>
+<li>備考</li>
+</ul>
+<h2>作成手順</h2>
+<ol>
+<li>リストを作成する</li>
+<li>必要な列を追加する</li>
+<li>選択肢を設定する</li>
+<li>サンプルデータを登録する</li>
+<li>入力フォームから新規登録する</li>
+<li>一覧へ反映されたことを確認する</li>
+</ol>
+<h2>改善アイデア受付フォーム</h2>
+<ul>
+<li>投稿者名</li>
+<li>対象業務</li>
+<li>現在困っていること</li>
+<li>改善案</li>
+<li>期待する効果</li>
+<li>参考資料</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u05-04"
+  data-type="PRACTICE" data-answer="false"
+  data-track="true" data-search="演習：進捗リストと受付フォームを作成する 練習・提出 課題 講師が提示した完成見本と作成条件に沿って、指定された成果物を作成してください。 手順 1. 案件・業務進捗リストを作成する 2. 指定された列と選択肢を設定する 3. サンプルデータを登録する 4. Lists入力フォームから新規登録する 5. 改善アイデア受付フォームを作成する 6. 必須項目と任意項目を調整する 7. テスト回答を送信する 8. FormsまたはExcelで回答を確認する 9. 入力項目と管理項目を整理する 完成条件 リストに必要な列が揃っている 列の種類が目的に合っている 入力フォームから登録できる Formsに必要な質問がある テスト回答を確認できる 入力項目と管理項目が区別されている 提出物 案件・業務進捗リスト リスト入力フォーム 改善アイデア受付フォーム 入力項目・管理項目設計表 FormsとListsの使い分け整理表">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge PRACTICE">練習・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>演習：進捗リストと受付フォームを作成する</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>課題</h1>
+<p>講師が提示した完成見本と作成条件に沿って、指定された成果物を作成してください。</p>
+<h2>手順</h2>
+<ol>
+<li>案件・業務進捗リストを作成する</li>
+<li>指定された列と選択肢を設定する</li>
+<li>サンプルデータを登録する</li>
+<li>Lists入力フォームから新規登録する</li>
+<li>改善アイデア受付フォームを作成する</li>
+<li>必須項目と任意項目を調整する</li>
+<li>テスト回答を送信する</li>
+<li>FormsまたはExcelで回答を確認する</li>
+<li>入力項目と管理項目を整理する</li>
+</ol>
+<h2>完成条件</h2>
+<ul>
+<li>リストに必要な列が揃っている</li>
+<li>列の種類が目的に合っている</li>
+<li>入力フォームから登録できる</li>
+<li>Formsに必要な質問がある</li>
+<li>テスト回答を確認できる</li>
+<li>入力項目と管理項目が区別されている</li>
+</ul>
+<h2>提出物</h2>
+<ul>
+<li>案件・業務進捗リスト</li>
+<li>リスト入力フォーム</li>
+<li>改善アイデア受付フォーム</li>
+<li>入力項目・管理項目設計表</li>
+<li>FormsとListsの使い分け整理表</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card answer-card" id="lesson-u05-05"
+  data-type="WIKI" data-answer="true"
+  data-track="false" data-search="解答例と確認ポイント 解説 使い分け例 業務 使用ツール 理由 案件進捗 Lists 担当者・期限・ステータスを更新する 改善アイデア受付 Forms 簡単な受付画面を提供する 受付後の対応管理 Lists ステータスと担当者を管理する よくある修正 状態 修正方法 ステータスが自由入力 選択肢列へ変更 すべて必須 必要最小限にする 進捗率が文字列 数値列へ変更 FormsからListsへ自動登録する前提 発展連携として分ける">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span><span class="badge answer">解答例</span></div>
+      <h3>解答例と確認ポイント</h3>
+    </div>
+    
+  </summary>
+  <div class="lesson-body"><h2>使い分け例</h2>
+<table>
+<thead>
+<tr>
+  <th>業務</th>
+  <th>使用ツール</th>
+  <th>理由</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>案件進捗</td>
+  <td>Lists</td>
+  <td>担当者・期限・ステータスを更新する</td>
+</tr>
+<tr>
+  <td>改善アイデア受付</td>
+  <td>Forms</td>
+  <td>簡単な受付画面を提供する</td>
+</tr>
+<tr>
+  <td>受付後の対応管理</td>
+  <td>Lists</td>
+  <td>ステータスと担当者を管理する</td>
+</tr>
+</tbody>
+</table>
+<h2>よくある修正</h2>
+<table>
+<thead>
+<tr>
+  <th>状態</th>
+  <th>修正方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>ステータスが自由入力</td>
+  <td>選択肢列へ変更</td>
+</tr>
+<tr>
+  <td>すべて必須</td>
+  <td>必要最小限にする</td>
+</tr>
+<tr>
+  <td>進捗率が文字列</td>
+  <td>数値列へ変更</td>
+</tr>
+<tr>
+  <td>FormsからListsへ自動登録する前提</td>
+  <td>発展連携として分ける</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u05-06"
+  data-type="CHECK" data-answer="false"
+  data-track="true" data-search="確認問題：FormsとListsによるデータ収集・管理 確認・提出 確認問題 問題1 FormsとListsの主な役割の違いを説明してください。 問題2 案件進捗にListsが適している理由を2つ答えてください。 問題3 入力項目と管理項目を分ける理由を説明してください。 問題4 ステータスに適した列の種類を答えてください。 問題5 Forms回答をListsへ自動登録する発展的な仕組みの例を答えてください。 提出前の確認 すべての問題へ回答した 教材の内容に基づいて回答した 指定された成果物を確認した">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge CHECK">確認・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>確認問題：FormsとListsによるデータ収集・管理</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>確認問題</h1>
+<h2>問題1</h2>
+<p>FormsとListsの主な役割の違いを説明してください。</p>
+<h2>問題2</h2>
+<p>案件進捗にListsが適している理由を2つ答えてください。</p>
+<h2>問題3</h2>
+<p>入力項目と管理項目を分ける理由を説明してください。</p>
+<h2>問題4</h2>
+<p>ステータスに適した列の種類を答えてください。</p>
+<h2>問題5</h2>
+<p>Forms回答をListsへ自動登録する発展的な仕組みの例を答えてください。</p>
+<h2>提出前の確認</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>すべての問題へ回答した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>教材の内容に基づいて回答した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>指定された成果物を確認した</li>
+</ul>
+</div>
+</details>
+</div>
+</details>
+
+<details class="unit-section" id="unit-u06">
+  <summary>
+    <span class="unit-num">05</span>
+    <div class="unit-heading">
+      <h2>業務情報の見える化とページ統合</h2>
+      <small>7教材</small>
+    </div>
+    <span class="chevron">⌄</span>
+  </summary>
+  <div class="lesson-list">
+<details class="lesson-card" id="lesson-u06-00"
+  data-type="INFO" data-answer="false"
+  data-track="true" data-search="この単元について 案内 所要時間の目安 約3時間 この単元で学ぶこと リストビューの役割を説明できる 表示列・並べ替え・フィルター・グループ化を設定できる 進行中・期限超過などのビューを作成できる トップページへリストビューを表示できる ニュース・リンク・資料・進捗を統合できる 利用者目線で導線を確認できる この単元の完成物 ステータス別・担当者別・期限別リストビュー 進捗情報を表示したトップページ 情報を統合した業務ポータル 利用者目線の動作確認チェックシート">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge INFO">案内</span></div>
+      <h3>この単元について</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>所要時間の目安</h2>
+<p><strong>約3時間</strong></p>
+<h2>この単元で学ぶこと</h2>
+<ul>
+<li>リストビューの役割を説明できる</li>
+<li>表示列・並べ替え・フィルター・グループ化を設定できる</li>
+<li>進行中・期限超過などのビューを作成できる</li>
+<li>トップページへリストビューを表示できる</li>
+<li>ニュース・リンク・資料・進捗を統合できる</li>
+<li>利用者目線で導線を確認できる</li>
+</ul>
+<h2>この単元の完成物</h2>
+<ul>
+<li>ステータス別・担当者別・期限別リストビュー</li>
+<li>進捗情報を表示したトップページ</li>
+<li>情報を統合した業務ポータル</li>
+<li>利用者目線の動作確認チェックシート</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u06-01"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="リストビューの基本 解説 リストビュー 同じリストの情報を、利用目的に合わせて表示する方法です。元データを複製せず、表示列、並べ替え、フィルター、グループ化を切り替えます。 表示列の例 進行中案件では、次の列を中心に表示します。 案件番号 案件名 担当者 期限 ステータス 進捗率 優先度 ビュー例 すべての案件 進行中案件 担当者別 期限超過 承認待ち 完了案件 ビュー名は「ビュー1」ではなく、表示内容が分かる名称にします。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>リストビューの基本</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>リストビュー</h2>
+<p>同じリストの情報を、利用目的に合わせて表示する方法です。元データを複製せず、表示列、並べ替え、フィルター、グループ化を切り替えます。</p>
+<h2>表示列の例</h2>
+<p>進行中案件では、次の列を中心に表示します。</p>
+<ul>
+<li>案件番号</li>
+<li>案件名</li>
+<li>担当者</li>
+<li>期限</li>
+<li>ステータス</li>
+<li>進捗率</li>
+<li>優先度</li>
+</ul>
+<h2>ビュー例</h2>
+<ul>
+<li>すべての案件</li>
+<li>進行中案件</li>
+<li>担当者別</li>
+<li>期限超過</li>
+<li>承認待ち</li>
+<li>完了案件</li>
+</ul>
+<p>ビュー名は「ビュー1」ではなく、表示内容が分かる名称にします。</p>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u06-02"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="トップページと詳細一覧の役割 解説 トップページ 重要なお知らせ よく使うリンク 進行中案件 最新資料 問い合わせ導線 詳細一覧 すべての案件 担当者別案件 期限超過案件 完了案件 すべての設計資料 過去のニュース トップページには、日常的に確認するビューだけを表示し、詳細は一覧へ移動して確認します。 ページ統合の順番 1. ニュース 2. クイックリンク 3. 進行中案件 4. 最新資料 5. 改善アイデア投稿 6. 利用方法・問い合わせ先 Power BI・Power Appsとの連携は発展例とし、必須演習ではSharePointとListsの標準機能を使用します。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>トップページと詳細一覧の役割</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>トップページ</h2>
+<ul>
+<li>重要なお知らせ</li>
+<li>よく使うリンク</li>
+<li>進行中案件</li>
+<li>最新資料</li>
+<li>問い合わせ導線</li>
+</ul>
+<h2>詳細一覧</h2>
+<ul>
+<li>すべての案件</li>
+<li>担当者別案件</li>
+<li>期限超過案件</li>
+<li>完了案件</li>
+<li>すべての設計資料</li>
+<li>過去のニュース</li>
+</ul>
+<p>トップページには、日常的に確認するビューだけを表示し、詳細は一覧へ移動して確認します。</p>
+<h2>ページ統合の順番</h2>
+<ol>
+<li>ニュース</li>
+<li>クイックリンク</li>
+<li>進行中案件</li>
+<li>最新資料</li>
+<li>改善アイデア投稿</li>
+<li>利用方法・問い合わせ先</li>
+</ol>
+<p>Power BI・Power Appsとの連携は発展例とし、必須演習ではSharePointとListsの標準機能を使用します。</p>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u06-03"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="ビュー作成とページ統合の手順 解説 ビュー条件例 ビュー 条件 並べ替え 進行中案件 ステータス＝進行中 期限の昇順 担当者別 全件または進行中 担当者でグループ化 期限超過 期限＜今日、完了以外 期限の昇順 完了案件 ステータス＝完了 更新日の降順 統合手順 1. 必要なビューを作成する 2. 各ビューの件数と条件を確認する 3. トップページを編集する 4. リストWebパーツを追加する 5. 進行中案件ビューを選択する 6. 表示列と件数を確認する 7. 詳細一覧へのリンクを追加する">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>ビュー作成とページ統合の手順</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>ビュー条件例</h2>
+<table>
+<thead>
+<tr>
+  <th>ビュー</th>
+  <th>条件</th>
+  <th>並べ替え</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>進行中案件</td>
+  <td>ステータス＝進行中</td>
+  <td>期限の昇順</td>
+</tr>
+<tr>
+  <td>担当者別</td>
+  <td>全件または進行中</td>
+  <td>担当者でグループ化</td>
+</tr>
+<tr>
+  <td>期限超過</td>
+  <td>期限＜今日、完了以外</td>
+  <td>期限の昇順</td>
+</tr>
+<tr>
+  <td>完了案件</td>
+  <td>ステータス＝完了</td>
+  <td>更新日の降順</td>
+</tr>
+</tbody>
+</table>
+<h2>統合手順</h2>
+<ol>
+<li>必要なビューを作成する</li>
+<li>各ビューの件数と条件を確認する</li>
+<li>トップページを編集する</li>
+<li>リストWebパーツを追加する</li>
+<li>進行中案件ビューを選択する</li>
+<li>表示列と件数を確認する</li>
+<li>詳細一覧へのリンクを追加する</li>
+</ol>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u06-04"
+  data-type="PRACTICE" data-answer="false"
+  data-track="true" data-search="演習：ビューを作成しポータルへ統合する 練習・提出 課題 講師が提示した完成見本と作成条件に沿って、指定された成果物を作成してください。 手順 1. 進行中案件ビューを作成する 2. 担当者別ビューを作成する 3. 期限超過ビューを作成する 4. 完了案件ビューを作成する 5. 表示列・並べ替え・フィルター・グループ化を確認する 6. トップページへ進行中案件を表示する 7. ニュース・リンク・資料・進捗情報を配置する 8. 改善アイデア受付への導線を確認する 9. 一般利用者の立場で操作確認する 完成条件 指定ビューが作成されている 各ビューの条件が正しい ビュー名から表示内容が分かる トップページに進行中案件が表示される 詳細一覧へ移動できる 閲覧者の権限で必要情報を確認できる 提出物 ステータス別・担当者別・期限別リストビュー 進捗情報を表示したトップページ 情報を統合した業務ポータル 利用者目線の動作確認チェックシート">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge PRACTICE">練習・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>演習：ビューを作成しポータルへ統合する</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>課題</h1>
+<p>講師が提示した完成見本と作成条件に沿って、指定された成果物を作成してください。</p>
+<h2>手順</h2>
+<ol>
+<li>進行中案件ビューを作成する</li>
+<li>担当者別ビューを作成する</li>
+<li>期限超過ビューを作成する</li>
+<li>完了案件ビューを作成する</li>
+<li>表示列・並べ替え・フィルター・グループ化を確認する</li>
+<li>トップページへ進行中案件を表示する</li>
+<li>ニュース・リンク・資料・進捗情報を配置する</li>
+<li>改善アイデア受付への導線を確認する</li>
+<li>一般利用者の立場で操作確認する</li>
+</ol>
+<h2>完成条件</h2>
+<ul>
+<li>指定ビューが作成されている</li>
+<li>各ビューの条件が正しい</li>
+<li>ビュー名から表示内容が分かる</li>
+<li>トップページに進行中案件が表示される</li>
+<li>詳細一覧へ移動できる</li>
+<li>閲覧者の権限で必要情報を確認できる</li>
+</ul>
+<h2>提出物</h2>
+<ul>
+<li>ステータス別・担当者別・期限別リストビュー</li>
+<li>進捗情報を表示したトップページ</li>
+<li>情報を統合した業務ポータル</li>
+<li>利用者目線の動作確認チェックシート</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card answer-card" id="lesson-u06-05"
+  data-type="WIKI" data-answer="true"
+  data-track="false" data-search="解答例と確認ポイント 解説 確認ポイント 期限超過ビューに完了案件が含まれていない トップページの列数を絞っている 詳細一覧への移動方法がある ニュース、資料、リストの権限が閲覧者に合っている よくある修正 状態 修正方法 期限超過に完了案件を含む 完了以外の条件を追加 トップページに列が多い 判断に必要な列だけ表示 すべてのビューが同じ 利用目的ごとに条件を変える 詳細一覧への導線がない リンクを追加">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span><span class="badge answer">解答例</span></div>
+      <h3>解答例と確認ポイント</h3>
+    </div>
+    
+  </summary>
+  <div class="lesson-body"><h2>確認ポイント</h2>
+<ul>
+<li>期限超過ビューに完了案件が含まれていない</li>
+<li>トップページの列数を絞っている</li>
+<li>詳細一覧への移動方法がある</li>
+<li>ニュース、資料、リストの権限が閲覧者に合っている</li>
+</ul>
+<h2>よくある修正</h2>
+<table>
+<thead>
+<tr>
+  <th>状態</th>
+  <th>修正方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>期限超過に完了案件を含む</td>
+  <td>完了以外の条件を追加</td>
+</tr>
+<tr>
+  <td>トップページに列が多い</td>
+  <td>判断に必要な列だけ表示</td>
+</tr>
+<tr>
+  <td>すべてのビューが同じ</td>
+  <td>利用目的ごとに条件を変える</td>
+</tr>
+<tr>
+  <td>詳細一覧への導線がない</td>
+  <td>リンクを追加</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u06-06"
+  data-type="CHECK" data-answer="false"
+  data-track="true" data-search="確認問題：業務情報の見える化とページ統合 確認・提出 確認問題 問題1 元データを複製せず複数の見せ方を作る機能を答えてください。 問題2 期限超過ビューに必要な条件を説明してください。 問題3 トップページへすべての列を表示しない理由を説明してください。 問題4 トップページと詳細一覧を分けるメリットを2つ答えてください。 問題5 一般利用者の立場で確認する理由を説明してください。 提出前の確認 すべての問題へ回答した 教材の内容に基づいて回答した 指定された成果物を確認した">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge CHECK">確認・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>確認問題：業務情報の見える化とページ統合</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>確認問題</h1>
+<h2>問題1</h2>
+<p>元データを複製せず複数の見せ方を作る機能を答えてください。</p>
+<h2>問題2</h2>
+<p>期限超過ビューに必要な条件を説明してください。</p>
+<h2>問題3</h2>
+<p>トップページへすべての列を表示しない理由を説明してください。</p>
+<h2>問題4</h2>
+<p>トップページと詳細一覧を分けるメリットを2つ答えてください。</p>
+<h2>問題5</h2>
+<p>一般利用者の立場で確認する理由を説明してください。</p>
+<h2>提出前の確認</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>すべての問題へ回答した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>教材の内容に基づいて回答した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>指定された成果物を確認した</li>
+</ul>
+</div>
+</details>
+</div>
+</details>
+
+<details class="unit-section" id="unit-u07">
+  <summary>
+    <span class="unit-num">06</span>
+    <div class="unit-heading">
+      <h2>権限と継続運用</h2>
+      <small>7教材</small>
+    </div>
+    <span class="chevron">⌄</span>
+  </summary>
+  <div class="lesson-list">
+<details class="lesson-card" id="lesson-u07-00"
+  data-type="INFO" data-answer="false"
+  data-track="true" data-search="この単元について 案内 所要時間の目安 約2時間 この単元で学ぶこと 所有者・メンバー・閲覧者の違いを説明できる 編集者と閲覧者を整理できる サイト全体と個別権限の違いを理解できる 更新担当者と更新頻度を決められる 古い情報の確認方法を決められる 引き継ぎ情報をまとめられる この単元の完成物 権限設計表 更新担当者一覧 更新頻度一覧 運用ルール ポータル運用チェックリスト 引き継ぎ確認表">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge INFO">案内</span></div>
+      <h3>この単元について</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>所要時間の目安</h2>
+<p><strong>約2時間</strong></p>
+<h2>この単元で学ぶこと</h2>
+<ul>
+<li>所有者・メンバー・閲覧者の違いを説明できる</li>
+<li>編集者と閲覧者を整理できる</li>
+<li>サイト全体と個別権限の違いを理解できる</li>
+<li>更新担当者と更新頻度を決められる</li>
+<li>古い情報の確認方法を決められる</li>
+<li>引き継ぎ情報をまとめられる</li>
+</ul>
+<h2>この単元の完成物</h2>
+<ul>
+<li>権限設計表</li>
+<li>更新担当者一覧</li>
+<li>更新頻度一覧</li>
+<li>運用ルール</li>
+<li>ポータル運用チェックリスト</li>
+<li>引き継ぎ確認表</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u07-01"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="SharePointの基本的な権限 解説 基本的な役割 役割 主な操作 所有者 サイト設定、権限管理、全体管理 メンバー ページ・リスト・資料の追加・編集 閲覧者 公開された情報の閲覧 最小権限 業務上必要な範囲の権限だけを付与します。すべての利用者を所有者にすると、ページ削除や権限変更のリスクが高まります。 サイト全体と個別権限 サイト全体：サイト内へ共通して適用する基本権限 個別権限：特定のリスト、ライブラリ、ファイルへ別の権限を設定 個別権限が増えると管理が複雑になるため、標準グループとサイト単位の権限を中心に設計します。 実際の権限変更は、講師または管理者の指示に従います。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>SharePointの基本的な権限</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>基本的な役割</h2>
+<table>
+<thead>
+<tr>
+  <th>役割</th>
+  <th>主な操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>所有者</td>
+  <td>サイト設定、権限管理、全体管理</td>
+</tr>
+<tr>
+  <td>メンバー</td>
+  <td>ページ・リスト・資料の追加・編集</td>
+</tr>
+<tr>
+  <td>閲覧者</td>
+  <td>公開された情報の閲覧</td>
+</tr>
+</tbody>
+</table>
+<h2>最小権限</h2>
+<p>業務上必要な範囲の権限だけを付与します。すべての利用者を所有者にすると、ページ削除や権限変更のリスクが高まります。</p>
+<h2>サイト全体と個別権限</h2>
+<ul>
+<li>サイト全体：サイト内へ共通して適用する基本権限</li>
+<li>個別権限：特定のリスト、ライブラリ、ファイルへ別の権限を設定</li>
+</ul>
+<p>個別権限が増えると管理が複雑になるため、標準グループとサイト単位の権限を中心に設計します。</p>
+<p>実際の権限変更は、講師または管理者の指示に従います。</p>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u07-02"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="継続運用のルール 解説 ポータルが使われなくなる原因 更新担当者が決まっていない 古いニュースやリンクが残る 資料登録ルールが守られない 問い合わせ先が分からない 異動後に権限が残る ページを追加し続けて複雑になる 更新対象の例 対象 更新担当 頻度 ニュース 総務担当 必要時 案件進捗 各案件担当者 随時 設計資料 資料作成者 更新時 クイックリンク ポータル管理者 月1回 運用ルール サイト所有者 半年ごと 引き継ぎ情報 サイトURL 所有者・管理者 利用者グループ 更新対象と担当者 更新頻度 資料登録ルール よくあるトラブル 問い合わせ先">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>継続運用のルール</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>ポータルが使われなくなる原因</h2>
+<ul>
+<li>更新担当者が決まっていない</li>
+<li>古いニュースやリンクが残る</li>
+<li>資料登録ルールが守られない</li>
+<li>問い合わせ先が分からない</li>
+<li>異動後に権限が残る</li>
+<li>ページを追加し続けて複雑になる</li>
+</ul>
+<h2>更新対象の例</h2>
+<table>
+<thead>
+<tr>
+  <th>対象</th>
+  <th>更新担当</th>
+  <th>頻度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>ニュース</td>
+  <td>総務担当</td>
+  <td>必要時</td>
+</tr>
+<tr>
+  <td>案件進捗</td>
+  <td>各案件担当者</td>
+  <td>随時</td>
+</tr>
+<tr>
+  <td>設計資料</td>
+  <td>資料作成者</td>
+  <td>更新時</td>
+</tr>
+<tr>
+  <td>クイックリンク</td>
+  <td>ポータル管理者</td>
+  <td>月1回</td>
+</tr>
+<tr>
+  <td>運用ルール</td>
+  <td>サイト所有者</td>
+  <td>半年ごと</td>
+</tr>
+</tbody>
+</table>
+<h2>引き継ぎ情報</h2>
+<ul>
+<li>サイトURL</li>
+<li>所有者・管理者</li>
+<li>利用者グループ</li>
+<li>更新対象と担当者</li>
+<li>更新頻度</li>
+<li>資料登録ルール</li>
+<li>よくあるトラブル</li>
+<li>問い合わせ先</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u07-03"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="権限設計表と運用ルールの例 解説 権限設計表例 対象 所有者 メンバー 閲覧者 サイト全体 ポータル管理者 更新担当者 設計部メンバー 設計資料 資料管理責任者 資料作成者 設計部メンバー 案件進捗 管理者 各案件担当者 設計部メンバー 運用ルールの構成 1. ポータルの目的 2. 利用対象者 3. 所有者・管理者 4. 更新対象 5. 更新担当者 6. 更新頻度 7. ニュース掲載ルール 8. 資料登録ルール 9. 権限申請方法 10. 古い情報の確認方法 11. 問い合わせ先 12. 見直し時期">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>権限設計表と運用ルールの例</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>権限設計表例</h2>
+<table>
+<thead>
+<tr>
+  <th>対象</th>
+  <th>所有者</th>
+  <th>メンバー</th>
+  <th>閲覧者</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>サイト全体</td>
+  <td>ポータル管理者</td>
+  <td>更新担当者</td>
+  <td>設計部メンバー</td>
+</tr>
+<tr>
+  <td>設計資料</td>
+  <td>資料管理責任者</td>
+  <td>資料作成者</td>
+  <td>設計部メンバー</td>
+</tr>
+<tr>
+  <td>案件進捗</td>
+  <td>管理者</td>
+  <td>各案件担当者</td>
+  <td>設計部メンバー</td>
+</tr>
+</tbody>
+</table>
+<h2>運用ルールの構成</h2>
+<ol>
+<li>ポータルの目的</li>
+<li>利用対象者</li>
+<li>所有者・管理者</li>
+<li>更新対象</li>
+<li>更新担当者</li>
+<li>更新頻度</li>
+<li>ニュース掲載ルール</li>
+<li>資料登録ルール</li>
+<li>権限申請方法</li>
+<li>古い情報の確認方法</li>
+<li>問い合わせ先</li>
+<li>見直し時期</li>
+</ol>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u07-04"
+  data-type="PRACTICE" data-answer="false"
+  data-track="true" data-search="演習：権限設計と運用ルールを作成する 練習・提出 課題 講師が提示した完成見本と作成条件に沿って、指定された成果物を作成してください。 手順 1. 利用者を整理する 2. 所有者・メンバー・閲覧者を設定する 3. 公開範囲を整理する 4. 個別権限が必要な情報を確認する 5. 更新対象ごとの担当者を決める 6. 更新頻度と見直し時期を決める 7. 古い情報の確認方法を決める 8. 問い合わせ先を決める 9. 引き継ぎ情報を整理する 10. 運用チェックリストを作成する 完成条件 役割が明確 必要以上の編集権限を付与していない 公開範囲が整理されている 更新担当と頻度がある 古い情報の確認方法がある 問い合わせ先と引き継ぎ情報がある 提出物 権限設計表 更新担当者一覧 更新頻度一覧 運用ルール ポータル運用チェックリスト 引き継ぎ確認表">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge PRACTICE">練習・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>演習：権限設計と運用ルールを作成する</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>課題</h1>
+<p>講師が提示した完成見本と作成条件に沿って、指定された成果物を作成してください。</p>
+<h2>手順</h2>
+<ol>
+<li>利用者を整理する</li>
+<li>所有者・メンバー・閲覧者を設定する</li>
+<li>公開範囲を整理する</li>
+<li>個別権限が必要な情報を確認する</li>
+<li>更新対象ごとの担当者を決める</li>
+<li>更新頻度と見直し時期を決める</li>
+<li>古い情報の確認方法を決める</li>
+<li>問い合わせ先を決める</li>
+<li>引き継ぎ情報を整理する</li>
+<li>運用チェックリストを作成する</li>
+</ol>
+<h2>完成条件</h2>
+<ul>
+<li>役割が明確</li>
+<li>必要以上の編集権限を付与していない</li>
+<li>公開範囲が整理されている</li>
+<li>更新担当と頻度がある</li>
+<li>古い情報の確認方法がある</li>
+<li>問い合わせ先と引き継ぎ情報がある</li>
+</ul>
+<h2>提出物</h2>
+<ul>
+<li>権限設計表</li>
+<li>更新担当者一覧</li>
+<li>更新頻度一覧</li>
+<li>運用ルール</li>
+<li>ポータル運用チェックリスト</li>
+<li>引き継ぎ確認表</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card answer-card" id="lesson-u07-05"
+  data-type="WIKI" data-answer="true"
+  data-track="false" data-search="解答例と確認ポイント 解説 確認例 一般利用者は閲覧者、ページや資料を更新する担当者はメンバー、全体管理を行う少人数を所有者にします。 よくある修正 状態 修正方法 全員が所有者 管理・編集・閲覧へ分ける 個人単位の権限が多数 グループ管理を検討 更新担当が「担当部署」だけ 役割・責任者を明確にする 更新頻度が必要時だけ 定期確認項目を追加する">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span><span class="badge answer">解答例</span></div>
+      <h3>解答例と確認ポイント</h3>
+    </div>
+    
+  </summary>
+  <div class="lesson-body"><h2>確認例</h2>
+<p>一般利用者は閲覧者、ページや資料を更新する担当者はメンバー、全体管理を行う少人数を所有者にします。</p>
+<h2>よくある修正</h2>
+<table>
+<thead>
+<tr>
+  <th>状態</th>
+  <th>修正方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>全員が所有者</td>
+  <td>管理・編集・閲覧へ分ける</td>
+</tr>
+<tr>
+  <td>個人単位の権限が多数</td>
+  <td>グループ管理を検討</td>
+</tr>
+<tr>
+  <td>更新担当が「担当部署」だけ</td>
+  <td>役割・責任者を明確にする</td>
+</tr>
+<tr>
+  <td>更新頻度が必要時だけ</td>
+  <td>定期確認項目を追加する</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u07-06"
+  data-type="CHECK" data-answer="false"
+  data-track="true" data-search="確認問題：権限と継続運用 確認・提出 確認問題 問題1 所有者・メンバー・閲覧者の違いを説明してください。 問題2 全員へ編集権限を付けない理由を説明してください。 問題3 個別権限を増やしすぎる問題を1つ答えてください。 問題4 更新担当と更新頻度を決める理由を説明してください。 問題5 引き継ぎ時に共有する情報を3つ答えてください。 提出前の確認 すべての問題へ回答した 教材の内容に基づいて回答した 指定された成果物を確認した">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge CHECK">確認・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>確認問題：権限と継続運用</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>確認問題</h1>
+<h2>問題1</h2>
+<p>所有者・メンバー・閲覧者の違いを説明してください。</p>
+<h2>問題2</h2>
+<p>全員へ編集権限を付けない理由を説明してください。</p>
+<h2>問題3</h2>
+<p>個別権限を増やしすぎる問題を1つ答えてください。</p>
+<h2>問題4</h2>
+<p>更新担当と更新頻度を決める理由を説明してください。</p>
+<h2>問題5</h2>
+<p>引き継ぎ時に共有する情報を3つ答えてください。</p>
+<h2>提出前の確認</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>すべての問題へ回答した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>教材の内容に基づいて回答した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>指定された成果物を確認した</li>
+</ul>
+</div>
+</details>
+</div>
+</details>
+
+<details class="unit-section" id="unit-u08">
+  <summary>
+    <span class="unit-num">07</span>
+    <div class="unit-heading">
+      <h2>総合演習：設計部業務ポータルの完成</h2>
+      <small>7教材</small>
+    </div>
+    <span class="chevron">⌄</span>
+  </summary>
+  <div class="lesson-list">
+<details class="lesson-card" id="lesson-u08-00"
+  data-type="INFO" data-answer="false"
+  data-track="true" data-search="この単元について 案内 所要時間の目安 約2時間 この単元で学ぶこと 課題要件に沿ってトップページを完成できる ニュースとリンクを設定できる リスト・ライブラリ・ビューを設定できる 入力または受付フォームを作成できる 権限と運用ルールを整理できる 一般利用者の立場で動作確認できる この単元の完成物 完成した設計部業務ポータル 権限設計表 運用ルール 完成確認用チェックリスト">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge INFO">案内</span></div>
+      <h3>この単元について</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>所要時間の目安</h2>
+<p><strong>約2時間</strong></p>
+<h2>この単元で学ぶこと</h2>
+<ul>
+<li>課題要件に沿ってトップページを完成できる</li>
+<li>ニュースとリンクを設定できる</li>
+<li>リスト・ライブラリ・ビューを設定できる</li>
+<li>入力または受付フォームを作成できる</li>
+<li>権限と運用ルールを整理できる</li>
+<li>一般利用者の立場で動作確認できる</li>
+</ul>
+<h2>この単元の完成物</h2>
+<ul>
+<li>完成した設計部業務ポータル</li>
+<li>権限設計表</li>
+<li>運用ルール</li>
+<li>完成確認用チェックリスト</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u08-01"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="総合演習の完成要件 解説 トップページ ポータルのタイトルと概要 ニュース クイックリンク 案件進捗リスト 設計資料ライブラリ 問い合わせ・改善アイデアへの導線 利用方法または問い合わせ先 案件・業務進捗リスト 必要な項目： 案件番号、案件名、顧客名、担当者 開始日、期限、ステータス、進捗率 優先度、関連資料、備考 必要なビュー： 進行中案件 担当者別 期限超過 完了案件 設計資料ライブラリ 必要な項目： 案件番号、案件名、資料種別 図面番号、改訂番号、承認状態、担当者 必要なビュー： すべての資料 案件別 レビュー対象 承認済み資料">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>総合演習の完成要件</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>トップページ</h2>
+<ul>
+<li>ポータルのタイトルと概要</li>
+<li>ニュース</li>
+<li>クイックリンク</li>
+<li>案件進捗リスト</li>
+<li>設計資料ライブラリ</li>
+<li>問い合わせ・改善アイデアへの導線</li>
+<li>利用方法または問い合わせ先</li>
+</ul>
+<h2>案件・業務進捗リスト</h2>
+<p>必要な項目：</p>
+<ul>
+<li>案件番号、案件名、顧客名、担当者</li>
+<li>開始日、期限、ステータス、進捗率</li>
+<li>優先度、関連資料、備考</li>
+</ul>
+<p>必要なビュー：</p>
+<ul>
+<li>進行中案件</li>
+<li>担当者別</li>
+<li>期限超過</li>
+<li>完了案件</li>
+</ul>
+<h2>設計資料ライブラリ</h2>
+<p>必要な項目：</p>
+<ul>
+<li>案件番号、案件名、資料種別</li>
+<li>図面番号、改訂番号、承認状態、担当者</li>
+</ul>
+<p>必要なビュー：</p>
+<ul>
+<li>すべての資料</li>
+<li>案件別</li>
+<li>レビュー対象</li>
+<li>承認済み資料</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u08-02"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="演習の進め方と時間配分 解説 推奨時間配分 作業 目安 : 要件と未完成サイトの確認 10分 トップページ・ニュース・リンク 20分 リスト・ライブラリ・ビュー 35分 入力または受付フォーム 15分 ページへの統合 15分 権限・運用 15分 動作確認・提出前確認 10分 優先順位 1. トップページの基本構成 2. クイックリンク 3. 進捗リストと進行中ビュー 4. ライブラリと承認済みビュー 5. ページへの表示 6. 入力・受付 7. 権限・運用設計 8. 装飾 見た目より、情報への導線と動作確認を優先します。">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>演習の進め方と時間配分</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>推奨時間配分</h2>
+<table>
+<thead>
+<tr>
+  <th>作業</th>
+  <th style="text-align:right">目安</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>要件と未完成サイトの確認</td>
+  <td style="text-align:right">10分</td>
+</tr>
+<tr>
+  <td>トップページ・ニュース・リンク</td>
+  <td style="text-align:right">20分</td>
+</tr>
+<tr>
+  <td>リスト・ライブラリ・ビュー</td>
+  <td style="text-align:right">35分</td>
+</tr>
+<tr>
+  <td>入力または受付フォーム</td>
+  <td style="text-align:right">15分</td>
+</tr>
+<tr>
+  <td>ページへの統合</td>
+  <td style="text-align:right">15分</td>
+</tr>
+<tr>
+  <td>権限・運用</td>
+  <td style="text-align:right">15分</td>
+</tr>
+<tr>
+  <td>動作確認・提出前確認</td>
+  <td style="text-align:right">10分</td>
+</tr>
+</tbody>
+</table>
+<h2>優先順位</h2>
+<ol>
+<li>トップページの基本構成</li>
+<li>クイックリンク</li>
+<li>進捗リストと進行中ビュー</li>
+<li>ライブラリと承認済みビュー</li>
+<li>ページへの表示</li>
+<li>入力・受付</li>
+<li>権限・運用設計</li>
+<li>装飾</li>
+</ol>
+<p>見た目より、情報への導線と動作確認を優先します。</p>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u08-03"
+  data-type="WIKI" data-answer="false"
+  data-track="true" data-search="最終確認とトラブル対応 解説 確認項目 ページ タイトルと概要がある 仮文言が残っていない 公開状態が講師の指示どおり リスト・ライブラリ 必要な列がある サンプルデータ・資料がある 必要なビューがある フィルター条件が正しい 入力・受付 フォームが開く テスト登録または回答ができる 結果を確認できる 権限・運用 所有者・メンバー・閲覧者を整理した 更新担当と頻度がある 問い合わせ先がある よくあるトラブル 状態 確認 ページ編集不可 アカウント・サイト・権限 リンク先を開けない URL・公開状態・権限 期限超過が誤表示 日付形式・フィルター条件 資料がビューに出ない 列情報・承認状態 閲覧者には見えない ページ・リスト・ライブラリ権限">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span></div>
+      <h3>最終確認とトラブル対応</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h2>確認項目</h2>
+<h3>ページ</h3>
+<ul>
+<li>タイトルと概要がある</li>
+<li>仮文言が残っていない</li>
+<li>公開状態が講師の指示どおり</li>
+</ul>
+<h3>リスト・ライブラリ</h3>
+<ul>
+<li>必要な列がある</li>
+<li>サンプルデータ・資料がある</li>
+<li>必要なビューがある</li>
+<li>フィルター条件が正しい</li>
+</ul>
+<h3>入力・受付</h3>
+<ul>
+<li>フォームが開く</li>
+<li>テスト登録または回答ができる</li>
+<li>結果を確認できる</li>
+</ul>
+<h3>権限・運用</h3>
+<ul>
+<li>所有者・メンバー・閲覧者を整理した</li>
+<li>更新担当と頻度がある</li>
+<li>問い合わせ先がある</li>
+</ul>
+<h2>よくあるトラブル</h2>
+<table>
+<thead>
+<tr>
+  <th>状態</th>
+  <th>確認</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>ページ編集不可</td>
+  <td>アカウント・サイト・権限</td>
+</tr>
+<tr>
+  <td>リンク先を開けない</td>
+  <td>URL・公開状態・権限</td>
+</tr>
+<tr>
+  <td>期限超過が誤表示</td>
+  <td>日付形式・フィルター条件</td>
+</tr>
+<tr>
+  <td>資料がビューに出ない</td>
+  <td>列情報・承認状態</td>
+</tr>
+<tr>
+  <td>閲覧者には見えない</td>
+  <td>ページ・リスト・ライブラリ権限</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u08-04"
+  data-type="PRACTICE" data-answer="false"
+  data-track="true" data-search="総合演習：設計部業務ポータルを完成させる 練習・提出 課題 講師が提示した完成見本と作成条件に沿って、指定された成果物を作成してください。 手順 1. 完成見本・課題要件・未完成サイトを確認する 2. トップページを編集する 3. ニュースとクイックリンクを設定する 4. 案件進捗リストと各種ビューを設定する 5. 設計資料ライブラリと各種ビューを設定する 6. トップページへリストとライブラリを表示する 7. Lists入力フォームまたはForms受付フォームを作成する 8. 権限設計表と運用ルールを完成させる 9. 一般利用者の立場で動作確認する 10. チェックリストへ結果を記録する 完成条件 トップページに必要情報がある ニュースとリンクが機能する リストとライブラリの列・ビューが要件どおり 入力または受付を行える 閲覧者が必要情報を確認できる 権限設計と運用ルールが完成している 提出物 完成した設計部業務ポータル 権限設計表 運用ルール 完成確認用チェックリスト">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge PRACTICE">練習・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>総合演習：設計部業務ポータルを完成させる</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>課題</h1>
+<p>講師が提示した完成見本と作成条件に沿って、指定された成果物を作成してください。</p>
+<h2>手順</h2>
+<ol>
+<li>完成見本・課題要件・未完成サイトを確認する</li>
+<li>トップページを編集する</li>
+<li>ニュースとクイックリンクを設定する</li>
+<li>案件進捗リストと各種ビューを設定する</li>
+<li>設計資料ライブラリと各種ビューを設定する</li>
+<li>トップページへリストとライブラリを表示する</li>
+<li>Lists入力フォームまたはForms受付フォームを作成する</li>
+<li>権限設計表と運用ルールを完成させる</li>
+<li>一般利用者の立場で動作確認する</li>
+<li>チェックリストへ結果を記録する</li>
+</ol>
+<h2>完成条件</h2>
+<ul>
+<li>トップページに必要情報がある</li>
+<li>ニュースとリンクが機能する</li>
+<li>リストとライブラリの列・ビューが要件どおり</li>
+<li>入力または受付を行える</li>
+<li>閲覧者が必要情報を確認できる</li>
+<li>権限設計と運用ルールが完成している</li>
+</ul>
+<h2>提出物</h2>
+<ul>
+<li>完成した設計部業務ポータル</li>
+<li>権限設計表</li>
+<li>運用ルール</li>
+<li>完成確認用チェックリスト</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card answer-card" id="lesson-u08-05"
+  data-type="WIKI" data-answer="true"
+  data-track="false" data-search="解答例と確認ポイント 解説 評価基準 評価項目 確認内容 目的・設計 利用者と掲載情報が対応 ページ 必要情報が整理されている 導線 リンクから目的の情報へ移動できる 資料管理 列・ビューが用途に合う 進捗管理 リスト・ビューが用途に合う 受付 入力フォームまたはFormsが動作 権限 所有者・メンバー・閲覧者を整理 運用 更新担当・頻度・見直し方法がある 振り返り 探す時間を減らせる情報 トップページと詳細へ分けた情報 ListsとFormsを使い分けた理由 権限設計で注意したこと 継続更新に必要なルール">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge WIKI">解説</span><span class="badge answer">解答例</span></div>
+      <h3>解答例と確認ポイント</h3>
+    </div>
+    
+  </summary>
+  <div class="lesson-body"><h2>評価基準</h2>
+<table>
+<thead>
+<tr>
+  <th>評価項目</th>
+  <th>確認内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>目的・設計</td>
+  <td>利用者と掲載情報が対応</td>
+</tr>
+<tr>
+  <td>ページ</td>
+  <td>必要情報が整理されている</td>
+</tr>
+<tr>
+  <td>導線</td>
+  <td>リンクから目的の情報へ移動できる</td>
+</tr>
+<tr>
+  <td>資料管理</td>
+  <td>列・ビューが用途に合う</td>
+</tr>
+<tr>
+  <td>進捗管理</td>
+  <td>リスト・ビューが用途に合う</td>
+</tr>
+<tr>
+  <td>受付</td>
+  <td>入力フォームまたはFormsが動作</td>
+</tr>
+<tr>
+  <td>権限</td>
+  <td>所有者・メンバー・閲覧者を整理</td>
+</tr>
+<tr>
+  <td>運用</td>
+  <td>更新担当・頻度・見直し方法がある</td>
+</tr>
+</tbody>
+</table>
+<h2>振り返り</h2>
+<ul>
+<li>探す時間を減らせる情報</li>
+<li>トップページと詳細へ分けた情報</li>
+<li>ListsとFormsを使い分けた理由</li>
+<li>権限設計で注意したこと</li>
+<li>継続更新に必要なルール</li>
+</ul>
+<hr />
+</div>
+</details>
+
+<details class="lesson-card" id="lesson-u08-06"
+  data-type="CHECK" data-answer="false"
+  data-track="true" data-search="確認問題：総合演習：設計部業務ポータルの完成 確認・提出 確認問題 問題1 トップページへ表示する情報を絞った理由を説明してください。 問題2 ListsとFormsを使い分けた理由を説明してください。 問題3 ポータルを継続運用するために必要なルールを3つ答えてください。 提出前の確認 すべての問題へ回答した 教材の内容に基づいて回答した 指定された成果物を確認した">
+  <summary>
+    <div class="lesson-heading">
+      <div class="lesson-meta"><span class="badge CHECK">確認・提出</span><span class="badge submit">提出あり</span></div>
+      <h3>確認問題：総合演習：設計部業務ポータルの完成</h3>
+    </div>
+    <label class="lesson-check"><input class="lesson-complete" type="checkbox"><span>確認済み</span></label>
+  </summary>
+  <div class="lesson-body"><h1>確認問題</h1>
+<h2>問題1</h2>
+<p>トップページへ表示する情報を絞った理由を説明してください。</p>
+<h2>問題2</h2>
+<p>ListsとFormsを使い分けた理由を説明してください。</p>
+<h2>問題3</h2>
+<p>ポータルを継続運用するために必要なルールを3つ答えてください。</p>
+<h2>提出前の確認</h2>
+<ul>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>すべての問題へ回答した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>教材の内容に基づいて回答した</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" type="checkbox" disabled/>指定された成果物を確認した</li>
+</ul>
+</div>
+</details>
+</div>
+</details>
+</div>
+    <div id="empty-state" class="empty-state">該当する教材が見つかりませんでした。</div>
+    <footer class="footer">
+      コースA HTML閲覧版。確認済みの状態は、このブラウザ内に保存されます。
+    </footer>
+  </main>
+</div>
+</div>
+<script>
+(() => {
+  const body = document.body;
+  const courseId = body.dataset.course || "course";
+  const search = document.querySelector("#course-search");
+  const typeFilter = document.querySelector("#type-filter");
+  const result = document.querySelector("#search-result");
+  const cards = [...document.querySelectorAll(".lesson-card")];
+  const units = [...document.querySelectorAll(".unit-section")];
+  const answerToggle = document.querySelector("#answer-toggle");
+  const progressBar = document.querySelector("#progress-bar");
+  const progressText = document.querySelector("#progress-text");
+  let answersVisible = true;
+
+  const normalize = (s) => (s || "").toLocaleLowerCase("ja").replace(/\s+/g, " ").trim();
+
+  function applyFilters() {
+    const q = normalize(search?.value);
+    const type = typeFilter?.value || "ALL";
+    let shown = 0;
+
+    cards.forEach(card => {
+      const haystack = normalize(card.dataset.search);
+      const matchesSearch = !q || haystack.includes(q);
+      const matchesType =
+        type === "ALL" ||
+        (type === "ANSWER" && card.dataset.answer === "true") ||
+        (type !== "ANSWER" && card.dataset.type === type);
+      const matchesAnswer = answersVisible || card.dataset.answer !== "true";
+      const visible = matchesSearch && matchesType && matchesAnswer;
+      card.hidden = !visible;
+      if (visible) {
+        shown++;
+        if (q) card.open = true;
+      }
+    });
+
+    units.forEach(unit => {
+      const hasVisible = [...unit.querySelectorAll(".lesson-card")].some(card => !card.hidden);
+      unit.hidden = !hasVisible;
+      if (q && hasVisible) unit.open = true;
+    });
+
+    const empty = document.querySelector("#empty-state");
+    if (empty) empty.style.display = shown ? "none" : "block";
+    if (result) result.textContent = q || type !== "ALL" || !answersVisible
+      ? `${shown}件の教材を表示しています`
+      : `全${cards.length}件の教材を表示しています`;
+  }
+
+  function updateProgress() {
+    const trackable = cards.filter(c => c.dataset.track === "true");
+    let completed = 0;
+    trackable.forEach(card => {
+      const checkbox = card.querySelector(".lesson-complete");
+      const key = `is-course:${courseId}:${card.id}`;
+      const checked = localStorage.getItem(key) === "1";
+      if (checkbox) checkbox.checked = checked;
+      if (checked) completed++;
+    });
+    const pct = trackable.length ? Math.round(completed / trackable.length * 100) : 0;
+    if (progressBar) progressBar.style.width = pct + "%";
+    if (progressText) progressText.textContent = `${completed} / ${trackable.length}（${pct}%）`;
+  }
+
+  cards.forEach(card => {
+    const checkbox = card.querySelector(".lesson-complete");
+    if (checkbox) {
+      checkbox.addEventListener("click", e => e.stopPropagation());
+      checkbox.addEventListener("change", () => {
+        const key = `is-course:${courseId}:${card.id}`;
+        localStorage.setItem(key, checkbox.checked ? "1" : "0");
+        updateProgress();
+      });
+    }
+  });
+
+  search?.addEventListener("input", applyFilters);
+  typeFilter?.addEventListener("change", applyFilters);
+  answerToggle?.addEventListener("click", () => {
+    answersVisible = !answersVisible;
+    answerToggle.textContent = answersVisible ? "解答例を隠す" : "解答例を表示";
+    applyFilters();
+  });
+
+  document.querySelector("#open-all")?.addEventListener("click", () => {
+    units.filter(u => !u.hidden).forEach(u => u.open = true);
+    cards.filter(c => !c.hidden).forEach(c => c.open = true);
+  });
+  document.querySelector("#close-all")?.addEventListener("click", () => {
+    cards.forEach(c => c.open = false);
+    units.forEach((u, i) => u.open = i === 0);
+  });
+  document.querySelector("#print-page")?.addEventListener("click", () => window.print());
+
+  document.querySelector("#mobile-menu")?.addEventListener("click", () => {
+    body.classList.toggle("sidebar-open");
+  });
+  document.querySelectorAll(".sidebar a").forEach(a => {
+    a.addEventListener("click", () => body.classList.remove("sidebar-open"));
+  });
+  document.addEventListener("click", e => {
+    if (body.classList.contains("sidebar-open")
+      && !e.target.closest(".sidebar")
+      && !e.target.closest("#mobile-menu")) {
+      body.classList.remove("sidebar-open");
+    }
+  });
+
+  document.querySelectorAll(".lesson-nav a").forEach(link => {
+    link.addEventListener("click", () => {
+      const target = document.querySelector(link.getAttribute("href"));
+      if (target) {
+        target.open = true;
+        const unit = target.closest(".unit-section");
+        if (unit) unit.open = true;
+      }
+    });
+  });
+
+  const unitLinks = [...document.querySelectorAll(".unit-nav > a")];
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        unitLinks.forEach(a => a.classList.toggle("active", a.getAttribute("href") === `#${entry.target.id}`));
+      }
+    });
+  }, { rootMargin: "-20% 0px -70% 0px" });
+  units.forEach(unit => observer.observe(unit));
+
+  updateProgress();
+  applyFilters();
+})();
+</script>
+</body>
+</html>
