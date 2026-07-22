@@ -1,23 +1,26 @@
-# GitHub Pages公開用 検証結果
+# 構造チェック結果
 
-## ファイル構成
+## index.html
 
-- `index.html`：あり
-- `course-basic.html`：あり
-- `course-intermediate.html`：あり
-- `course-advanced.html`：あり
-- `404.html`：あり
-- `.nojekyll`：あり
-- `README.md`：あり
-- `GITHUB_PAGES公開手順.md`：あり
+- 初級リンク：1件
+- 中級リンク：1件
+- 上級リンク：1件
+- コースカード：3件
+- 初級・中級・上級をそれぞれ選択できる元の形式：維持
 
-## リンク確認
+## course-intermediate.html
 
-HTML内の主要なローカルリンクに、参照先ファイルの欠落はありません。
+- 章数：7
+- 教材数：28
+- 「この教材の位置づけ」：28教材
+- 「はじめに」残存：0
+- 「所要時間」残存：0
+- コース一覧へのリンク：2件
+- 配布ファイル：8件
 
-## 公開前の確認
+## 変更範囲
 
-- `index.html`がリポジトリ直下にある
-- GitHub Pagesの公開元が`main / root`
-- 公開後に初級・中級・上級へ移動できる
-- スマートフォン表示を確認する
+- index.html：3コース表示形式を維持
+- course-basic.html：変更なし
+- course-advanced.html：変更なし
+- course-intermediate.html：初心者向け再調整版へ更新

@@ -8,9 +8,9 @@
 <title>MS中級・応用コース｜HTML閲覧版</title>
 <style>
 :root {
-  --course: #2f7d6d;
-  --course-strong: #205e53;
-  --course-soft: #e8f5f1;
+  --course: #2e6ca4;
+  --course-strong: #1f527f;
+  --course-soft: #eaf2fb;
   --bg: #f4f7fa;
   --surface: #ffffff;
   --surface-2: #f8fafc;
@@ -99,7 +99,7 @@ a { color: var(--course); }
   padding: 17px;
   border-radius: 16px;
   background: var(--course-soft);
-  border: 1px solid #c9e6dd;
+  border: 1px solid #cfe0f2;
 }
 .course-mini strong { display: block; font-size: 17px; }
 .course-mini span { display: block; margin-top: 4px; color: var(--muted); font-size: 13px; }
@@ -127,7 +127,7 @@ a { color: var(--course); }
 .progress-bar {
   width: 0;
   height: 100%;
-  background: linear-gradient(90deg, var(--course), #63a894);
+  background: linear-gradient(90deg, var(--course), #5c93c4);
   transition: width .25s ease;
 }
 .nav-title {
@@ -596,10 +596,15 @@ a { color: var(--course); }
 <body>
 <header class="topbar">
   <button class="mobile-menu" type="button" aria-label="メニューを開く">☰</button>
-  <a class="brand" href="#top"><span class="brand-mark">MS</span><span>中級・応用コース</span></a>
+  <a class="brand" href="index.html">
+    <span class="brand-mark">IS</span>
+    <span>コースA HTML閲覧版</span>
+  </a>
   <span class="topbar-spacer"></span>
-  <a class="topbar-link" href="#chapter-1">第1章から見る</a>
-  <a class="topbar-link" href="README.md">公開方法</a>
+  <a class="topbar-link" href="course-basic.html">初級</a>
+  <a class="topbar-link" href="course-intermediate.html">中級</a>
+  <a class="topbar-link" href="course-advanced.html">上級</a>
+  <a class="topbar-link" href="index.html">コース一覧</a>
 </header>
 <div class="sidebar-backdrop"></div>
 <div class="app-shell">

@@ -1,56 +1,37 @@
-# コースA HTML閲覧版
+# コースA GitHub Pages公開用（中級更新版）
 
-初級・中級・上級の研修教材を、ブラウザで閲覧できる静的HTMLサイトです。
+## 閲覧方法
 
-## 公開ページ
+最初に `index.html` を開いてください。
 
-- `index.html`：コース一覧
-- `course-basic.html`：初級
-- `course-intermediate.html`：中級
-- `course-advanced.html`：上級
+トップページから、次の3コースをそれぞれ表示できます。
 
-上級コースには、第0章「研修環境へのログインとSharePoint基本操作」を含みます。
+- 初級・基礎コース
+- 中級・応用コース
+- 上級・発展コース
 
-## GitHub Pagesでの公開方法
+## 今回の更新内容
 
-1. GitHubで新しいリポジトリを作成します。
-2. このフォルダ内のファイルを、リポジトリの最上位へアップロードします。
-3. リポジトリの **Settings** を開きます。
-4. **Pages** を開きます。
-5. 公開元をブランチからの公開に設定します。
-6. ブランチを `main`、フォルダを `/ (root)` にして保存します。
-7. 公開処理の完了後、表示されたURLを開きます。
+- `index.html` の3コース表示形式は維持
+- `course-basic.html` は変更なし
+- `course-advanced.html` は変更なし
+- `course-intermediate.html` のみ、初心者向け再調整版へ更新
+- 中級教材では「この教材の位置づけ」を表示
+- 中級教材の「はじめに」、所要時間、時間構成、進行時間表を非表示
+- 中級各章の配布Excelを `downloads/` に収録
 
-## ローカルでの確認
+## GitHub Pagesで公開する方法
 
-`index.html`をダブルクリックすると、GitHubへ公開する前でも閲覧できます。
+1. このフォルダ内のすべてのファイルをGitHubリポジトリのルートへアップロードします。
+2. GitHubの `Settings` → `Pages` を開きます。
+3. `Deploy from a branch` を選択します。
+4. 公開するブランチと `/ (root)` を選択して保存します。
+5. 発行されたURLへアクセスします。
 
-## 構成
+## 主なファイル
 
-```text
-.
-├─ index.html
-├─ course-basic.html
-├─ course-intermediate.html
-├─ course-advanced.html
-├─ 404.html
-├─ .nojekyll
-├─ README.md
-└─ 構造チェック結果.md
-```
-
-## 主な機能
-
-- 教材全文検索
-- 単元・教材の折りたたみ
-- 教材種別による絞り込み
-- 解答例の表示・非表示
-- 確認済みチェック
-- ブラウザ内への進捗保存
-- 印刷
-- スマートフォン表示対応
-
-## 注意
-
-確認済みの進捗は、閲覧者のブラウザ内に保存されます。  
-別端末や別ブラウザには引き継がれません。
+- `index.html`：初級・中級・上級のコース一覧
+- `course-basic.html`：初級コース
+- `course-intermediate.html`：更新後の中級コース
+- `course-advanced.html`：上級コース
+- `downloads/`：中級の配布ファイル
