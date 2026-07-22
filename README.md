@@ -1,4 +1,4 @@
-# コースA GitHub Pages公開用（中級更新版）
+# コースA GitHub Pages公開用（初級・中級 最新版）
 
 ## 閲覧方法
 
@@ -12,13 +12,14 @@
 
 ## 今回の更新内容
 
-- `index.html` の3コース表示形式は維持
-- `course-basic.html` は変更なし
+- `index.html` の3コース表示形式を維持
+- `course-basic.html` を初級・初心者向け再調整版の第1章～第7章から再生成
+- `course-intermediate.html` を中級・初心者向け再調整版の第1章～第7章から再生成
 - `course-advanced.html` は変更なし
-- `course-intermediate.html` のみ、初心者向け再調整版へ更新
-- 中級教材では「この教材の位置づけ」を表示
-- 中級教材の「はじめに」、所要時間、時間構成、進行時間表を非表示
-- 中級各章の配布Excelを `downloads/` に収録
+- 初級・中級ともに全7章・28教材
+- 「この教材の位置づけ」は表示
+- 「はじめに」、所要時間、時間構成、進行時間表は非表示
+- 初級・中級の最新配布ファイルを `downloads/` に収録
 
 ## GitHub Pagesで公開する方法
 
@@ -31,7 +32,7 @@
 ## 主なファイル
 
 - `index.html`：初級・中級・上級のコース一覧
-- `course-basic.html`：初級コース
-- `course-intermediate.html`：更新後の中級コース
+- `course-basic.html`：最新の初級コース
+- `course-intermediate.html`：最新の中級コース
 - `course-advanced.html`：上級コース
-- `downloads/`：中級の配布ファイル
+- `downloads/`：初級・中級の配布ファイル
